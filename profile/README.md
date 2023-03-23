@@ -1,3 +1,9 @@
+<p style="text-align:center">
+  <img src="https://common-api.ch/images/Logos/commonAPI.jpg" alt="Girl in a jacket" width="500">
+</p>
+  
+<p>&nbsp;
+
 ## Hi there
 
 <!--
@@ -20,6 +26,8 @@ In addition to the API spec, each repository also contains a wiki with further i
   <li>Wealth (repo <a href="https://github.com/swissfintechinnovations/ca-wealth">ca-wealth</a>)</li>
   <li>Card (repo <a href="https://github.com/swissfintechinnovations/ca-card">ca-card</a>)</li>
 </ul>
+</p>
+
 ## Collaboration
 
 If you are interested in providing feedback, please visit the Common API website mentioned above. There, you will find the information mecessary to contact us.

@@ -14,7 +14,7 @@
 In addition to the API specs, you will also find a wiki with further information (business requirements, use cases, etc.) in the respective repository. Further documentation underlying these APIs may be found on the <a href="https://c-a-p-s.atlassian.net/wiki/spaces/PUB/overview" target="_blank">Confluence space</a> of the Common API Initiative. Please note that our goal is to consolidate all our work results on GitHub, so the Confluence content will decrease to zero over time.
 <p>Currently, we are covering four business areas.
 <ul>
-  <li>XS2A/Payments (repo <a href=""></a>)</li>
+  <li>XS2A/Payments (repo <a href="https://github.com/swissfintechinnovations/ca-payment">ca-payments</a>)</li>
   <li>Mortgage (repo <a href=""></a>)</li>
   <li>Wealth (repo <a href="https://github.com/swissfintechinnovations/ca-wealth">ca-wealth</a>)</li>
   <li>Karl (repo <a href=""></a>)</li>

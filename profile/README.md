@@ -10,7 +10,7 @@
 🍿 Fun facts - what does your team eat for breakfast?
 🧙 Remember, you can do mighty things with the power of [Markdown](https://docs.github.com/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 -->
-This is the central location for all API specs developed under the patronage of the Common API initiative of Swiss Fintech Innovations (SFTI).
-In addition to the API standardization recommendations, you will also find a wiki with further information (business requirements, use cases, etc.) in the respective repository.
+This is the central location for all API standardization recommendations developed under the patronage of the Common API initiative of Swiss Fintech Innovations (SFTI).
+In addition to the API specs, you will also find a wiki with further information (business requirements, use cases, etc.) in the respective repository.
 
 Further documentation underlying these APIs may be found on the <a href="https://c-a-p-s.atlassian.net/wiki/spaces/PUB/overview" target="_blank">Confluence site of the Common API Initiative</a>. Please note that our goal is to consolidate all our work results on GitHub, so the Confluence content will decrease to zero over time.

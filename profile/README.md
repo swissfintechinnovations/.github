@@ -17,5 +17,5 @@ In addition to the API specs, you will also find a wiki with further information
   <li>XS2A/Payments (repo <a href="https://github.com/swissfintechinnovations/ca-payment">ca-payments</a>)</li>
   <li>Mortgage (repo <a href=""></a>)</li>
   <li>Wealth (repo <a href="https://github.com/swissfintechinnovations/ca-wealth">ca-wealth</a>)</li>
-  <li>Karl (repo <a href=""></a>)</li>
+  <li>Card (repo <a href="https://github.com/swissfintechinnovations/ca-card">ca-card</a>)</li>
 </ul>

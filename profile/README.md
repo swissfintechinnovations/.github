@@ -22,7 +22,7 @@ In addition to the API spec, each repository also contains a wiki with further i
 <p>Currently, we are covering the following business areas.
 <ul>
   <li>XS2A/Payments (repo <a href="https://github.com/swissfintechinnovations/ca-payment">ca-payments</a>)</li>
-  <li>Mortgage (repo <a href="https://github.com/swissfintechinnovations/ca-mortgage"></a>)</li>
+  <li>Mortgage (repo <a href="https://github.com/swissfintechinnovations/ca-mortgage">ca-mortgage</a>)</li>
   <li>Wealth (repo <a href="https://github.com/swissfintechinnovations/ca-wealth">ca-wealth</a>)</li>
   <li>Card (repo <a href="https://github.com/swissfintechinnovations/ca-card">ca-card</a>)</li>
 </ul>

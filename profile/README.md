@@ -30,4 +30,4 @@ In addition to the API spec, each repository also contains a wiki with further i
 
 ## Collaboration
 
-If you are interested in providing feedback, please visit the Common API website mentioned above. There, you will find the information mecessary to contact us.
+If you are interested in providing feedback, please visit the Common API website mentioned above. There, you will find the information necessary to contact us.

@@ -18,7 +18,11 @@
 -->
 <p>This is the central location for all API standardization recommendations developed under the patronage of the <a href="https://common-api.ch/index.php/en">Common API</a> initiative of Swiss Fintech Innovations (<a href="https://swissfintechinnovations.ch">SFTI</a>).
 In addition to the API spec, each repository also contains a wiki with further information (business requirements, use cases, etc.).
+
+<p>Basic information valid for all APIs is located in a dedicated <a href="https://github.com/swissfintechinnovations/.github/wiki">wiki</a>.
+
 <p>More documentation underlying these APIs may be found on the <a href="https://c-a-p-s.atlassian.net/wiki/spaces/PUB/overview" target="_blank">Confluence space</a> of the Common API Initiative. Please note that our goal is to consolidate all our work results on GitHub, so the Confluence content will decrease to zero over time.
+
 <p>Currently, we are covering the following business areas.
 <ul>
   <li>XS2A/Payments (repo <a href="https://github.com/swissfintechinnovations/ca-payment">ca-payments</a>)</li>

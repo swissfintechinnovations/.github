@@ -57,7 +57,10 @@ rules:
     quote-type: single
     required: only-when-needed
     extra-allowed:
-      - ^\W  # allow quoted reg after pattern
+      # allow quoted reg after pattern key
+      - '^\^'
+      - '^-'
+      - '^\['  # just to be sure
     allow-quoted-quotes: true
   trailing-spaces:
     level: warning

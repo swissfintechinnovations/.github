@@ -23,6 +23,3 @@ jobs:
 
       - name: Lint yaml APIs
         run: yamllint -c .github/workflows/.yamllint *.yaml
-      
-      - name: list folders
-        run: ls -al && ls -al .github/

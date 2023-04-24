@@ -9,11 +9,20 @@ jobs:
   pr-yaml-lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repo
+      - name: Checkout Lint Repo
         uses: actions/checkout@v3
+        
+      - name: Checkout Yamllint Config Repo
+        uses: actions/checkout@v3
+        with:
+          repository: swissfintechinnovations/.github
+          path: .github
 
       # - name: Install yamllint
       #   run: pip install yamllint
 
       - name: Lint yaml APIs
-        run: yamllint -c .yamllint *.yaml
+        run: yamllint -c .github/workflows/.yamllint *.yaml
+      
+      - name: list folders
+        run: ls -al && ls -al .github/

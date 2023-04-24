@@ -1,12 +1,13 @@
-name: PR Lint
+name: Lint yaml-files
 
 on:
-  pull_request:
-    types: 
-      - opened
-      - edited
-      - reopened
-      - synchronize
+  push:
+  # pull_request:
+  #   types:
+  #     - opened
+  #     - edited
+  #     - reopened
+  #     - synchronize
 
 jobs:
   pr-yaml-lint:

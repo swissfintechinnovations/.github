@@ -3,7 +3,7 @@ yaml-files:
   - '*.yml'
 
 rules:
-  anchors: enable
+  anchors: disable
   braces:
     forbid: non-empty
     min-spaces-inside-empty: 0

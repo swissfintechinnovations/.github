@@ -9,8 +9,17 @@ jobs:
   pr-yaml-lint:
     runs-on: ubuntu-latest
     steps:
+      # - name: skip-workflow
+      #   id: skip-workflow # id used for referencing step
+      #   uses: saulmaldonado/skip-workflow@v1
+      #   with:
+      #     phrase: '[skip-workflow]'
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Checkout Lint Repo
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }} # checkout last commit of PR instead of merge commit
         
       - name: Checkout Yamllint Config Repo
         uses: actions/checkout@v3
@@ -21,5 +30,15 @@ jobs:
       # - name: Install yamllint
       #   run: pip install yamllint
 
+      - name: test
+        run: ls -al && git log -1 --pretty=%B
+
+
+      - name: get commit message
+        id: skip
+        run: echo "COMMIT_MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT # set last commit message as env file (since env var will be not supported)
+
       - name: Lint yaml APIs
-        run: yamllint -c .github/workflows/.yamllint *.yaml
+        if: "!contains(steps.skip.outputs.COMMIT_MESSAGE, '[skip-workflow]')" # check commit message via env var - skip step if [skip-workflow] is set
+        run: echo ${{steps.skip.outputs.COMMIT_MESSAGE}} && yamllint -c .github/workflows/.yamllint *.yaml
+

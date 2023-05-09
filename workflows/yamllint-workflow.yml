@@ -40,5 +40,5 @@ jobs:
 
       - name: Lint yaml APIs
         if: "!contains(steps.skip.outputs.COMMIT_MESSAGE, '[skip-workflow]')" # check commit message via env var - skip step if [skip-workflow] is set
-        run: echo ${{steps.skip.outputs.COMMIT_MESSAGE}} && yamllint -c .github/workflows/.yamllint *.yaml
+        run: yamllint -c .github/workflows/.yamllint *.yaml
 

@@ -9,13 +9,6 @@ jobs:
   pr-yaml-lint:
     runs-on: ubuntu-latest
     steps:
-      # - name: skip-workflow
-      #   id: skip-workflow # id used for referencing step
-      #   uses: saulmaldonado/skip-workflow@v1
-      #   with:
-      #     phrase: '[skip-workflow]'
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Checkout Lint Repo
         uses: actions/checkout@v3
         with:

@@ -5,6 +5,6 @@
 ---
 ![GitHub checks](https://img.shields.io/github/checks-status/swissfintechinnovations/.github/main)
 ![Swagger Validator](https://img.shields.io/swagger/valid/3.0?specUrl=https%3A%2F%2Fraw.githubusercontent.com%2FOAI%2FOpenAPI-Specification%2Fmaster%2Fexamples%2Fv2.0%2Fjson%2Fpetstore-expanded.json)
-[![GitHub license](https://img.shields.io/github/license/swissfintechinnovations/.github)](https://github.com/swissfintechinnovations/.github/blob/main/LICENSE)
+[![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
 This is the official SFTI repo for organizational purposes that affect all SFTI APIs. Documentations may be found in the  [Wiki](https://github.com/swissfintechinnovations/.github/wiki).

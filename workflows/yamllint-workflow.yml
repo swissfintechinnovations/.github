@@ -23,10 +23,6 @@ jobs:
       # - name: Install yamllint
       #   run: pip install yamllint
 
-      - name: test
-        run: ls -al && git log -1 --pretty=%B
-
-
       - name: get commit message
         id: skip
         run: echo "COMMIT_MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT # set last commit message as env file (since env var will be not supported)

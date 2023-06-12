@@ -1,9 +1,7 @@
-<p style="text-align:center">
-  <img src="https://common-api.ch/images/Logos/commonAPI.jpg" alt="Girl in a jacket" width="500">
-</p>
+![SFTI_Banner](https://user-images.githubusercontent.com/116151702/232762217-ac254483-0d25-4234-857b-376ff8dbb1e7.png)
+![ca-logo](https://user-images.githubusercontent.com/116151702/236237651-3d61630e-1b16-4deb-9e61-c0a95451c84e.png)
   
-<p>&nbsp;
-
+  
 ## Hi there
 
 <!--

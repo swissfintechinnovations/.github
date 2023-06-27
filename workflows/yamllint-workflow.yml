@@ -3,7 +3,7 @@ name: Lint yaml-files
 on:
   pull_request:
     branches-ignore:
-      - release/**
+      - 'release/**'
   # repository_dispatch:
   #   types:
   #     - workflow_dispatch

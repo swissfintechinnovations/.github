@@ -2,9 +2,11 @@ name: Lint yaml-files
 
 on:
   pull_request:
-    branches:
-      - main
-  workflow_dispatch:
+    branches-ignore:
+      - release/**
+  # repository_dispatch:
+  #   types:
+  #     - workflow_dispatch
 
 jobs:
   pr-yaml-lint:

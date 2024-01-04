@@ -36,7 +36,7 @@ jobs:
 
       - name: Lint yaml APIs
         if: ${{ !contains(steps.skip.outputs.COMMIT_MESSAGE, '[skip-workflow]') }}  # check commit message via env var - skip step if [skip-workflow] is set
-        run: yamllint -c .github/workflows/.yamllint ${{ inputs.filenames}}
+        run: yamllint -c .github/.github/.yamllint ${{ inputs.filenames}}
 
       - name: Handle Errors
         if: failure() && inputs.fail == false

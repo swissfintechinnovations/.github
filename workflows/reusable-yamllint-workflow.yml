@@ -13,14 +13,14 @@ on:
         description: 'Specifies whether the runflow fails if linting errors have been detected.'
 
 jobs:
-  pr-yaml-lint:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Lint Repo
         uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }} # checkout last commit of PR instead of merge commit
-        
+
       - name: Checkout Yamllint Config Repo
         uses: actions/checkout@v3
         with:

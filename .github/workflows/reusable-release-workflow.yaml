@@ -31,7 +31,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - name: Validate input parameters and check user permission
+      - name: Validate input parameters
         id: param_check
         run: |
           VERSION_REGEX="^v[0-9]+\.[0-9]+\.[0-9]+$"

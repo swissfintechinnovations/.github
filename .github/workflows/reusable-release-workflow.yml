@@ -40,11 +40,6 @@ jobs:
             echo "Invalid version format: $version . Please provide a version matching the pattern 'v[number].[number].[number]'."
             exit 1
           fi
-          
-          if [[ "${{ github.actor }}" != "dkoeni" && "${{ github.actor }}" != "rolfwagner" && "${{ github.actor }}" != "michschl" && "${{ github.actor }}" != "juergen-petry" ]]; then
-            echo "You have no permissons to start the release action."
-            exit 1
-          fi
 
       - name: Checkout repository
         uses: actions/checkout@v4

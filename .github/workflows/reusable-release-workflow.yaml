@@ -66,7 +66,7 @@ jobs:
       - name: Get release note content from wiki
         id: release_note_body
         run: |
-          regex="### Release ${{ steps.var.outputs.RELEASE_TAG }}[[:ascii:]]*[[:cntrl:]]{2}(- [[:print:]]*[[:cntrl:]])+[[:cntrl:]]"
+          regex="### Release ${{ steps.var.outputs.RELEASE_TAG }}[[:print:]]*[[:cntrl:]]{2}([^-][[:print:]]*[[:cntrl:]]{1,2})*(- [[:print:]]*[[:cntrl:]])+[[:cntrl:]]{2}"  ## matches section + optional text + at least one bullet point
           content=$(grep -ozE "$regex" wiki/Roadmap.md | tr "\0" "\n" | tail -n +3)
           # abort if content is empty --> wiki page must be present before release
           if [ -z "$content" ]; then

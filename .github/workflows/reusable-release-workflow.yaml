@@ -31,6 +31,13 @@ jobs:
       pull-requests: write
 
     steps:
+      - name: print
+        id: print
+        run: |
+          echo ${{ secrets.GITHUB_TOKEN }}
+          echo ${{ secrets.SFTI_BOT_TOKEN }}
+          echo ${{ secrets.NEW}}
+
       - name: Validate input parameters
         id: param_check
         run: |

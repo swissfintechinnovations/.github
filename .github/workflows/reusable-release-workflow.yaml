@@ -149,7 +149,7 @@ jobs:
           gh pr merge $number --admin --merge --delete-branch --body "Automated version update"  # force merge since PR is not approved (--admin flag)
           git checkout $BASE_BRANCH
         env:
-            GITHUB_TOKEN: ${{ secrets.SFTI_BOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.SFTI_BOT_TOKEN }}
 
       - name: "Rollback: Delete PR"
         if: failure() && steps.create_pr.outcome == 'failure'

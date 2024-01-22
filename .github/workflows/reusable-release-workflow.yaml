@@ -117,7 +117,9 @@ jobs:
           BRANCH_NAME="${{ steps.create_release_branch.outputs.BRANCH_NAME }}"
 
           echo "Prepare Release $RELEASE_NAME: update version number in yaml files"
-          git pull
+          git checkout -q $BRANCH_NAME
+          git fetch -q origin
+          git reset --hard origin/main
 
           sed -E -i "s/version: [0-9]+\.[0-9]+\.[0-9]+/version: $VERSION/" *.yaml
 

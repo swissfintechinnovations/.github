@@ -21,6 +21,10 @@ on:
         description: "If force is true, already published releases can be overwritten. Caution: This action deletes already published releases and can **not** be undone!"
         type: boolean
         required: false
+    secrets:
+      SFTI_BOT_TOKEN:
+        required: true
+
 
 jobs:
   release:

@@ -21,6 +21,10 @@ on:
         description: "If force is true, already published releases can be overwritten. Caution: This action deletes already published releases and can **not** be undone!"
         type: boolean
         required: false
+    secrets:
+      SFTI_BOT_TOKEN:
+        required: true
+
 
 jobs:
   release:
@@ -31,13 +35,6 @@ jobs:
       pull-requests: write
 
     steps:
-      - name: print
-        id: print
-        run: |
-          echo ${{ secrets.GITHUB_TOKEN }}
-          echo ${{ secrets.SFTI_BOT_TOKEN }}
-          echo ${{ secrets.NEW}}
-
       - name: Validate input parameters
         id: param_check
         run: |

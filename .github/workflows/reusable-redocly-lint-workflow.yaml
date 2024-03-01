@@ -70,8 +70,8 @@ jobs:
         run: |
           for file in ${{ inputs.filenames }}; do
             name=$(b=${file##*/}; echo ${file%.*})
-            # npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/.redocly_lint $file > lint_$name.log
-            npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/.redocly_lint $file
+            # npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml $file > lint_$name.log
+            npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml $file
           done
         continue-on-error: true
 
@@ -95,6 +95,7 @@ jobs:
         with:
           repository: swissfintechinnovations/.github
           path: .github
+          ref: dev/redocly-lint-workflow # TODO remove before merge
 
       - uses: actions/setup-node@v4
         with:
@@ -107,13 +108,13 @@ jobs:
       - name: Lint SFTI Specifications
         if: always()
         run: |
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/.redocly_lint --format=stylish ${{ inputs.filenames }}
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml --format=stylish ${{ inputs.filenames }}
 
       - name: Lint SFTI Specifications report overview
         if: always()
         run: |
           echo "---------------------------: Summary :----------------------------"
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/.redocly_lint --format=summary ${{ inputs.filenames }}
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml --format=summary ${{ inputs.filenames }}
 
       - name: Handle Errors
         if: failure() && inputs.fail == 'false'

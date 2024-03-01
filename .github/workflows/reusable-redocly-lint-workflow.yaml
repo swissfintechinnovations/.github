@@ -8,8 +8,8 @@ on:
         default: '*.yaml'
         description: 'Files to be linted. (default: *.yaml, list of files sperated by whitespace)'
       fail:
-        type: boolean
-        default: true
+        type: string
+        default: 'true'
         description: 'Specifies whether the runflow fails if linting errors have been detected.'
 
 env:
@@ -61,22 +61,13 @@ jobs:
         run: |
           for file in $files; do
             name=$(b=${file##*/}; echo ${file%.*})
+            # npx @redocly/cli@$REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml $file > lint_$name.log
             npx @redocly/cli@$REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml $file > lint_$name.log
+
           done
 
-      - name: Lint SFTI Specifications
-        if: always()
-        run: |
-          npx @redocly/cli@REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml <api-spec.yaml> > lint_<apispec>.log # TODO
-
-      - name: Lint SFTI Specifications report overview
-        if: always()
-        run: |
-          echo "-------------------------------------------------------"
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml --format=summary <api-spec.yaml> # TODO
-
       - name: Handle Errors
-        if: failure() && inputs.fail == false
+        if: failure() && inputs.fail == 'false'
         run: |
           echo "OpenApi specification issues detected. Please revise files."
           exit 0
@@ -99,14 +90,14 @@ jobs:
       - name: Lint SFTI Specifications
         if: always()
         run: |
-          npx @redocly/cli@REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml <api-spec.yaml> > lint_<apispec>.log # TODO
+          npx @redocly/cli@REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml --format=stylish ${{ inputs.filenames }}
 
       - name: Lint SFTI Specifications report overview
         if: always()
         run: |
-          echo "-------------------------------------------------------"
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml --format=summary <api-spec.yaml> # TODO
+          echo "---------------------------: Summary :----------------------------"
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml --format=summary ${{ inputs.filenames }}
 
       - name: Handle Errors
-        if: failure() && inputs.fail == false
+        if: failure() && inputs.fail == 'false'
         run: echo "OpenApi specification issues detected. Please revise files."

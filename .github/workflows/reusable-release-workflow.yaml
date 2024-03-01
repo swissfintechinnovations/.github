@@ -1,4 +1,4 @@
-name: Release Pipeline
+name: Release Pipeline (reusable)
 
 on:
   workflow_call:
@@ -25,6 +25,8 @@ on:
       SFTI_BOT_TOKEN:
         required: true
 
+env:
+  REDOCLY_VERSION: '1.9.1'
 
 jobs:
   variables: 
@@ -55,7 +57,7 @@ jobs:
     - name: Extract variables for Release action  # Adjust names only here
       id: var
       run: |
-        version=$(echo ${{ github.event.inputs.version }} | grep -oP '[0-9]+\.[0-9]+\.[0-9]+')  # alternative: '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]'
+        version=$( echo ${{ github.event.inputs.version }} | grep -oP '[0-9]+\.[0-9]+\.[0-9]+' )  # alternative: '[[:digit:]]+\.[[:digit:]]+\.[[:digit:]]'
         repo_name=$( echo ${{ github.repository }} | sed -E "s/^.*\///" )
         echo "REPO_NAME=$repo_name" >> $GITHUB_OUTPUT
         echo "VERSION"=$version >> $GITHUB_OUTPUT
@@ -75,17 +77,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: latest
+
+      - name: Install redocly $REDOCLY_VERSION
+        run: |
+          npm install -g @redocly/cli@$REDOCLY_VERSION
+
       - name: create API documentation
         run: |
           mkdir -p ${{ needs.variables.outputs.DOC_PATH }}
           for file in $(ls *.yaml | sed 's/\.yaml$//'); do
             doc_file=$file-${{ needs.variables.outputs.VERSION }}-doc-${{ github.sha }}.html
-            npx --silent @redocly/cli@1.8.2 build-docs --output ${{ needs.variables.outputs.DOC_PATH }}$doc_file $file.yaml
+            npx --silent @redocly/cli@$REDOCLY_VERSION build-docs --output ${{ needs.variables.outputs.DOC_PATH }}$doc_file $file.yaml
             echo "Created documentation: $doc_file"
           done;
+
       - uses: actions/upload-artifact@v4
         id: upload_artifact
         with:

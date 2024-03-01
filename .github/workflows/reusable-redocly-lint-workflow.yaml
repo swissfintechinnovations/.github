@@ -1,4 +1,4 @@
-name: "Lint SFTI Specifications: openapi compliance"
+name: "Lint SFTI Specifications: openapi compliance (reusable)"
 
 on:
   workflow_call:

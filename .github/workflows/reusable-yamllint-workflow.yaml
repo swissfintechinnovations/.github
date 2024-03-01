@@ -1,4 +1,4 @@
-name: "Lint SFTI Specifications: yaml compliance"
+name: "Lint SFTI Specifications: yaml compliance (reusable)"
 
 on:
   workflow_call:

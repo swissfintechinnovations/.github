@@ -6,7 +6,7 @@ on:
       filenames:
         type: string
         default: '*.yaml'
-        description: 'Files to be linted.'
+        description: 'Files to be linted. (default: *.yaml, list of files sperated by whitespace)'
 
 jobs:
   lint:
@@ -32,4 +32,4 @@ jobs:
 
       - name: Lint yaml APIs
         if: ${{ !contains(steps.skip.outputs.COMMIT_MESSAGE, '[skip-workflow]') }}  # check commit message via env var - skip step if [skip-workflow] is set
-        run: yamllint -c .github/.github/.yamllint ${{ inputs.filenames}}
+        run: yamllint -c .github/.github/.yamllint ${{ inputs.filenames }}

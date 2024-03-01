@@ -7,10 +7,6 @@ on:
         type: string
         default: '*.yaml'
         description: 'Files to be linted.'
-      fail:
-        type: boolean
-        default: true
-        description: 'Specifies whether the runflow fails if linting errors have been detected.'
 
 jobs:
   lint:
@@ -37,8 +33,3 @@ jobs:
       - name: Lint yaml APIs
         if: ${{ !contains(steps.skip.outputs.COMMIT_MESSAGE, '[skip-workflow]') }}  # check commit message via env var - skip step if [skip-workflow] is set
         run: yamllint -c .github/.github/.yamllint ${{ inputs.filenames}}
-
-      - name: Handle Errors
-        if: failure() && inputs.fail == false
-        run: echo "Yamllint detected issues. Please revise files."
-

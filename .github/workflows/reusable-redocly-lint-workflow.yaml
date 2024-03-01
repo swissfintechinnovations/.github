@@ -7,10 +7,6 @@ on:
         type: string
         default: '*.yaml'
         description: 'Files to be linted. (default: *.yaml, list of files sperated by whitespace)'
-      fail:
-        type: string
-        default: 'true'
-        description: 'Specifies whether the runflow fails if linting errors have been detected.'
 
 env:
   REDOCLY_VERSION: '1.9.1'
@@ -53,15 +49,11 @@ jobs:
           path: .github
           ref: dev/redocly-lint-workflow # TODO remove before merge
 
-      - run: |
-          ls -al 
-          ls -alR .github
-
       - uses: actions/setup-node@v4
         with:
           node-version: latest
 
-      - name: install redocly
+      - name: Install redocly $REDOCLY_VERSION
         run: |
           npm install -g @redocly/cli@$REDOCLY_VERSION
 
@@ -69,17 +61,12 @@ jobs:
         id: lint
         run: |
           for file in ${{ inputs.filenames }}; do
+            echo "*** $file ***"
             name=$(b=${file##*/}; echo ${file%.*})
             # npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml $file > lint_$name.log
             npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml $file
           done
         continue-on-error: true
-
-      - name: Handle Errors
-        if: failure() && inputs.fail == 'false'
-        run: |
-          echo "OpenApi specification issues detected. Please revise files."
-          exit 0
 
   lint-openapi:
     runs-on: ubuntu-latest
@@ -101,7 +88,7 @@ jobs:
         with:
           node-version: latest
 
-      - name: install redocly
+      - name: Install redocly $REDOCLY_VERSION
         run: |
           npm install -g @redocly/cli@$REDOCLY_VERSION
 
@@ -113,9 +100,6 @@ jobs:
       - name: Lint SFTI Specifications report overview
         if: always()
         run: |
+          echo ""
           echo "---------------------------: Summary :----------------------------"
           npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml --format=summary ${{ inputs.filenames }}
-
-      - name: Handle Errors
-        if: failure() && inputs.fail == 'false'
-        run: echo "OpenApi specification issues detected. Please revise files."

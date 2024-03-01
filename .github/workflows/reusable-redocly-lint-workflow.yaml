@@ -56,13 +56,17 @@ jobs:
         with:
           node-version: latest
 
+      - name: install redocly
+        run: |
+          npm install -g @redocly/cli@$REDOCLY_VERSION
+
       - name: Lint SFTI Specifications (detailed)
         id: lint
         run: |
-          for file in $files; do
+          for file in ${{ inputs.filenames }}; do
             name=$(b=${file##*/}; echo ${file%.*})
-            # npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly.yaml $file > lint_$name.log
-            npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly.yaml $file
+            # npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly_lint $file > lint_$name.log
+            npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly_lint $file
           done
 
       - name: Handle Errors
@@ -90,16 +94,20 @@ jobs:
         with:
           node-version: latest
 
+      - name: install redo  cly
+        run: |
+          npm install -g @redocly/cli@$REDOCLY_VERSION
+
       - name: Lint SFTI Specifications
         if: always()
         run: |
-          npx @redocly/cli@REDOCLY_VERSION lint --config=./.github/workflows/.redocly.yaml --format=stylish ${{ inputs.filenames }}
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly_lint --format=stylish ${{ inputs.filenames }}
 
       - name: Lint SFTI Specifications report overview
         if: always()
         run: |
           echo "---------------------------: Summary :----------------------------"
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly.yaml --format=summary ${{ inputs.filenames }}
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly_lint --format=summary ${{ inputs.filenames }}
 
       - name: Handle Errors
         if: failure() && inputs.fail == 'false'

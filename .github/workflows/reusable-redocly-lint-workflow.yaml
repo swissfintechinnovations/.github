@@ -52,6 +52,10 @@ jobs:
           repository: swissfintechinnovations/.github
           path: .github
 
+      - run: |
+          ls -al 
+          ls -alR .github
+
       - uses: actions/setup-node@v4
         with:
           node-version: latest

@@ -65,9 +65,10 @@ jobs:
         run: |
           for file in ${{ inputs.filenames }}; do
             name=$(b=${file##*/}; echo ${file%.*})
-            # npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly_lint $file > lint_$name.log
-            npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly_lint $file
+            # npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/.redocly_lint $file > lint_$name.log
+            npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/.redocly_lint $file
           done
+        continue-on-error: true
 
       - name: Handle Errors
         if: failure() && inputs.fail == 'false'
@@ -101,13 +102,13 @@ jobs:
       - name: Lint SFTI Specifications
         if: always()
         run: |
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly_lint --format=stylish ${{ inputs.filenames }}
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/.redocly_lint --format=stylish ${{ inputs.filenames }}
 
       - name: Lint SFTI Specifications report overview
         if: always()
         run: |
           echo "---------------------------: Summary :----------------------------"
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly_lint --format=summary ${{ inputs.filenames }}
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/.redocly_lint --format=summary ${{ inputs.filenames }}
 
       - name: Handle Errors
         if: failure() && inputs.fail == 'false'

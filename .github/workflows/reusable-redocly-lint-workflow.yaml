@@ -37,10 +37,6 @@ jobs:
           fi
           echo "LINT=$lint" >> $GITHUB_OUTPUT
 
-      - name: set redocly version
-        id: redocly_version
-        run: |
-
   lint-openapi-detailed:
     runs-on: ubuntu-latest
     needs: check
@@ -56,14 +52,17 @@ jobs:
           repository: swissfintechinnovations/.github
           path: .github
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
       - name: Lint SFTI Specifications (detailed)
         id: lint
         run: |
           for file in $files; do
             name=$(b=${file##*/}; echo ${file%.*})
-            # npx @redocly/cli@$REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml $file > lint_$name.log
-            npx @redocly/cli@$REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml $file > lint_$name.log
-
+            # npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly.yaml $file > lint_$name.log
+            npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly.yaml $file
           done
 
       - name: Handle Errors
@@ -87,16 +86,20 @@ jobs:
           repository: swissfintechinnovations/.github
           path: .github
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
       - name: Lint SFTI Specifications
         if: always()
         run: |
-          npx @redocly/cli@REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml --format=stylish ${{ inputs.filenames }}
+          npx @redocly/cli@REDOCLY_VERSION lint --config=./.github/workflows/.redocly.yaml --format=stylish ${{ inputs.filenames }}
 
       - name: Lint SFTI Specifications report overview
         if: always()
         run: |
           echo "---------------------------: Summary :----------------------------"
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml --format=summary ${{ inputs.filenames }}
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=./.github/workflows/.redocly.yaml --format=summary ${{ inputs.filenames }}
 
       - name: Handle Errors
         if: failure() && inputs.fail == 'false'

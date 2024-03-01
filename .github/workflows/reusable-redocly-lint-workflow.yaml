@@ -51,6 +51,7 @@ jobs:
         with:
           repository: swissfintechinnovations/.github
           path: .github
+          ref: dev/redocly-lint-workflow # TODO remove before merge
 
       - run: |
           ls -al 
@@ -99,7 +100,7 @@ jobs:
         with:
           node-version: latest
 
-      - name: install redo  cly
+      - name: install redocly
         run: |
           npm install -g @redocly/cli@$REDOCLY_VERSION
 

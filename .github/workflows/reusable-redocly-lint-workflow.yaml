@@ -1,0 +1,112 @@
+name: "Lint SFTI Specifications: openapi compliance"
+
+on:
+  workflow_call:
+    inputs:
+      filenames:
+        type: string
+        default: '*.yaml'
+        description: 'Files to be linted. (default: *.yaml, list of files sperated by whitespace)'
+      fail:
+        type: boolean
+        default: true
+        description: 'Specifies whether the runflow fails if linting errors have been detected.'
+
+env:
+  REDOCLY_VERSION: '1.9.1'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      LINT: ${{ steps.check.outputs.LINT }}
+    steps:
+      - name: Checkout Lint Repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }} # checkout last commit of PR instead of merge commit
+
+      - name: get commit message
+        id: check
+        run: |
+          COMMIT_MESSAGE=$(git log -1 --pretty=%B | tr -d '\n')
+          if [[ $COMMIT_MESSAGE = *'[skip-workflow]'* ]]; then
+            lint=false
+          else
+            lint=true
+          fi
+          echo "LINT=$lint" >> $GITHUB_OUTPUT
+
+      - name: set redocly version
+        id: redocly_version
+        run: |
+
+  lint-openapi-detailed:
+    runs-on: ubuntu-latest
+    needs: check
+    if: needs.check.outputs.LINT
+
+    steps:
+      - name: Checkout Lint Repo
+        uses: actions/checkout@v4
+
+      - name: Checkout Config Repo
+        uses: actions/checkout@v4
+        with:
+          repository: swissfintechinnovations/.github
+          path: .github
+
+      - name: Lint SFTI Specifications (detailed)
+        id: lint
+        run: |
+          for file in $files; do
+            name=$(b=${file##*/}; echo ${file%.*})
+            npx @redocly/cli@$REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml $file > lint_$name.log
+          done
+
+      - name: Lint SFTI Specifications
+        if: always()
+        run: |
+          npx @redocly/cli@REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml <api-spec.yaml> > lint_<apispec>.log # TODO
+
+      - name: Lint SFTI Specifications report overview
+        if: always()
+        run: |
+          echo "-------------------------------------------------------"
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml --format=summary <api-spec.yaml> # TODO
+
+      - name: Handle Errors
+        if: failure() && inputs.fail == false
+        run: |
+          echo "OpenApi specification issues detected. Please revise files."
+          exit 0
+
+  lint-openapi:
+    runs-on: ubuntu-latest
+    needs: check
+    if: needs.check.outputs.LINT
+
+    steps:
+      - name: Checkout Lint Repo
+        uses: actions/checkout@v4
+
+      - name: Checkout Config Repo
+        uses: actions/checkout@v4
+        with:
+          repository: swissfintechinnovations/.github
+          path: .github
+
+      - name: Lint SFTI Specifications
+        if: always()
+        run: |
+          npx @redocly/cli@REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml <api-spec.yaml> > lint_<apispec>.log # TODO
+
+      - name: Lint SFTI Specifications report overview
+        if: always()
+        run: |
+          echo "-------------------------------------------------------"
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=./github/workflows/.redocly.yaml --format=summary <api-spec.yaml> # TODO
+
+      - name: Handle Errors
+        if: failure() && inputs.fail == false
+        run: echo "OpenApi specification issues detected. Please revise files."

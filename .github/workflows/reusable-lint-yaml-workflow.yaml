@@ -1,4 +1,4 @@
-name: Lint yaml workflow
+name: Yaml lint workflow
 # description: Check specifications for SFTI's yaml style guides.
 
 on:

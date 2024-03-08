@@ -91,14 +91,15 @@ jobs:
         run: |
           npm install -g @redocly/cli@$REDOCLY_VERSION
 
-      - name: Lint SFTI Specifications
-        if: always()
-        run: |
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml --format=stylish ${{ inputs.filenames }}
-
       - name: Lint SFTI Specifications report overview
         if: always()
         run: |
           echo ""
           echo "---------------------------: Summary :----------------------------"
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml --format=summary ${{ inputs.filenames }}
+          npx @redocly/cli@$REDOCLY_VERSION --version
+          npx --no-warnings @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml --format=summary ${{ inputs.filenames }}
+
+          - name: Lint SFTI Specifications
+          if: always()
+          run: |
+            npx --no-warnings @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml --format=stylish ${{ inputs.filenames }}

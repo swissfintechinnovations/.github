@@ -1,4 +1,5 @@
-name: "Lint SFTI Specifications: yaml compliance (reusable)"
+name: Lint yaml workflow
+# description: Check specifications for SFTI's yaml style guides.
 
 on:
   workflow_call:

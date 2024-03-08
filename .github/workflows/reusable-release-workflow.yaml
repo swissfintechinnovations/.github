@@ -1,4 +1,5 @@
-name: Release Pipeline
+name: Release workflow
+# description: Create new SFTI release.
 
 on:
   workflow_call:

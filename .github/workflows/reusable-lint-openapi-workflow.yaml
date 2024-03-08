@@ -1,5 +1,5 @@
-name: "Lint SFTI Specifications: openapi compliance (reusable)"
-
+name: OpenAPI lint workflow
+# description: Check specifications for SFTI's openapi rules.
 on:
   workflow_call:
     inputs:

@@ -26,7 +26,7 @@ on:
         required: true
 
 env:
-  REDOCLY_VERSION: '1.9.1'
+  REDOCLY_VERSION: '1.10.3'
 
 jobs:
   variables: 
@@ -82,12 +82,13 @@ jobs:
         with:
           node-version: latest
 
-      - name: Install redocly $REDOCLY_VERSION
+      - name: Install redocly version ${{env.REDOCLY_VERSION}}
         run: |
           npm install -g @redocly/cli@$REDOCLY_VERSION
 
       - name: create API documentation
         run: |
+          export NODE_NO_WARNINGS=1
           mkdir -p ${{ needs.variables.outputs.DOC_PATH }}
           for file in $(ls *.yaml | sed 's/\.yaml$//'); do
             doc_file=$file-${{ needs.variables.outputs.VERSION }}-doc-${{ github.sha }}.html

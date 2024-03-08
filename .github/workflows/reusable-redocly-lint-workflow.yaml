@@ -9,7 +9,7 @@ on:
         description: 'Files to be linted. (default: *.yaml, list of files sperated by whitespace)'
 
 env:
-  REDOCLY_VERSION: '1.9.1'
+  REDOCLY_VERSION: '1.10.3'
 
 jobs:
   check:
@@ -53,13 +53,14 @@ jobs:
         with:
           node-version: latest
 
-      - name: Install redocly ${{env.REDOCLY_VERSION}}
+      - name: Install redocly v${{env.REDOCLY_VERSION}}
         run: |
           npm install -g @redocly/cli@$REDOCLY_VERSION
 
       - name: Lint SFTI Specifications (detailed)
         id: lint
         run: |
+          export NODE_NO_WARNINGS=1
           for file in ${{ inputs.filenames }}; do
             echo "*** $file ***"
             name=$(b=${file##*/}; echo ${file%.*})
@@ -87,7 +88,7 @@ jobs:
         with:
           node-version: latest
 
-      - name: Install redocly ${{env.REDOCLY_VERSION}}
+      - name: Install redocly v${{env.REDOCLY_VERSION}}
         run: |
           npm install -g @redocly/cli@$REDOCLY_VERSION
 
@@ -102,4 +103,5 @@ jobs:
       - name: Lint SFTI Specifications
         if: always()
         run: |
+          export NODE_NO_WARNINGS=1
           npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml --format=stylish ${{ inputs.filenames }}

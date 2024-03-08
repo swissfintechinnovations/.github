@@ -37,9 +37,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: check
     if: needs.check.outputs.LINT
-    strategy:
-        matrix:
-            file: ${{ fromJson(inputs.filenames) }}
 
     steps:
       - name: Checkout Lint Repo
@@ -64,7 +61,7 @@ jobs:
         id: lint
         run: |
           export NODE_NO_WARNINGS=1
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml $file
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml ${{ inputs.filenames }}
 
   lint-openapi:
     runs-on: ubuntu-latest

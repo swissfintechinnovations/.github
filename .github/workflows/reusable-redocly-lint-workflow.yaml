@@ -53,7 +53,7 @@ jobs:
         with:
           node-version: latest
 
-      - name: Install redocly v${{env.REDOCLY_VERSION}}
+      - name: Install redocly version ${{env.REDOCLY_VERSION}}
         run: |
           npm install -g @redocly/cli@$REDOCLY_VERSION
 
@@ -61,12 +61,7 @@ jobs:
         id: lint
         run: |
           export NODE_NO_WARNINGS=1
-          for file in ${{ inputs.filenames }}; do
-            echo "*** $file ***"
-            name=$(b=${file##*/}; echo ${file%.*})
-            # npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml $file > lint_$name.log
-            npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml $file
-          done
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml ${{ inputs.filenames }}
 
   lint-openapi:
     runs-on: ubuntu-latest
@@ -88,7 +83,7 @@ jobs:
         with:
           node-version: latest
 
-      - name: Install redocly v${{env.REDOCLY_VERSION}}
+      - name: Install redocly version ${{env.REDOCLY_VERSION}}
         run: |
           npm install -g @redocly/cli@$REDOCLY_VERSION
 

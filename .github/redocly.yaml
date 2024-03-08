@@ -1,0 +1,9 @@
+# https://redocly.com/docs/cli/rules/built-in-rules/
+# rules based on recommend ruleset of redocly (https://redocly.com/docs/cli/rules/recommended/)
+# comments show the default value in the recommended ruleset, if not specified the rule was turned off
+rules:
+
+  # info
+  info-contact: warn
+  info-license: warn
+  info-license-url: warn

@@ -1,4 +1,5 @@
-name: Lint yaml-files
+name: Yaml lint workflow
+# description: Check specifications for SFTI's yaml style guides.
 
 on:
   workflow_call:
@@ -6,11 +7,7 @@ on:
       filenames:
         type: string
         default: '*.yaml'
-        description: 'Files to be linted.'
-      fail:
-        type: boolean
-        default: true
-        description: 'Specifies whether the runflow fails if linting errors have been detected.'
+        description: 'Files to be linted. (default: *.yaml, list of files sperated by whitespace)'
 
 jobs:
   lint:
@@ -21,7 +18,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }} # checkout last commit of PR instead of merge commit
 
-      - name: Checkout Yamllint Config Repo
+      - name: Checkout Config Repo
         uses: actions/checkout@v4
         with:
           repository: swissfintechinnovations/.github
@@ -36,9 +33,4 @@ jobs:
 
       - name: Lint yaml APIs
         if: ${{ !contains(steps.skip.outputs.COMMIT_MESSAGE, '[skip-workflow]') }}  # check commit message via env var - skip step if [skip-workflow] is set
-        run: yamllint -c .github/.github/.yamllint ${{ inputs.filenames}}
-
-      - name: Handle Errors
-        if: failure() && inputs.fail == false
-        run: echo "Yamllint detected issues. Please revise files."
-
+        run: yamllint -c .github/.github/.yamllint ${{ inputs.filenames }}

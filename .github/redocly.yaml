@@ -35,22 +35,23 @@ rules:
   path-parameters-defined: error
 
   # paths
-  no-ambiguous-paths: warn
+  no-ambiguous-paths: warn  #
   no-http-verbs-in-paths: error  #
   no-identical-paths: error
   no-path-trailing-slash: error
   path-excludes-patterns: off
   path-segment-plural:
-    severity: warn
+    severity: error
     ignoreLastPathSegment: true
     exceptions:
       - iso20022
+      - status
   paths-kebab-case: error  #
 
   # Requests, Responses, and Schemas
   no-enum-type-mismatch: error
   no-example-value-and-externalValue: error
-  no-invalid-media-type-examples: warn
+  no-invalid-media-type-examples: error  #
   no-invalid-schema-examples: error  #
   request-mime-type:
     severity: warn
@@ -65,7 +66,7 @@ rules:
       - application/xml
   response-contains-header: off  #
   response-contains-property: off
-  scalar-property-missing-example: warn  # <-- error !!
+  scalar-property-missing-example: error
   required-string-property-missing-min-length: off
 
   # servers
@@ -80,49 +81,3 @@ rules:
   operation-tag-defined: error  #
   tag-description: warn
   tags-alphabetical: error  #
-
-  # custom rules
-  rule/tag-description:
-    subject:
-      type: Tag
-      property: description
-    assertions:
-      defined: true
-      minLength: 30
-      pattern: /\.$/
-    message: Tag description must be at least 30 characters and end with a full stop.
-    severity: error
-
-  rule/info-description:
-    subject:
-      type: Info
-      property: description
-    assertions:
-      defined: true
-      pattern: /\.$/
-    message: Info description must end with a full stop.
-    severity: error
-
-  rule/operation-description:
-    subject:
-      type: Operation
-      property: description
-    assertions:
-      defined: true
-      pattern: /\.$/
-    message: Operation description must end with a full stop.
-    severity: error
-
-  rule/operation-summary:
-    subject:
-      type: Operation
-      property: summary
-    assertions:
-      defined: true
-      pattern: /[^\.]$/
-    message: The operation summary should be written in a bullet-point like phrase and not end with a full stop.
-    severity: error
-
-  #TODO: custom rules to lint variables names
-  # - header parameter in COBOL-CASE
-

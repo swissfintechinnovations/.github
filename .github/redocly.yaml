@@ -1,6 +1,11 @@
 # https://redocly.com/docs/cli/rules/built-in-rules/
 # rules based on recommend ruleset of redocly (https://redocly.com/docs/cli/rules/recommended/)
 # comments show the default value in the recommended ruleset, if not specified the rule was turned off
+
+plugins:
+  - redocly/redocly_iso_rules.js
+  - redocly/redocly_sfti_rules.js
+
 rules:
   # special rules
   no-unresolved-refs: error
@@ -82,3 +87,27 @@ rules:
   operation-tag-defined: error  #
   tag-description: warn
   tags-alphabetical: error  #
+
+  # custom rules
+  # iso/request-body-keys: error
+  iso/data-types: error
+
+  sfti/root-object-order: error
+  sfti/openapi-version:
+    severity: warn
+    version: '3.0.0'
+  sfti/info-content: error
+  sfti/external-docs: error
+  sfti/base-path: error
+  sfti/component-order: error
+  # sfti/parameter-name-order: error, // TODO order: path -> header -> query
+  # sfti/parameter-object-order: error // TODO order: 'name', 'in', 'description', 'required?', 'schema', 'example'
+  # sfti/use-ref-when-used-multiple-times: warn// TODO object is used more than once WARN
+
+  sfti/info-description: error
+  sfti/tag-description: error
+  sfti/parameter-description: error
+
+  sfti/path-parameter: error
+  sfti/header-parameter: error
+  sfti/query-parameter: error

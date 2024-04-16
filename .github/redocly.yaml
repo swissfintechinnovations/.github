@@ -100,9 +100,9 @@ rules:
   sfti/external-docs: error
   sfti/base-path: error
   sfti/component-order: error
-  # sfti/parameter-name-order: error, // TODO order: path -> header -> query
-  # sfti/parameter-object-order: error // TODO order: 'name', 'in', 'description', 'required?', 'schema', 'example'
-  # sfti/use-ref-when-used-multiple-times: warn// TODO object is used more than once WARN
+  sfti/parameter-name-order: error
+  sfti/parameter-object-order: error
+  # sfti/use-ref-when-used-multiple-times: warn // TODO object is used more than once WARN
 
   sfti/info-description: error
   sfti/tag-description: error

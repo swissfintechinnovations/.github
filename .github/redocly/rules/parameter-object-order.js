@@ -16,35 +16,35 @@ function checkParameterOrder(options) {
     NamedParameters: {
       enter(operation, { report, location, type }) {
         for(const parameterName in operation) {
-            const order = ["in", "name", "required", "schema", "description"];
-            paramKeys = Object.keys(operation[parameterName])
-            elem = checkArrays(paramKeys, order)
-            if(elem !== '') {
-                report({
-                    message: `\`${elem}\` key of \`${parameterName}\` is not in order (${order.join(', ')}).`,
-                    location: location.child([parameterName, elem]).key(),
-                });
-            }
+          const order = ["in", "name", "required", "schema", "description"];
+          paramKeys = Object.keys(operation[parameterName])
+          elem = checkArrays(paramKeys, order)
+          if(elem !== '') {
+            report({
+              message: `\`${elem}\` key of \`${parameterName}\` is not in order (${order.join(', ')}).`,
+              location: location.child([parameterName, elem]).key(),
+            });
+          }
         }
       }
     },
     ParameterList: {
-        enter(operation, { report, location, type }) {
-            for(const parameterName of operation){
-                const order = ["in", "name", "required", "schema", "description"];
-                paramKeys = Object.keys(parameterName)
-                if(! paramKeys.includes('$ref')){ // refs are covered using NamedParameters
-                    elem = checkArrays(paramKeys, order)
-                    console.log(elem)
-                    if(elem !== '') {
-                        report({
-                            message: `\`${elem}\` key is not in order (${order.join(', ')}).`,
-                            location: location.child([operation.indexOf(parameterName), elem]).key(),
-                        });
-                    }
-                }
+      enter(operation, { report, location, type }) {
+        for(const parameterName of operation){
+          const order = ["in", "name", "required", "schema", "description"];
+          paramKeys = Object.keys(parameterName)
+          if(! paramKeys.includes('$ref')){ // refs are covered using NamedParameters
+            elem = checkArrays(paramKeys, order)
+            console.log(elem)
+            if(elem !== '') {
+              report({
+                message: `\`${elem}\` key is not in order (${order.join(', ')}).`,
+                location: location.child([operation.indexOf(parameterName), elem]).key(),
+              });
             }
+          }
         }
+      }
     }
   }
 }

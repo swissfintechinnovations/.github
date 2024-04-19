@@ -64,6 +64,7 @@ rules:
       - application/json
       - application/problem+json
       - application/xml
+      - application/pdf
   response-contains-header: off  #
   response-contains-property: off
   scalar-property-missing-example: error

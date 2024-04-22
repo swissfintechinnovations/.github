@@ -102,7 +102,7 @@ rules:
   sfti/component-order: error
   sfti/parameter-name-order: error
   sfti/parameter-object-order: error
-  # sfti/use-ref-when-used-multiple-times: warn // TODO object is used more than once WARN
+  # sfti/use-ref-when-used-multiple-times: warn
 
   sfti/info-description: error
   sfti/tag-description: error

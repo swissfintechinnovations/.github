@@ -35,7 +35,6 @@ function checkParameterOrder(options) {
           paramKeys = Object.keys(parameterName)
           if(! paramKeys.includes('$ref')){ // refs are covered using NamedParameters
             elem = checkArrays(paramKeys, order)
-            console.log(elem)
             if(elem !== '') {
               report({
                 message: `\`${elem}\` key is not in order (${order.join(', ')}).`,

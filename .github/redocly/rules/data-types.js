@@ -8,7 +8,6 @@ function checkSchemaName(options){
       enter(operation, { report, location, type }) {
         const schemaNames = Object.keys(operation)
         for (const schemaName of schemaNames) {
-          console.log(schemaName)
           if(!utils.checkCasing(schemaName, 'PascalCase')) {
             report({
               message: `\`${schemaName}\` must use PascalCase.`,

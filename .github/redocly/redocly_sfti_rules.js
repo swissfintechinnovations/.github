@@ -27,7 +27,6 @@ module.exports = {
       'component-order' : componentsOrder,
       'parameter-name-order' : checkParameterOrder,
       'parameter-object-order' : checkParameterObjectOrder,
-      // 'use-ref-when-used-multiple-times' : checkObjectRedundancy, // TODO object is used more than once WARN
 
       'info-description' : infoDescription,
       'tag-description' : tagDescription,

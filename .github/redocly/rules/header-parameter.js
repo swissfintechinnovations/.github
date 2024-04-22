@@ -48,7 +48,6 @@ function checkHeaderParameter(options) {
         for (const op of operation) {
           if(op.$ref === undefined && op.in === 'header') { // references are handeld within NamedParameters
             if(!utils.checkCasing(op.name, 'Train-Case')) {
-              console.log(op.name)
               report({
                 message: `\`${op.name}\` must use Train-Case.`,
                 location: location.child([operation.indexOf(op), 'name']),

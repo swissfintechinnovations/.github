@@ -48,7 +48,6 @@ function checkPathParameter(options) {
         for (const op of operation) {
           if(op.$ref === undefined && op.in === 'path') { // references are handeld within NamedParameters
             if(!utils.checkCasing(op.name, 'camelCase')) {
-              console.log(op)
               report({
                 message: `\`${op.name}\` must use camelCase.`,
                 location: location.child([operation.indexOf(op), 'name']),

@@ -4,9 +4,9 @@ function checkOpenapiVersion(options) {
   return {
     Root: {
       enter(operation, { report, location }) {
-        if (operation.openapi !== options.version) {
+        if (! options.versions.includes(operation.openapi)) {
           report({
-            message: `OpenAPI version ${options.version} must be used.`,
+            message: `OpenAPI version ${options.versions.join(' or ')} must be used.`,
             location: location.child(['openapi']).key(),
           });
         }

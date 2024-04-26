@@ -2,7 +2,6 @@ const checkObjectOrder = require('./rules/root-object-order');
 const checkOpenapiVersion = require('./rules/openapi-version');
 const infoStructure = require('./rules/info-content');
 const checkExternalDocs = require('./rules/external-docs');
-const checkBasepath = require('./rules/base-path');
 const componentsOrder = require('./rules/component-order');
 const checkParameterOrder = require('./rules/parameter-name-order');
 const checkParameterObjectOrder = require('./rules/parameter-object-order')
@@ -23,7 +22,6 @@ module.exports = {
       'openapi-version': checkOpenapiVersion,
       'info-content' : infoStructure,
       'external-docs' : checkExternalDocs,
-      'base-path' : checkBasepath,
       'component-order' : componentsOrder,
       'parameter-name-order' : checkParameterOrder,
       'parameter-object-order' : checkParameterObjectOrder,

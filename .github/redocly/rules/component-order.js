@@ -17,7 +17,7 @@ function componentsOrder(options) {
             filteredKeys = filteredKeys.filter(item => item !== key)
             filteredRefs = filteredRefs.filter(item => item !== key)
             report({
-              message: `The \`${key}\` key is misplaced inside the \`components\` object. Plase move \`${key}\` to its defined location (see GitHub Wiki).`,
+              message: `The \`${key}\` key is misplaced inside the \`components\` object. Please move \`${key}\` to its defined location (see GitHub Wiki).`,
               location: location.child([key]).key(),
               suggest: [ `Include \`${key}\` object below \`${utils.get_common_prev_elem(sftiComponentsRef,sftiComponentsRef,key)}\` object` ],
             });

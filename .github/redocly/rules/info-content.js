@@ -19,11 +19,11 @@ function infoStructure(options) {
             suggest: [ 'Apache 2.0' ],
           });
         }
-        if (operation.license.url !== 'http://www.apache.org/licenses/LICENSE-2.0.html') {
+        if (operation.license.url !== 'https://www.apache.org/licenses/LICENSE-2.0.html') {
           report({
             message: `Use offical Apache 2.0 license refrence.`,
             location: location.child(['license', 'url']),
-            suggest: [ 'http://www.apache.org/licenses/LICENSE-2.0.html' ],
+            suggest: [ 'https://www.apache.org/licenses/LICENSE-2.0.html' ],
           });
         }
       },

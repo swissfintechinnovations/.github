@@ -110,6 +110,7 @@ rules:
   sfti/info-description: error
   sfti/tag-description: error
   sfti/parameter-description: error
+  sfti/schema-description: error
 
   sfti/path-parameter: error
   sfti/header-parameter: error

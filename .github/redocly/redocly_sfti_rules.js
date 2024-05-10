@@ -9,8 +9,9 @@ const checkParameterObjectOrder = require('./rules/parameter-object-order')
 const infoDescription = require('./rules/info-description');
 const tagDescription = require('./rules/tag-description');
 const parameterDescription = require('./rules/parameter-description');
-const checkPathParameter = require('./rules/path-parameter');
+const schemaDescription = require('./rules/schema-description');
 
+const checkPathParameter = require('./rules/path-parameter');
 const checkHeaderParameter = require('./rules/header-parameter');
 const checkQueryParameter = require('./rules/query-parameter');
 
@@ -29,6 +30,7 @@ module.exports = {
       'info-description' : infoDescription,
       'tag-description' : tagDescription,
       'parameter-description' : parameterDescription,
+      'schema-description' : schemaDescription,
 
       'path-parameter' : checkPathParameter,
       'header-parameter' : checkHeaderParameter,

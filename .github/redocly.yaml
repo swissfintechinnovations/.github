@@ -86,7 +86,7 @@ rules:
   operation-singular-tag: error  #
   operation-tag-defined: error  #
   tag-description: warn
-  tags-alphabetical: error  #
+  tags-alphabetical: off
 
   # custom rules
   # iso/request-body-keys: error

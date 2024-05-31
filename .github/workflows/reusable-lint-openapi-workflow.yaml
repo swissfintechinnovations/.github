@@ -47,7 +47,6 @@ jobs:
         with:
           repository: swissfintechinnovations/.github
           path: .github
-          ref: naming-conventions-part-2 # TODO remove before merge
 
       - uses: actions/setup-node@v4
         with:
@@ -77,7 +76,6 @@ jobs:
         with:
           repository: swissfintechinnovations/.github
           path: .github
-          ref: naming-conventions-part-2 # TODO remove before merge
 
       - uses: actions/setup-node@v4
         with:

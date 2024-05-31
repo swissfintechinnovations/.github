@@ -61,6 +61,7 @@ rules:
       - '^\^'
       - '^-'
       - '^\['  # just to be sure
+      - '^0'  # yaml interprets numbers with leading 0 as string, but openapi-linter requires quotes
     allow-quoted-quotes: true
   trailing-spaces:
     level: warning

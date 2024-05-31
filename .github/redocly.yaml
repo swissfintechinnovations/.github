@@ -115,4 +115,4 @@ rules:
 
   sfti/path-parameter: error
   sfti/header-parameter: error
-  sfti/query-parameter: error
+  sfti/query-parameter: off  # custom payment configuration

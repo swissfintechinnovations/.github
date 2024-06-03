@@ -37,6 +37,8 @@ To understand how SFTI and its Common API working group is embedded in the Swiss
 
 ![Big Picturn](https://github.com/swissfintechinnovations/.github/blob/main/BigPicture.4.OpenFinance_en_2023.09.13.png)
 
+Source [https://www.swissbanking.ch/de/themen/digitalisierung-innovation-cyber-security/open-banking](https://www.swissbanking.ch/de/themen/digitalisierung-innovation-cyber-security/open-banking)
+
 ## Collaboration
 
 If you are interested in providing feedback, please visit the Common API website mentioned above. There, you will find the information necessary to contact us.

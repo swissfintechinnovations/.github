@@ -31,6 +31,12 @@ In addition to the API spec, each repository also contains a wiki with further i
 </ul>
 </p>
 
+## Embedding in the Swiss financial center
+
+To understand how SFTI and its Common API working group is embedded in the Swiss Financial center, please consult the following illustration:
+
+![Big Picturn](https://user-images.githubusercontent.com/116151702/232762217-ac254483-0d25-4234-857b-376ff8dbb1e7.png)
+
 ## Collaboration
 
 If you are interested in providing feedback, please visit the Common API website mentioned above. There, you will find the information necessary to contact us.

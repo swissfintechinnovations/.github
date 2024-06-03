@@ -35,7 +35,7 @@ In addition to the API spec, each repository also contains a wiki with further i
 
 To understand how SFTI and its Common API working group is embedded in the Swiss Financial center, please consult the following illustration:
 
-![Big Picturn](https://user-images.githubusercontent.com/116151702/232762217-ac254483-0d25-4234-857b-376ff8dbb1e7.png)
+![Big Picturn](https://github.com/swissfintechinnovations/.github/blob/main/BigPicture.4.OpenFinance_en_2023.09.13.png)
 
 ## Collaboration
 

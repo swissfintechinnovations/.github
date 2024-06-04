@@ -28,6 +28,7 @@ In addition to the API spec, each repository also contains a wiki with further i
   <li>Wealth (repo <a href="https://github.com/swissfintechinnovations/ca-wealth">ca-wealth</a>)</li>
   <li>Card (repo <a href="https://github.com/swissfintechinnovations/ca-card">ca-card</a>)</li>
   <li>Pension (repo <a href="https://github.com/swissfintechinnovations/ca-pension">ca-pension</a>)</li>
+  <li>API Security and Consent Management (repo <a href="https://github.com/swissfintechinnovations/ca-security">ca security</a>)</li>
 </ul>
 </p>
 

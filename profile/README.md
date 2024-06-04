@@ -31,6 +31,8 @@ In addition to the API spec, each repository also contains a wiki with further i
 </ul>
 </p>
 
+Note: SFTI's standardization recommendations for APIs can be implemented individually at each interested FI. At least for some APIs, the leading implementation is currently realized in coordination with the Open Banking platform [bLink](https://blink.six-group.com/) of SIX. In the repos of the affected APIs, this is explicitly stated.
+
 ## Embedding in the Swiss financial center
 
 To understand how SFTI and its Common API working group is embedded in the Swiss Financial center, please consult the following illustration:

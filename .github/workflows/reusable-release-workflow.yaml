@@ -16,7 +16,6 @@ on:
       artifact:
         description: Add artifacts to the release. All files from the provided folder(s) are added to the release. Folders or files are seperated by a single whitespace (e.g. file.txt folder/). **Do not use docs/**.
         type: string
-        default: ''
         required: false
       force:
         description: "If force is true, already published releases can be overwritten. Caution: This action deletes already published releases and can **not** be undone!"
@@ -69,7 +68,7 @@ jobs:
         echo "RELEASE_NOTES=RELEASE.md" >> $GITHUB_OUTPUT
         echo "RELEASE_ASSETS_NAME=artifact" >> $GITHUB_OUTPUT
         echo "DOC_PATH=docs/" >> $GITHUB_OUTPUT
-        echo "DOC_ARTIFACT_NAME=$repo_name-api-sepc-docu-v$version" >> $GITHUB_OUTPUT
+        echo "DOC_ARTIFACT_NAME=$repo_name-api-spec-docu-v$version" >> $GITHUB_OUTPUT
 
 
   api-docu:

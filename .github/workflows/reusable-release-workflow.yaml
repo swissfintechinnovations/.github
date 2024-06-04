@@ -71,45 +71,6 @@ jobs:
         echo "DOC_ARTIFACT_NAME=$repo_name-api-spec-docu-v$version" >> $GITHUB_OUTPUT
 
 
-  api-docu:
-    runs-on: ubuntu-latest
-    needs: variables
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: latest
-
-      - name: Install redocly version ${{env.REDOCLY_VERSION}}
-        run: |
-          npm install -g @redocly/cli@$REDOCLY_VERSION
-
-      - name: create API documentation
-        run: |
-          export NODE_NO_WARNINGS=1
-          mkdir -p ${{ needs.variables.outputs.DOC_PATH }}
-          for file in $(ls *.yaml | sed 's/\.yaml$//'); do
-            doc_file=$file-${{ needs.variables.outputs.VERSION }}-doc-${{ github.sha }}.html
-            npx --silent @redocly/cli@$REDOCLY_VERSION build-docs --output ${{ needs.variables.outputs.DOC_PATH }}$doc_file $file.yaml
-            echo "Created documentation: $doc_file"
-          done;
-
-      - uses: actions/upload-artifact@v4
-        id: upload_artifact
-        with:
-          name: ${{ needs.variables.outputs.DOC_ARTIFACT_NAME }}
-          path: ${{ needs.variables.outputs.DOC_PATH }}
-          retention-days: 1
-          if-no-files-found: error
-          overwrite: true
-
-      - name: Upload docu artifacts
-        run: |
-          echo 'Uploaded artifacts with ID ${{ steps.upload_artifact.outputs.artifact-id }}.'
- 
-
   release:
     runs-on: ubuntu-latest
     needs: variables
@@ -293,6 +254,47 @@ jobs:
           fi
 
           echo "RELEASE_ID=$(echo $RESPONSE | grep -o -z '\{.*\}' | jq -r '.id')" >> $GITHUB_OUTPUT
+
+
+  api-docu:
+    runs-on: ubuntu-latest
+    needs:
+      - variables
+      - release
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
+      - name: Install redocly version ${{env.REDOCLY_VERSION}}
+        run: |
+          npm install -g @redocly/cli@$REDOCLY_VERSION
+
+      - name: create API documentation
+        run: |
+          export NODE_NO_WARNINGS=1
+          mkdir -p ${{ needs.variables.outputs.DOC_PATH }}
+          for file in $(ls *.yaml | sed 's/\.yaml$//'); do
+            doc_file=$file-${{ needs.variables.outputs.VERSION }}-doc-${{ github.sha }}.html
+            npx --silent @redocly/cli@$REDOCLY_VERSION build-docs --output ${{ needs.variables.outputs.DOC_PATH }}$doc_file $file.yaml
+            echo "Created documentation: $doc_file"
+          done;
+
+      - uses: actions/upload-artifact@v4
+        id: upload_artifact
+        with:
+          name: ${{ needs.variables.outputs.DOC_ARTIFACT_NAME }}
+          path: ${{ needs.variables.outputs.DOC_PATH }}
+          retention-days: 1
+          if-no-files-found: error
+          overwrite: true
+
+      - name: Upload docu artifacts
+        run: |
+          echo 'Uploaded artifacts with ID ${{ steps.upload_artifact.outputs.artifact-id }}.'
 
 
   artifact:

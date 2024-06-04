@@ -214,7 +214,7 @@ jobs:
           sleep 2
 
           # gh pr review $number --approve  # can not approve own PR
-          gh pr merge $number --admin --merge --delete-branch --body "Automated version update"  # force merge since PR is not approved (--admin flag)
+          gh pr merge $number --admin --rebase --delete-branch --body "Automated version update"  # force merge trough --admin flag since PR is not approved
           git checkout $BASE_BRANCH
         env:
           GITHUB_TOKEN: ${{ secrets.SFTI_BOT_TOKEN }}

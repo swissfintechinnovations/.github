@@ -23,8 +23,10 @@ rules:
     min-spaces-from-content: 2
   comments-indentation:
     level: warning
-  document-end: disable
-  document-start: disable
+  document-end:
+    present: false
+  document-start:
+    present: false
   empty-lines:
     max: 2
     max-start: 0
@@ -63,8 +65,7 @@ rules:
       - '^\['  # just to be sure
       - '^0'  # yaml interprets numbers with leading 0 as string, but openapi-linter requires quotes
     allow-quoted-quotes: true
-  trailing-spaces:
-    level: warning
+  trailing-spaces: enable
   truthy:
     allowed-values: ['true', 'false']
     check-keys: true

@@ -1,0 +1,36 @@
+name: Swagger Validator
+
+on:
+  workflow_call:
+
+jobs:
+  gather-files:
+    runs-on: ubuntu-latest
+    outputs:
+      files: ${{ steps.files.outputs.FILES }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read files
+        id: files
+        run: |
+          echo "FILES=$(ls *.yaml | jq -R -s -c 'split("\n")[:-1]')">> "$GITHUB_OUTPUT"
+
+  swagger-validate:
+    runs-on: ubuntu-latest
+    name: Swagger Editor Validator Remote
+    needs:
+      - gather-files
+
+    strategy:
+      matrix:
+        file: ${{ fromJSON(needs.gather-files.outputs.FILES) }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate OpenAPI definition
+        uses: swaggerexpert/swagger-editor-validate@v1
+        with:
+          definition-file: ${{ matrix.file }}

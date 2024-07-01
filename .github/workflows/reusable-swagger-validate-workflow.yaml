@@ -23,11 +23,11 @@ jobs:
     needs:
       - gather-files
 
-    services:
-      swagger-editor:
-        image: swaggerapi/swagger-editor:latest # Docker Hub image
-        ports:
-          - 80:8080
+    # services:
+    #   swagger-editor:
+    #     image: swaggerapi/swagger-editor:latest # Docker Hub image
+    #     ports:
+    #       - 80:8080
 
     strategy:
       matrix:
@@ -39,5 +39,5 @@ jobs:
       - name: Validate OpenAPI definition
         uses: swaggerexpert/swagger-editor-validate@v1
         with:
-          swagger-editor-url: http://localhost:80/
+          swagger-editor-url: https://editor.swagger.io/  # http://localhost:80/
           definition-file: ${{ matrix.file }}

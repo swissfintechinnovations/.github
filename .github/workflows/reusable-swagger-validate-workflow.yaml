@@ -33,5 +33,5 @@ jobs:
       - name: Validate OpenAPI definition
         uses: swaggerexpert/swagger-editor-validate@v1
         with:
-          swagger-editor-url: https://validate.swagger.io/validator/debug
+          swagger-editor-url: https://editor-next.swagger.io/
           definition-file: ${{ matrix.file }}

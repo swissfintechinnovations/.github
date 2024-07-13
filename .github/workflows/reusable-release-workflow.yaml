@@ -177,6 +177,8 @@ jobs:
           # gh pr review $number --approve  # can not approve own PR
           gh pr merge $number --admin --rebase --delete-branch --body "Automated version update"  # force merge trough --admin flag since PR is not approved
           git checkout $BASE_BRANCH
+
+          sleep 5
         env:
           GITHUB_TOKEN: ${{ secrets.SFTI_BOT_TOKEN }}
 
@@ -278,6 +280,7 @@ jobs:
           export NODE_NO_WARNINGS=1
           mkdir -p ${{ needs.variables.outputs.DOC_PATH }}
           for file in $(ls *.yaml | sed 's/\.yaml$//'); do
+            head $file.yaml
             doc_file=$file-${{ needs.variables.outputs.VERSION }}-doc-${{ github.sha }}.html
             npx --silent @redocly/cli@$REDOCLY_VERSION build-docs --output ${{ needs.variables.outputs.DOC_PATH }}$doc_file $file.yaml
             echo "Created documentation: $doc_file"

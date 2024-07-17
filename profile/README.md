@@ -14,23 +14,20 @@
 🍿 Fun facts - what does your team eat for breakfast?
 🧙 Remember, you can do mighty things with the power of [Markdown](https://docs.github.com/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 -->
-<p>This is the central location for all API standardization recommendations developed under the patronage of the <a href="https://common-api.ch/index.php/en">Common API</a> initiative of Swiss Fintech Innovations (<a href="https://swissfintechinnovations.ch">SFTI</a>).
+This is the central location for all API standardization recommendations developed under the patronage of the [Common API](https://common-api.ch/index.php/en) initiative of Swiss Fintech Innovations ([SFTI](https://swissfintechinnovations.ch)).
 In addition to the API spec, each repository also contains a wiki with further information (business requirements, use cases, etc.).
 
-<p>Basic information valid for all APIs is located in a dedicated <a href="https://github.com/swissfintechinnovations/.github/wiki">wiki</a>.
+Basic information valid for all APIs is located in a dedicated [Github wiki](https://github.com/swissfintechinnovations/.github/wiki).
 
-<p>More documentation underlying these APIs may be found on the <a href="https://c-a-p-s.atlassian.net/wiki/spaces/PUB/overview" target="_blank">Confluence space</a> of the Common API Initiative. Please note that our goal is to consolidate all our work results on GitHub, so the Confluence content will decrease to zero over time.
+More documentation underlying these APIs may be found on the [Confluence space](https://c-a-p-s.atlassian.net/wiki/spaces/PUB/overview) of the Common API Initiative. Please note that our goal is to consolidate all our work results on GitHub, so the Confluence content will decrease to zero over time.
 
-<p>Currently, we are covering the following business areas.
-<ul>
-  <li>XS2A/Payments (repo <a href="https://github.com/swissfintechinnovations/ca-payment">ca-payments</a>)</li>
-  <li>Mortgage (repo <a href="https://github.com/swissfintechinnovations/ca-mortgage">ca-mortgage</a>)</li>
-  <li>Wealth (repo <a href="https://github.com/swissfintechinnovations/ca-wealth">ca-wealth</a>)</li>
-  <li>Card (repo <a href="https://github.com/swissfintechinnovations/ca-card">ca-card</a>)</li>
-  <li>Pension (repo <a href="https://github.com/swissfintechinnovations/ca-pension">ca-pension</a>)</li>
-  <li>API Security and Consent Management (repo <a href="https://github.com/swissfintechinnovations/ca-security">ca security</a>)<img src="https://github.com/swissfintechinnovations/.github/assets/141315380/76d452ee-b2d3-4464-ab46-85dbd571e4bd" width="28"></li>
-</ul>
-</p>
+Currently, we are covering the following business areas.
+  - XS2A/Payments (repo [ca-payment](https://github.com/swissfintechinnovations/ca-payment))
+  - Mortgage (repo [ca-mortgage](https://github.com/swissfintechinnovations/ca-mortgage))
+  - Wealth (repo [ca-wealth](https://github.com/swissfintechinnovations/ca-wealth))
+  - Card (repo [ca-card](https://github.com/swissfintechinnovations/ca-card))
+  - Pension (repo [ca-pension](https://github.com/swissfintechinnovations/ca-pension))
+  - API Security and Consent Management (repo [ca-security](https://github.com/swissfintechinnovations/ca-security)) <img src="https://github.com/swissfintechinnovations/.github/assets/141315380/76d452ee-b2d3-4464-ab46-85dbd571e4bd" width="28">
 
 Note: SFTI's standardization recommendations for APIs can be implemented individually at each interested FI. At least for some APIs, the leading implementation is currently realized in coordination with the Open Banking platform [bLink](https://blink.six-group.com/) of SIX. In the repos of the affected APIs, this is explicitly stated.
 
@@ -40,7 +37,7 @@ To understand how SFTI and its Common API working group is embedded in the Swiss
 
 ![Big Picturn](https://github.com/swissfintechinnovations/.github/blob/main/BigPicture.4.OpenFinance_en_2023.09.13.png)
 
-Source [https://www.swissbanking.ch/de/themen/digitalisierung-innovation-cyber-security/open-banking](https://www.swissbanking.ch/de/themen/digitalisierung-innovation-cyber-security/open-banking)
+Source [swissbanking](https://www.swissbanking.ch/de/themen/digitalisierung-innovation-cyber-security/open-banking)
 
 ## Collaboration
 

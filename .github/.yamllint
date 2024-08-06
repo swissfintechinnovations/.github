@@ -50,7 +50,6 @@ rules:
     max: 150
     allow-non-breakable-words: true
     allow-non-breakable-inline-mappings: true
-    level: warning
   new-line-at-end-of-file: enable
   new-lines:
     type: unix

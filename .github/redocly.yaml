@@ -70,6 +70,7 @@ rules:
       - application/json
       - application/problem+json
       - application/xml
+      - application/xml; charset=utf-8
       - application/pdf
   response-contains-header: off  #
   response-contains-property: off

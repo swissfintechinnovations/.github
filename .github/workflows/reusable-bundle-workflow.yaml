@@ -36,12 +36,10 @@ jobs:
         id: bundle
         run: |
           for file in $(ls ${{ inputs.filenames }}); do
-            ls -al
-            ls -al src/
-            echo $file
             redocly bundle "$file" --output "$(basename $file)"
             # for some strange reason single quotes are removed during 'redocly bundle' from the pattern property if it start with literal '^'
             sed -i -E "s/pattern: (\\^[^ ]*)/pattern: '\1'/g" $file
+            cat $(basename $file)
           done
 
       - name: Commit und push changes
@@ -51,4 +49,5 @@ jobs:
 
           git add -u .
           git diff --staged --quiet || git commit -m "Bundled API specs: $(git diff --name-only --cached | tr '\n' ' ')"
+          git status
           git push

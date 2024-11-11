@@ -16,7 +16,7 @@ jobs:
   bundle-specs:
     runs-on: ubuntu-latest
     steps:
-      - name: check protected branch
+      - name: Check protected branch
         if: ${{ github.ref_protected == true }}
         run: |
           echo "Cannot bundle API specification on protected branch \"${{ github.ref_name }}\"."
@@ -39,7 +39,6 @@ jobs:
             redocly bundle "$file" --output "$(basename $file)"
             # for some strange reason single quotes are removed during 'redocly bundle' from the pattern property if it start with literal '^'
             sed -i -E "s/pattern: (\\^[^ ]*)/pattern: '\1'/g" $file
-            cat $(basename $file)
           done
 
       - name: Commit und push changes
@@ -49,5 +48,4 @@ jobs:
 
           git add .
           git diff --staged --quiet || git commit -m "Bundled API specs: $(git diff --name-only --cached | tr '\n' ' ')"
-          git status
           git push

@@ -19,7 +19,7 @@ jobs:
       - name: check protected branch
         if: ${{ github.ref_protected == true }}
         run: |
-          echo "Cannot bundle API specification on protected branch ${{ github.ref_name }}"
+          echo "Cannot bundle API specification on protected branch \"${{ github.ref_name }}\"."
           exit 1
 
       - uses: actions/checkout@v4
@@ -37,6 +37,9 @@ jobs:
         run: |
           files=$(ls ${{ inputs.filenames }})
           for file in "${files[@]}"; do
+            ls -al
+            ls -al src/
+            echo $file
             redocly bundle "$file" --output "$(basename $file)"
             # for some strange reason single quotes are removed during 'redocly bundle' from the pattern property if it start with literal '^'
             sed -i -E "s/pattern: (\\^[^ ]*)/pattern: '\1'/g" $file

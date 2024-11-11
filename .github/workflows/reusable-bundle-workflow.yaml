@@ -14,7 +14,7 @@ env:
 
 jobs:
   bundle-specs:
-    runs-on: ubuntu-$latest
+    runs-on: ubuntu-latest
     steps:
       - name: check protected branch
         if: ${{ github.ref_protected == true }}

@@ -7,7 +7,7 @@ on:
         filenames:
           type: string
           default: 'src/*.yaml'
-          description: 'Files to be linted. (default: *.yaml, list of files sperated by whitespace)'
+          description: 'Files to be bundled. (default: src/*.yaml, list of files sperated by whitespace)'
 
 env:
   REDOCLY_VERSION: '1.25.11'
@@ -35,8 +35,7 @@ jobs:
       - name: Bundle API Spec
         id: bundle
         run: |
-          files=$(ls ${{ inputs.filenames }})
-          for file in "${files[@]}"; do
+          for file in $(ls ${{ inputs.filenames }}); do
             ls -al
             ls -al src/
             echo $file

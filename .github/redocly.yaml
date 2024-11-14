@@ -63,6 +63,7 @@ rules:
     allowedValues:
       - application/json
       - application/xml
+      - application/xml; charset=utf-8
       - multipart/form-data
   response-mime-type:
     severity: warn

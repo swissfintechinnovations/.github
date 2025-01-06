@@ -35,7 +35,7 @@ Note: SFTI's standardization recommendations for APIs can be implemented individ
 
 To understand how SFTI and its Common API working group is embedded in the Swiss Financial center, please consult the following illustration:
 
-![Big Picturn](https://github.com/swissfintechinnovations/.github/blob/main/BigPicture.4.OpenFinance_en_2023.09.13.png)
+![BigPicture](https://github.com/user-attachments/assets/29ef12a9-2e98-4867-8e4f-b4782e12d1dc)
 
 Source [swissbanking](https://www.swissbanking.ch/de/themen/digitalisierung-innovation-cyber-security/open-banking)
 

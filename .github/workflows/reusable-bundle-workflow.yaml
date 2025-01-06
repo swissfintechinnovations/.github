@@ -1,0 +1,51 @@
+name: Bundle workflow
+# description: Bundle yaml file to OpenAPI Specification.
+
+on:
+  workflow_call:
+    inputs:
+        filenames:
+          type: string
+          default: 'src/*.yaml'
+          description: 'Files to be bundled. (default: src/*.yaml, list of files sperated by whitespace)'
+
+env:
+  REDOCLY_VERSION: '1.25.11'
+
+jobs:
+  bundle-specs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check protected branch
+        if: ${{ github.ref_protected == true }}
+        run: |
+          echo "Cannot bundle API specification on protected branch \"${{ github.ref_name }}\"."
+          exit 1
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
+
+      - name: Install redocly version ${{env.REDOCLY_VERSION}}
+        run: |
+          npm install -g @redocly/cli@$REDOCLY_VERSION
+
+      - name: Bundle API Spec
+        id: bundle
+        run: |
+          for file in $(ls ${{ inputs.filenames }}); do
+            redocly bundle "$file" --output "$(basename $file)"
+            # for some strange reason single quotes are removed during 'redocly bundle' from the pattern property if it start with literal '^'
+            sed -i -E "s/pattern: (\\^[^ ]*)/pattern: '\1'/g" $file
+          done
+
+      - name: Commit und push changes
+        run: |
+          git config --global user.name "sfti bot"
+          git config --global user.email "github-bot@common-api.ch"
+
+          git add .
+          git diff --staged --quiet || git commit -m "Bundled API specs: $(git diff --name-only --cached | tr '\n' ' ')"
+          git push --quiet

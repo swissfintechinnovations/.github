@@ -19,7 +19,7 @@ jobs:
       - name: Check protected branch
         if: ${{ github.ref_protected == true }}
         run: |
-          echo "Cannot bundle API specification on protected branch \"${{ github.ref_name }}\"."
+          echo "Cannot bundle API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
           exit 1
 
       - uses: actions/checkout@v4
@@ -48,4 +48,4 @@ jobs:
 
           git add .
           git diff --staged --quiet || git commit -m "Bundled API specs: $(git diff --name-only --cached | tr '\n' ' ')"
-          git push --quiet origin HEAD:${{ github.ref_name }}
+          git push --quiet origin HEAD:${{ github.head_ref || github.ref }}

@@ -48,4 +48,4 @@ jobs:
 
           git add .
           git diff --staged --quiet || git commit -m "Bundled API specs: $(git diff --name-only --cached | tr '\n' ' ')"
-          git push
+          git push --quiet

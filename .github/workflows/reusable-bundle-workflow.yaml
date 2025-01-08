@@ -26,7 +26,6 @@ jobs:
         with:
           token: ${{ secrets.SFTI_BOT_TOKEN }}
           ref: ${{ github.head_ref || github.ref }}
-          # persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
@@ -53,6 +52,4 @@ jobs:
           git add .
           git diff --staged --quiet || git commit -m "Bundled API specs: $(git diff --name-only --cached | tr '\n' ' ')"
           git diff --staged --quiet || git commit --amend
-          echo "${{ github.head_ref || github.ref }}"
-          git status
           git push --quiet

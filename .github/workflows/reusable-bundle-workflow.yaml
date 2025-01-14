@@ -15,7 +15,7 @@ env:
 jobs:
   bundle-specs:
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.user.login != 'sfti-bot' }}
+    if: ${{ github.actor != 'sfti-bot' }}
     steps:
       - name: Check protected branch
         if: ${{ github.ref_protected == true }}
@@ -39,7 +39,6 @@ jobs:
       - name: Bundle API Spec
         id: bundle
         run: |
-          echo '${{ toJson(github) }}'
           for file in $(ls ${{ inputs.filenames }}); do
             redocly bundle "$file" --output "$(basename $file)"
             # for some strange reason single quotes are removed during 'redocly bundle' from the pattern property if it start with literal '^'

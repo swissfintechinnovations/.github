@@ -24,14 +24,6 @@ function checkPathParameter(options) {
                 suggest: [parameterObject.name+'Id'],
               });
             }
-            
-            if(parameterName !== 'path_'+parameterObject.name) {
-              report({
-                message: `Path parameter \`${parameterName}\` must start with \`path_\` followed by the paramter name.`,
-                location: location.child([parameterName]).key(),
-                suggest: ['path_'+parameterObject.name],
-              });
-            }
 
             if(parameterObject.required !== true) {
               report({

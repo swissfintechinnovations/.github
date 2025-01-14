@@ -17,14 +17,6 @@ function checkHeaderParameter(options) {
               });
             }
 
-            if(!parameterName.endsWith('_in_header')) {
-              report({
-                message: `Header parameter \`${parameterName}\` must end with \`_in_header\`.`,
-                location: location.child([parameterName]).key(),
-                suggest: [parameterName+'_in_header'],
-              });
-            }
-
             if((parameterObject.required === undefined || parameterObject.required === false) && !parameterName.startsWith('optional_')) {
               report({
                 message: `Optional header parameter \`${parameterName}\` must start with \`optional_\`.`,

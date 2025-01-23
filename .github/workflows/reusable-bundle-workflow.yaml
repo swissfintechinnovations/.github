@@ -50,19 +50,22 @@ jobs:
                 return 0
               fi
               echo "pre-yq: $file_path" ###
-              ./yq eval '.. | select(has("$ref")) | select(."$ref" == "./generic/*") | ."$ref"' "$file_path" ###
               # Process each $ref pointing to the generic folder in the file
               ./yq eval '.. | select(has("$ref")) | select(."$ref" == "./generic/*") | ."$ref"' "$file_path" | while read -r ref_path; do
                   echo "yq: $ref_path" ###
                   # Ensure the referenced file exists
                   if [ -f "$ref_path" ]; then
                       # Replace the $ref node with the content of the referenced file in a temp file
+                      echo "replace ref" ###
                       ./yq eval "(.. | select(has(\"\$ref\")) | select(.\"\$ref\" == \"$ref_path\")) |= load(.\"\$ref\")" "$file_path" > "$temp_file"
                       # remove loaded $ref line in original file
+                      echo "remove ref" ###
                       ./yq eval "del(.. | select(has(\"\$ref\")) | select(.\"\$ref\" == \"$ref_path\") | .\"\$ref\")" -i "$file_path"
                       # merge files back
+                      echo "merge files" ###
                       ./yq eval --prettyPrint ". *= load(\"$file_path\")" -i "$temp_file"
                       mv "$temp_file" "$file_path"
+                      cat $temp_file ###
                   else
                       echo "Warning: Referenced file \"$ref_path\" does not exist. Skipping."
                   fi

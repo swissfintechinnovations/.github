@@ -34,7 +34,7 @@ jobs:
 
       - name: Preprocess API Spec # (Resolve nested schemas)
         run: |
-          ROOT_DIR="src/components/schemas"
+          SCHEMA_DIR="src/components/schemas"
 
           # Function to inline $ref content
           resolve_refs() {

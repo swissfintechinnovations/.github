@@ -32,13 +32,57 @@ jobs:
         run: |
           npm install -g @redocly/cli@$REDOCLY_VERSION
 
+      - name: Preprocess API Spec # (Resolve nested schemas)
+        run: |
+          ROOT_DIR="src/components/schemas"
+
+          # Ensure yq is installed
+          if ! command -v ./yq &> /dev/null; then
+              echo "Installing yq .."
+              wget --quiet https://github.com/mikefarah/yq/releases/download/v4.45.1/yq_linux_amd64 -O ./yq && chmod +x ./yq
+          fi
+
+          # Function to inline $ref content
+          resolve_refs() {
+              local file_path="$1"
+              local temp_file="${file_path}.tmp"
+
+              if grep -q '\$ref: ./generic/' "$file_path"; then
+                  echo "- $file_path"
+              fi
+
+              # Process each $ref pointing to the generic folder in the file
+              ./yq eval '.. | select(has("$ref")) | select(."$ref" == "./generic/*") | ."$ref"' "$file_path" | while read -r ref_path; do
+                  # Ensure the referenced file exists
+                  if [ -f "$ref_path" ]; then
+                      # Replace the $ref node with the content of the referenced file in a temp file
+                      ./yq eval "(.. | select(has(\"\$ref\")) | select(.\"\$ref\" == \"$ref_path\")) |= load(.\"\$ref\")" "$file_path" > "$temp_file"
+                      # remove loaded $ref line in original file
+                      ./yq eval "del(.. | select(has(\"\$ref\")) | select(.\"\$ref\" == \"$ref_path\") | .\"\$ref\")" -i "$file_path"
+                      # merge files back
+                      ./yq eval --prettyPrint ". *= load(\"$file_path\")" -i "$temp_file"
+                      mv "$temp_file" "$file_path"
+                  else
+                      echo "Warning: Referenced file \"$ref_path\" does not exist. Skipping."
+                  fi
+              done
+
+              # Cleanup temporary file if it exists
+              [ -f "$temp_file" ] && rm "$temp_file"
+          }
+
+          # Process all YAML files in the root directory
+          echo "Processing yaml files .."
+          find "$ROOT_DIR" -maxdepth 1 -name "*.yaml" | while read -r yaml_file; do
+              resolve_refs "$yaml_file"
+          done
+          echo "All references have been inlined."   
+
       - name: Bundle API Spec
         id: bundle
         run: |
           for file in $(ls ${{ inputs.filenames }}); do
             redocly bundle "$file" --output "$(basename $file)"
-            # for some strange reason single quotes are removed during 'redocly bundle' from the pattern property if it start with literal '^'
-            sed -i -E "s/pattern: (\\^[^ ]*)/pattern: '\1'/g" $file
           done
 
       - name: Commit und push changes
@@ -46,6 +90,7 @@ jobs:
           git config --global user.name "sfti bot"
           git config --global user.email "github-bot@common-api.ch"
 
-          git add .
+          git add -n $(ls *.yaml) # only add bundled spec files, don't touch changed files in src/ folder since changes are not persistent
+          git restore . # dismiss all changes which are not staged in the previous command
           git diff --staged --quiet || git commit -m "Bundled API specs: $(git diff --name-only --cached | tr '\n' ' ')"
           git push --quiet

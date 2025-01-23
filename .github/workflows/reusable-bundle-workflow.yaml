@@ -15,15 +15,18 @@ env:
 jobs:
   bundle-specs:
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'sfti-bot' }}
     steps:
       - name: Check protected branch
         if: ${{ github.ref_protected == true }}
         run: |
-          echo "Cannot bundle API specification on protected branch \"${{ github.ref_name }}\"."
-          exit 1
+          echo "Cannot bundle API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
 
       - uses: actions/checkout@v4
-
+        with:
+          token: ${{ secrets.SFTI_BOT_UNPRIV_TOKEN }}
+          ref: ${{ github.head_ref || github.ref }} # use head_ref for prs, use ref for manual trigger
+  
       - uses: actions/setup-node@v4
         with:
           node-version: latest
@@ -75,7 +78,7 @@ jobs:
 
           # Process all YAML files in the root directory
           echo "Processing yaml files .."
-          find "$ROOT_DIR" -maxdepth 1 -name "*.yaml" | while read -r yaml_file; do
+          find . -maxdepth 1 -name "*.yaml" | while read -r yaml_file; do
               resolve_refs "$yaml_file"
           done
           echo "All references have been inlined."   

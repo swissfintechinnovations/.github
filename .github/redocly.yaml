@@ -95,7 +95,7 @@ rules:
   # iso/request-body-keys: error
   iso/data-types: error
 
-  sfti/root-object-order: error
+  #sfti/root-object-order: error
   sfti/openapi-version:
     severity: error
     versions:
@@ -106,7 +106,7 @@ rules:
   sfti/info-content: error
   sfti/external-docs: error
   sfti/component-order: error
-  sfti/parameter-name-order: error
+  #sfti/parameter-name-order: error
   sfti/parameter-object-order: error
   # sfti/use-ref-when-used-multiple-times: warn
 

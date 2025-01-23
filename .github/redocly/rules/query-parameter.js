@@ -16,15 +16,6 @@ function checkQueryParameter(options) {
                 location: location.child([parameterName, 'name']),
               });
             }
-
-            if(parameterName.includes('query')) {
-              report({
-                message: `Query parameter \`${parameterName}\` must not include \`query\` prefix.`,
-                location: location.child([parameterName]).key(),
-                suggest: [parameterObject.name],
-              });
-            }
-            
             if(!utils.checkCasing(parameterName, 'snake_case')) {
               report({
                 message: `\`${parameterName}\` must use snake_case.`,

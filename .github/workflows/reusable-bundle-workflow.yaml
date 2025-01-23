@@ -46,8 +46,11 @@ jobs:
               echo "func" ###
               if grep -q '\$ref: ./generic/' "$file_path"; then
                   echo "- $file_path"
+              else
+                return 0
               fi
               echo "pre-yq: $file_path" ###
+              ./yq eval '.. | select(has("$ref")) | select(."$ref" == "./generic/*") | ."$ref"' "$file_path" ###
               # Process each $ref pointing to the generic folder in the file
               ./yq eval '.. | select(has("$ref")) | select(."$ref" == "./generic/*") | ."$ref"' "$file_path" | while read -r ref_path; do
                   echo "yq: $ref_path" ###

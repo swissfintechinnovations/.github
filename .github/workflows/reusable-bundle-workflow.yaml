@@ -65,14 +65,11 @@ jobs:
                       echo "merge files" ###
                       ./yq eval --prettyPrint ". *= load(\"$file_path\")" -i "$temp_file"
                       mv "$temp_file" "$file_path"
-                      cat $temp_file ###
+                      cat $file_path ###
                   else
                       echo "Warning: Referenced file \"$ref_path\" does not exist. Skipping."
                   fi
               done
-
-              # Cleanup temporary file if it exists
-              [ -f "$temp_file" ] && rm "$temp_file"
           }
 
           cd "$SCHEMA_DIR"

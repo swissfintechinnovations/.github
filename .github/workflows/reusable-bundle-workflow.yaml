@@ -43,11 +43,11 @@ jobs:
           resolve_refs() {
               local file_path="$1"
               local temp_file="${file_path}.tmp"
-
+              echo "func" ###
               if grep -q '\$ref: ./generic/' "$file_path"; then
                   echo "- $file_path"
               fi
-
+              echo "pre-yq: $file_path" ###
               # Process each $ref pointing to the generic folder in the file
               ./yq eval '.. | select(has("$ref")) | select(."$ref" == "./generic/*") | ."$ref"' "$file_path" | while read -r ref_path; do
                   echo "yq: $ref_path" ###

@@ -86,7 +86,7 @@ jobs:
         id: bundle
         run: |
           for file in $(ls ${{ inputs.filenames }}); do
-            redocly bundle "$file" --output "$(basename $file)" --remove-unused-components
+            redocly bundle "$file" --output "$(basename $file)"
           done
 
       - name: Commit und push changes

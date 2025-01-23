@@ -36,12 +36,6 @@ jobs:
         run: |
           ROOT_DIR="src/components/schemas"
 
-          # Ensure yq is installed
-          if ! command -v ./yq &> /dev/null; then
-              echo "Installing yq .."
-              wget --quiet https://github.com/mikefarah/yq/releases/download/v4.45.1/yq_linux_amd64 -O ./yq && chmod +x ./yq
-          fi
-
           # Function to inline $ref content
           resolve_refs() {
               local file_path="$1"
@@ -70,6 +64,14 @@ jobs:
               # Cleanup temporary file if it exists
               [ -f "$temp_file" ] && rm "$temp_file"
           }
+
+          cd "$SCHEMA_DIR"
+
+          # Ensure yq is installed
+          if ! command -v ./yq &> /dev/null; then
+              echo "Installing yq .."
+              wget --quiet https://github.com/mikefarah/yq/releases/download/v4.45.1/yq_linux_amd64 -O ./yq && chmod +x ./yq
+          fi
 
           # Process all YAML files in the root directory
           echo "Processing yaml files .."

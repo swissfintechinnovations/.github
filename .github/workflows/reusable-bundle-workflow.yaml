@@ -50,6 +50,7 @@ jobs:
 
               # Process each $ref pointing to the generic folder in the file
               ./yq eval '.. | select(has("$ref")) | select(."$ref" == "./generic/*") | ."$ref"' "$file_path" | while read -r ref_path; do
+                  echo "yq: $ref_path" ###
                   # Ensure the referenced file exists
                   if [ -f "$ref_path" ]; then
                       # Replace the $ref node with the content of the referenced file in a temp file
@@ -75,10 +76,11 @@ jobs:
               echo "Installing yq .."
               wget --quiet https://github.com/mikefarah/yq/releases/download/v4.45.1/yq_linux_amd64 -O ./yq && chmod +x ./yq
           fi
-
+          ls -al ###
           # Process all YAML files in the root directory
           echo "Processing yaml files .."
           find . -maxdepth 1 -name "*.yaml" | while read -r yaml_file; do
+              echo $yaml_file ###
               resolve_refs "$yaml_file"
           done
           echo "All references have been inlined."   

@@ -32,7 +32,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: swissfintechinnovations/.github
-          path: .github
+          path: github
+          ref: naming-conventions
   
       - name: Install Node js
         uses: actions/setup-node@v4
@@ -99,7 +100,7 @@ jobs:
           for file in $(ls ${{ inputs.filenames }}); do
             redocly bundle "$file" --output "$(basename $file)"
             # reorder root and components order according to OAS definitions
-            node ~/.github/.github/redocly/autoformat_spec.js "$(basename $file)"
+            node github/.github/redocly/autoformat_spec.js "$(basename $file)"
           done
 
       - name: Commit und push changes

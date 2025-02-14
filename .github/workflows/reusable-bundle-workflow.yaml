@@ -94,7 +94,7 @@ jobs:
       - name: Bundle & Autoformat API Spec 
         id: bundle
         run: |
-          tree github
+          tree -a github
           for file in $(ls ${{ inputs.filenames }}); do
             redocly bundle "$file" --output "$(basename $file)"
             # reorder root and components order according to OAS definitions

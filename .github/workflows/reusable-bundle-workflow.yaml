@@ -94,7 +94,7 @@ jobs:
         id: bundle
         run: |
           ls -al
-          tree ~
+          tree ~/work
           for file in $(ls ${{ inputs.filenames }}); do
             redocly bundle "$file" --output "$(basename $file)"
             # reorder root and components order according to OAS definitions

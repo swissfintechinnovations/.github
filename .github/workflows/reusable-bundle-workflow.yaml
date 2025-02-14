@@ -96,7 +96,7 @@ jobs:
           for file in $(ls ${{ inputs.filenames }}); do
             redocly bundle "$file" --output "$(basename $file)"
             # reorder root and components order according to OAS definitions
-            node .github/.github/redocly/autoformat_spec.js "$(basename $file)"
+            node ~/.github/.github/redocly/autoformat_spec.js "$(basename $file)"
           done
 
       - name: Commit und push changes

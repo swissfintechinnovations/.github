@@ -42,7 +42,7 @@ jobs:
 
       - name: Install redocly version ${{env.REDOCLY_VERSION}}
         run: |
-          npm install -g @redocly/cli@$REDOCLY_VERSION @redocly/openapi-core @redocly/config
+          npm install -g @redocly/cli@$REDOCLY_VERSION @redocly/openapi-core@$REDOCLY_VERSION @redocly/config
 
       - name: Preprocess API Spec # (Resolve nested schemas)
         run: |

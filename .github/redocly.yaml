@@ -3,7 +3,6 @@
 # comments show the default value in the recommended ruleset, if not specified the rule was turned off
 
 plugins:
-  - redocly/redocly_iso_rules.js
   - redocly/redocly_sfti_rules.js
 
 rules:
@@ -92,10 +91,37 @@ rules:
   tags-alphabetical: off
 
   # custom rules
-  # iso/request-body-keys: error
-  iso/data-types: error
+  rule/description:
+    severity: warn ##
+    message: 'Description must end with a full stop (except multiline listings).'
+    subject:
+      type: any
+      property: description
+    assertions:
+      pattern: /[\n.]$/ # start with > or | or end with .
 
-  #sfti/root-object-order: error
+  rule/summary:
+    severity: warn ##
+    message: 'Summary must not end with a full stop.'
+    subject:
+      type: any
+      property: summary
+    assertions:
+      pattern: /[^.]$/
+
+  sfti/data-types: error
+
+  sfti/root-object-order: 
+    severity: error
+    order:
+      - 'openapi'
+      - 'info'
+      - 'servers'
+      - 'externalDocs'
+      - 'tags'
+      - 'security'
+      - 'paths'
+      - 'components'
   sfti/openapi-version:
     severity: error
     versions:
@@ -103,17 +129,18 @@ rules:
       - '3.0.1'
       - '3.0.3'
       - '3.1.0'
-  sfti/info-content: error
+  sfti/info-content: warn ##
   sfti/external-docs: error
-  sfti/component-order: error
-  #sfti/parameter-name-order: error
-  sfti/parameter-object-order: error
-  # sfti/use-ref-when-used-multiple-times: warn
+  sfti/component-order: 
+    severity: warn ##
+    order:
+      - 'schemas'
+      - 'responses'
+      - 'parameters'
+      - 'headers'
+      - 'securitySchemes'
 
-  sfti/info-description: error
-  sfti/tag-description: error
-  sfti/parameter-description: error
-  sfti/schema-description: error
+  sfti/schema-pattern: warn ##
 
   sfti/path-parameter: error
   sfti/header-parameter: error

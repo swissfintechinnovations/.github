@@ -33,6 +33,7 @@ jobs:
         with:
           repository: swissfintechinnovations/.github
           path: github
+          ref: naming-conventions
   
       - name: Install Node js
         uses: actions/setup-node@v4
@@ -93,6 +94,7 @@ jobs:
       - name: Bundle & Autoformat API Spec 
         id: bundle
         run: |
+          tree github
           for file in $(ls ${{ inputs.filenames }}); do
             redocly bundle "$file" --output "$(basename $file)"
             # reorder root and components order according to OAS definitions

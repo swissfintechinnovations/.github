@@ -1,43 +1,43 @@
 name: Swagger Validator
 
 on:
-  workflow_call:
+    workflow_call:
 
 jobs:
-  gather-files:
-    runs-on: ubuntu-latest
-    outputs:
-      files: ${{ steps.files.outputs.FILES }}
+    gather-files:
+        runs-on: ubuntu-latest
+        outputs:
+            files: ${{ steps.files.outputs.FILES }}
 
-    steps:
-      - uses: actions/checkout@v4
+        steps:
+            - uses: actions/checkout@v4
 
-      - name: Read files
-        id: files
-        run: |
-          echo "FILES=$(ls *.yaml | jq -R -s -c 'split("\n")[:-1]')">> "$GITHUB_OUTPUT"
+            - name: Read files
+              id: files
+              run: |
+                  echo "FILES=$(ls *.yaml | jq -R -s -c 'split("\n")[:-1]')">> "$GITHUB_OUTPUT"
 
-  swagger-validate:
-    runs-on: ubuntu-latest
-    name: Swagger Editor Validator Remote
-    needs:
-      - gather-files
+    swagger-validate:
+        runs-on: ubuntu-latest
+        name: Swagger Editor Validator Remote
+        needs:
+            - gather-files
 
-    # services:
-    #   swagger-editor:
-    #     image: swaggerapi/swagger-editor:latest # Docker Hub image
-    #     ports:
-    #       - 80:8080
+        # services:
+        #   swagger-editor:
+        #     image: swaggerapi/swagger-editor:latest # Docker Hub image
+        #     ports:
+        #       - 80:8080
 
-    strategy:
-      matrix:
-        file: ${{ fromJSON(needs.gather-files.outputs.FILES) }}
+        strategy:
+            matrix:
+                file: ${{ fromJSON(needs.gather-files.outputs.FILES) }}
 
-    steps:
-      - uses: actions/checkout@v4
+        steps:
+            - uses: actions/checkout@v4
 
-      - name: Validate OpenAPI definition
-        uses: swaggerexpert/swagger-editor-validate@v1
-        with:
-          swagger-editor-url: https://editor.swagger.io/  # http://localhost:80/
-          definition-file: ${{ matrix.file }}
+            - name: Validate OpenAPI definition
+              uses: swaggerexpert/swagger-editor-validate@v1
+              with:
+                  swagger-editor-url: https://editor.swagger.io/ # http://localhost:80/
+                  definition-file: ${{ matrix.file }}

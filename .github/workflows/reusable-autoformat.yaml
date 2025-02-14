@@ -22,8 +22,7 @@ jobs:
               run: |
                   echo "Cannot bundle API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
 
-            - name: Checkout Repo
-              uses: actions/checkout@v4
+            - uses: actions/checkout@v4
               with:
                   token: ${{ secrets.SFTI_BOT_UNPRIV_TOKEN }}
                   ref: ${{ github.head_ref || github.ref }} # use head_ref for prs, use ref for manual trigger
@@ -32,16 +31,28 @@ jobs:
               uses: actions/checkout@v4
               with:
                   repository: swissfintechinnovations/.github
-                  path: github
+                  path: .github
 
-            - name: Install Node js
-              uses: actions/setup-node@v4
+            - uses: actions/setup-node@v4
               with:
                   node-version: latest
 
             - name: Install redocly version ${{env.REDOCLY_VERSION}}
               run: |
-                  npm install -g @redocly/cli@$REDOCLY_VERSION @redocly/openapi-core@$REDOCLY_VERSION @redocly/config
+                  npm install -g @redocly/cli@$REDOCLY_VERSION
+
+            - name: Autoformat Spec
+              run: |
+                  git config --global user.name "sfti bot"
+                  git config --global user.email "github-bot@common-api.ch"
+
+                  for file in $(ls ${{ inputs.filenames }}); do
+                    node .github/redocly/sorting/autoformat_template.js "$file"
+                  done
+
+
+                  git add .
+                  git diff --staged --quiet || git commit -m "Autoformat soruce files and API specification"
 
             - name: Preprocess API Spec # (Resolve nested schemas)
               run: |
@@ -90,20 +101,17 @@ jobs:
                   done
                   echo "All references have been inlined."
 
-            - name: Bundle & Autoformat API Spec
+            - name: Bundle API Spec & Reorder
               id: bundle
               run: |
                   for file in $(ls ${{ inputs.filenames }}); do
                     redocly bundle "$file" --output "$(basename $file)"
                     # reorder root and components order according to OAS definitions
-                    ## node github/.github/redocly/autoformat_spec.js "$(basename $file)"
+                    node .github/.github/redocly/autoformat_spec.js "$(basename $file)"
                   done
 
             - name: Commit und push changes
               run: |
-                  git config --global user.name "sfti bot"
-                  git config --global user.email "github-bot@common-api.ch"
-
                   git add $(ls *.yaml) # only add bundled spec files, don't touch changed files in src/ folder since changes are not persistent
                   git restore . # dismiss all changes which are not staged in the previous command
                   git diff --staged --quiet || git commit -m "Bundled API specs: $(git diff --name-only --cached | tr '\n' ' ')"

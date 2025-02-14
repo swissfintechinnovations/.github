@@ -1,7 +1,7 @@
 module.exports = tagDescription;
 
-const utils = require('../utils/utils')
+const utils = require("../utils/utils");
 
 function tagDescription() {
-  return { Tag : utils.checkDescription() }
+    return { Tag: utils.checkDescription() };
 }

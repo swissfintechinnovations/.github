@@ -1,7 +1,7 @@
 module.exports = infoDescription;
 
-const utils = require('../utils/utils')
+const utils = require("../utils/utils");
 
 function infoDescription() {
-  return { Info : utils.checkDescription() }
+    return { Info: utils.checkDescription() };
 }

@@ -33,17 +33,14 @@ jobs:
         with:
           repository: swissfintechinnovations/.github
           path: github
-          ref: naming-conventions
   
       - name: Install Node js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.19.1'
+          node-version: latest
 
       - name: Install redocly version ${{env.REDOCLY_VERSION}}
         run: |
-          export NVM_DIR=~/.nvm
-          source ~/.nvm/nvm.sh
           npm install -g @redocly/cli@$REDOCLY_VERSION @redocly/openapi-core@$REDOCLY_VERSION @redocly/config
 
       - name: Preprocess API Spec # (Resolve nested schemas)
@@ -99,7 +96,7 @@ jobs:
           for file in $(ls ${{ inputs.filenames }}); do
             redocly bundle "$file" --output "$(basename $file)"
             # reorder root and components order according to OAS definitions
-            node github/.github/redocly/autoformat_spec.js "$(basename $file)"
+            ## node github/.github/redocly/autoformat_spec.js "$(basename $file)"
           done
 
       - name: Commit und push changes

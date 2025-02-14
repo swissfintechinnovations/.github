@@ -22,7 +22,8 @@ jobs:
         run: |
           echo "Cannot bundle API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
 
-      - uses: actions/checkout@v4
+      - name: Checkout Repo
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.SFTI_BOT_UNPRIV_TOKEN }}
           ref: ${{ github.head_ref || github.ref }} # use head_ref for prs, use ref for manual trigger
@@ -33,7 +34,8 @@ jobs:
           repository: swissfintechinnovations/.github
           path: .github
   
-      - uses: actions/setup-node@v4
+      - name: Install Node js
+        uses: actions/setup-node@v4
         with:
           node-version: latest
 

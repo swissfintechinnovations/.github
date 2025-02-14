@@ -42,6 +42,8 @@ jobs:
 
       - name: Install redocly version ${{env.REDOCLY_VERSION}}
         run: |
+          export NVM_DIR=~/.nvm
+          source ~/.nvm/nvm.sh
           npm install -g @redocly/cli@$REDOCLY_VERSION @redocly/openapi-core@$REDOCLY_VERSION @redocly/config
 
       - name: Preprocess API Spec # (Resolve nested schemas)

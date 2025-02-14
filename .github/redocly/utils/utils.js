@@ -1,4 +1,4 @@
-module.exports = { checkCasing, checkDescription, get_common_prev_elem }
+module.exports = { checkCasing, checkDescription, checkSummary, get_common_prev_elem }
 
 function checkCasing(str, caseName) {
   const casingRegexes = {
@@ -36,6 +36,19 @@ function checkDescription(options) {
         report({
           message: `Description must end with a full stop (Exception multiline listings).`,
           location: location.child(['description']).key(),
+        });
+      }
+    }
+  };
+}
+
+function checkSummary(options) {
+  return {
+    enter(operation, { report, location, type }) {
+      if (operation.summary && operation.summary.endsWith(".")) {
+        report({
+          message: `Summary must not end with a full stop.`,
+          location: location.child(['summary']).key(),
         });
       }
     }

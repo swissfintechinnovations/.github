@@ -6,7 +6,11 @@ function checkObjectOrder(options) {
   return {
     Root: {
       enter(operation, { report, location, type }) {
-        const sftiOpenapiSpecRef = ['openapi', 'info', 'servers', 'externalDocs', 'tags', 'security', 'paths', 'components']
+        let sftiOpenapiSpecRef = ['openapi', 'info', 'servers', 'externalDocs', 'tags', 'security', 'paths', 'components']
+        if (options.order) {
+          sftiOpenapiSpecRef = options.order;
+        }
+
         const keys = Object.keys(operation)
         const missingKeys = sftiOpenapiSpecRef.filter(key => !keys.includes(key))
         // report missing elements

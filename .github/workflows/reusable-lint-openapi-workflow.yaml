@@ -46,7 +46,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: swissfintechinnovations/.github
-          path: .github
+          path: github
+          ref: naming-conventions
+
 
       - uses: actions/setup-node@v4
         with:
@@ -62,16 +64,16 @@ jobs:
           echo ""
           echo "---------------------------: Summary :----------------------------"
           export NODE_NO_WARNINGS=1
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml --format=summary ${{ inputs.filenames }}
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=github/.github/redocly.yaml --format=summary ${{ inputs.filenames }}
 
       - name: Lint SFTI Specifications
         if: always()
         run: |
           export NODE_NO_WARNINGS=1
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml --format=stylish ${{ inputs.filenames }}
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=github/.github/redocly.yaml --format=stylish ${{ inputs.filenames }}
 
       - name: Lint SFTI Specifications (detailed)
         if: always()
         run: |
           export NODE_NO_WARNINGS=1
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=.github/.github/redocly.yaml ${{ inputs.filenames }}
+          npx @redocly/cli@$REDOCLY_VERSION lint --config=github/.github/redocly.yaml ${{ inputs.filenames }}

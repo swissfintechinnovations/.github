@@ -10,7 +10,7 @@ on:
           description: 'Files to be bundled. (default: src/*.yaml, list of files sperated by whitespace)'
 
 env:
-  REDOCLY_VERSION: '1.25.11'
+  REDOCLY_VERSION: '1.27.2'
 
 jobs:
   bundle-specs:
@@ -22,18 +22,26 @@ jobs:
         run: |
           echo "Cannot bundle API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
 
-      - uses: actions/checkout@v4
+      - name: Checkout Repo
+        uses: actions/checkout@v4
         with:
           token: ${{ secrets.SFTI_BOT_UNPRIV_TOKEN }}
           ref: ${{ github.head_ref || github.ref }} # use head_ref for prs, use ref for manual trigger
+
+      - name: Checkout Config Repo
+        uses: actions/checkout@v4
+        with:
+          repository: swissfintechinnovations/.github
+          path: github
   
-      - uses: actions/setup-node@v4
+      - name: Install Node js
+        uses: actions/setup-node@v4
         with:
           node-version: latest
 
       - name: Install redocly version ${{env.REDOCLY_VERSION}}
         run: |
-          npm install -g @redocly/cli@$REDOCLY_VERSION
+          npm install -g @redocly/cli@$REDOCLY_VERSION @redocly/openapi-core@$REDOCLY_VERSION @redocly/config
 
       - name: Preprocess API Spec # (Resolve nested schemas)
         run: |
@@ -82,11 +90,13 @@ jobs:
           done
           echo "All references have been inlined."   
 
-      - name: Bundle API Spec
+      - name: Bundle & Autoformat API Spec 
         id: bundle
         run: |
           for file in $(ls ${{ inputs.filenames }}); do
             redocly bundle "$file" --output "$(basename $file)"
+            # reorder root and components order according to OAS definitions
+            ## node github/.github/redocly/autoformat_spec.js "$(basename $file)"
           done
 
       - name: Commit und push changes

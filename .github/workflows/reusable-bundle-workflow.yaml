@@ -42,7 +42,7 @@ jobs:
 
       - name: Install redocly version ${{env.REDOCLY_VERSION}}
         run: |
-          npm install -g @redocly/cli@$REDOCLY_VERSION @redocly/openapi-core@$REDOCLY_VERSION
+          npm install -g @redocly/cli@$REDOCLY_VERSION @redocly/openapi-core@$REDOCLY_VERSION @redocly/config@$REDOCLY_VERSION
 
       - name: Preprocess API Spec # (Resolve nested schemas)
         run: |
@@ -94,7 +94,6 @@ jobs:
       - name: Bundle & Autoformat API Spec 
         id: bundle
         run: |
-          tree -a github
           for file in $(ls ${{ inputs.filenames }}); do
             redocly bundle "$file" --output "$(basename $file)"
             # reorder root and components order according to OAS definitions

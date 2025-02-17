@@ -68,4 +68,4 @@ if (sort.required) {
 if (sort.properties) {
     sort.properties = reorder_properties(sort.properties, sort.required);
 }
-fs.writeFileSync(fileName, stringifyYaml(sort));
+fs.writeFileSync(fileName, stringifyYaml(sort, {'lineWidth': -1}));

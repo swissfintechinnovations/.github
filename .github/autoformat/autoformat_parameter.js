@@ -24,4 +24,4 @@ if (!fileName) {
 const content = fs.readFileSync(fileName, "utf8");
 let sort = parseYaml(content);
 sort = reorder_parameter(sort);
-fs.writeFileSync(fileName, stringifyYaml(sort));
+fs.writeFileSync(fileName, stringifyYaml(sort, {'lineWidth': -1}));

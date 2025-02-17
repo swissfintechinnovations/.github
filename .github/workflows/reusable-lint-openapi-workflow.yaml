@@ -47,7 +47,6 @@ jobs:
               with:
                   repository: swissfintechinnovations/.github
                   path: github
-                  ref: naming-conventions
 
             - uses: actions/setup-node@v4
               with:

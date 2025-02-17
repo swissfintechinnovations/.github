@@ -4,20 +4,20 @@ const fs = require("fs");
 const { parseYaml, stringifyYaml } = require("@redocly/openapi-core");
 
 const reorder_root = (root) => {
-  const { openapi, info, jsonSchemaDialect, servers, paths, webhooks, components, security, tags, externalDocs, ...rest } = root;
-  return {
+    const { openapi, info, jsonSchemaDialect, servers, paths, webhooks, components, security, tags, externalDocs, ...rest } = root;
+    return {
         // define root object order
-        openapi, 
-        info, 
+        openapi,
+        info,
         servers,
-        externalDocs, 
-        jsonSchemaDialect, 
-        security, 
-        tags, 
-        paths, 
-        webhooks, 
+        externalDocs,
+        jsonSchemaDialect,
+        security,
+        tags,
+        paths,
+        webhooks,
         components,
-        ...rest, 
+        ...rest,
     };
 };
 
@@ -41,11 +41,11 @@ const reorder_components = (components) => {
 
 const fileName = process.argv[2];
 if (!fileName) {
-  console.error("Usage: node " + process.argv[1] + " <fileName>");
-  process.exit(1);
+    console.error("Usage: node " + process.argv[1] + " <fileName>");
+    process.exit(1);
 }
 const content = fs.readFileSync(fileName, "utf8");
 let reordered = parseYaml(content);
 reordered = reorder_root(reordered);
-reordered.components = reorder_components((reordered.components));
-fs.writeFileSync(fileName, stringifyYaml(reordered));
+reordered.components = reorder_components(reordered.components);
+fs.writeFileSync(fileName, stringifyYaml(reordered, {'lineWidth': 150}));

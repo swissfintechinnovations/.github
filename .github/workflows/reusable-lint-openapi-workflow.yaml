@@ -1,79 +1,77 @@
 name: OpenAPI lint workflow
 # description: Check specifications for SFTI's openapi rules.
 on:
-  workflow_call:
-    inputs:
-      filenames:
-        type: string
-        default: '*.yaml'
-        description: 'Files to be linted. (default: *.yaml, list of files sperated by whitespace)'
+    workflow_call:
+        inputs:
+            filenames:
+                type: string
+                default: "*.yaml"
+                description: "Files to be linted. (default: *.yaml, list of files sperated by whitespace)"
 
 env:
-  REDOCLY_VERSION: '1.10.3'
+    REDOCLY_VERSION: "1.10.3"
 
 jobs:
-  check:
-    runs-on: ubuntu-latest
-    outputs:
-      LINT: ${{ steps.check.outputs.LINT }}
-    steps:
-      - name: Checkout Lint Repo
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }} # checkout last commit of PR instead of merge commit
+    check:
+        runs-on: ubuntu-latest
+        outputs:
+            LINT: ${{ steps.check.outputs.LINT }}
+        steps:
+            - name: Checkout Lint Repo
+              uses: actions/checkout@v4
+              with:
+                  ref: ${{ github.event.pull_request.head.sha }} # checkout last commit of PR instead of merge commit
 
-      - name: get commit message
-        id: check
-        run: |
-          COMMIT_MESSAGE=$(git log -1 --pretty=%B | tr -d '\n')
-          if [[ $COMMIT_MESSAGE = *'[skip-workflow]'* ]]; then
-            lint=false
-          else
-            lint=true
-          fi
-          echo "LINT=$lint" >> $GITHUB_OUTPUT
+            - name: get commit message
+              id: check
+              run: |
+                  COMMIT_MESSAGE=$(git log -1 --pretty=%B | tr -d '\n')
+                  if [[ $COMMIT_MESSAGE = *'[skip-workflow]'* ]]; then
+                    lint=false
+                  else
+                    lint=true
+                  fi
+                  echo "LINT=$lint" >> $GITHUB_OUTPUT
 
-  lint-openapi:
-    runs-on: ubuntu-latest
-    needs: check
-    if: needs.check.outputs.LINT
+    lint-openapi:
+        runs-on: ubuntu-latest
+        needs: check
+        if: needs.check.outputs.LINT
 
-    steps:
-      - name: Checkout Lint Repo
-        uses: actions/checkout@v4
+        steps:
+            - name: Checkout Lint Repo
+              uses: actions/checkout@v4
 
-      - name: Checkout Config Repo
-        uses: actions/checkout@v4
-        with:
-          repository: swissfintechinnovations/.github
-          path: github
-          ref: naming-conventions
+            - name: Checkout Config Repo
+              uses: actions/checkout@v4
+              with:
+                  repository: swissfintechinnovations/.github
+                  path: github
 
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: latest
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: latest
+            - name: Install redocly version ${{env.REDOCLY_VERSION}}
+              run: |
+                  npm install -g @redocly/cli@$REDOCLY_VERSION
 
-      - name: Install redocly version ${{env.REDOCLY_VERSION}}
-        run: |
-          npm install -g @redocly/cli@$REDOCLY_VERSION
+            - name: Lint SFTI Specifications report overview
+              if: always()
+              run: |
+                  echo ""
+                  echo "---------------------------: Summary :----------------------------"
+                  export NODE_NO_WARNINGS=1
+                  npx @redocly/cli@$REDOCLY_VERSION lint --config=github/.github/redocly.yaml --format=summary ${{ inputs.filenames }}
 
-      - name: Lint SFTI Specifications report overview
-        if: always()
-        run: |
-          echo ""
-          echo "---------------------------: Summary :----------------------------"
-          export NODE_NO_WARNINGS=1
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=github/.github/redocly.yaml --format=summary ${{ inputs.filenames }}
+            - name: Lint SFTI Specifications
+              if: always()
+              run: |
+                  export NODE_NO_WARNINGS=1
+                  npx @redocly/cli@$REDOCLY_VERSION lint --config=github/.github/redocly.yaml --format=stylish ${{ inputs.filenames }}
 
-      - name: Lint SFTI Specifications
-        if: always()
-        run: |
-          export NODE_NO_WARNINGS=1
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=github/.github/redocly.yaml --format=stylish ${{ inputs.filenames }}
-
-      - name: Lint SFTI Specifications (detailed)
-        if: always()
-        run: |
-          export NODE_NO_WARNINGS=1
-          npx @redocly/cli@$REDOCLY_VERSION lint --config=github/.github/redocly.yaml ${{ inputs.filenames }}
+            - name: Lint SFTI Specifications (detailed)
+              if: always()
+              run: |
+                  export NODE_NO_WARNINGS=1
+                  npx @redocly/cli@$REDOCLY_VERSION lint --config=github/.github/redocly.yaml ${{ inputs.filenames }}

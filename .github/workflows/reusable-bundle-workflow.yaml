@@ -2,110 +2,110 @@ name: Bundle workflow
 # description: Bundle yaml file to OpenAPI Specification.
 
 on:
-  workflow_call:
-    inputs:
-        filenames:
-          type: string
-          default: 'src/*.yaml'
-          description: 'Files to be bundled. (default: src/*.yaml, list of files sperated by whitespace)'
+    workflow_call:
+        inputs:
+            filenames:
+                type: string
+                default: "src/*.yaml"
+                description: "Files to be bundled. (default: src/*.yaml, list of files sperated by whitespace)"
 
 env:
-  REDOCLY_VERSION: '1.27.2'
+    REDOCLY_VERSION: "1.27.2"
 
 jobs:
-  bundle-specs:
-    runs-on: ubuntu-latest
-    if: ${{ github.actor != 'sfti-bot' }}
-    steps:
-      - name: Check protected branch
-        if: ${{ github.ref_protected == true }}
-        run: |
-          echo "Cannot bundle API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
+    bundle-specs:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor != 'sfti-bot' }}
+        steps:
+            - name: Check protected branch
+              if: ${{ github.ref_protected == true }}
+              run: |
+                  echo "Cannot bundle API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
 
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.SFTI_BOT_UNPRIV_TOKEN }}
-          ref: ${{ github.head_ref || github.ref }} # use head_ref for prs, use ref for manual trigger
+            - name: Checkout Repo
+              uses: actions/checkout@v4
+              with:
+                  token: ${{ secrets.SFTI_BOT_UNPRIV_TOKEN }}
+                  ref: ${{ github.head_ref || github.ref }} # use head_ref for prs, use ref for manual trigger
 
-      - name: Checkout Config Repo
-        uses: actions/checkout@v4
-        with:
-          repository: swissfintechinnovations/.github
-          path: github
-  
-      - name: Install Node js
-        uses: actions/setup-node@v4
-        with:
-          node-version: latest
+            - name: Checkout Config Repo
+              uses: actions/checkout@v4
+              with:
+                  repository: swissfintechinnovations/.github
+                  path: github
 
-      - name: Install redocly version ${{env.REDOCLY_VERSION}}
-        run: |
-          npm install -g @redocly/cli@$REDOCLY_VERSION
-          npm install --save-dev @redocly/openapi-core@$REDOCLY_VERSION
+            - name: Install Node js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: latest
 
-      - name: Preprocess API Spec # (Resolve nested schemas)
-        run: |
-          SCHEMA_DIR="src/components/schemas"
+            - name: Install redocly version ${{env.REDOCLY_VERSION}}
+              run: |
+                  npm install -g @redocly/cli@$REDOCLY_VERSION
+                  npm install --save-dev @redocly/openapi-core@$REDOCLY_VERSION
 
-          # Function to inline $ref content
-          resolve_refs() {
-              local file_path="$1"
-              local temp_file="${file_path}.tmp"
+            - name: Preprocess API Spec # (Resolve nested schemas)
+              run: |
+                  SCHEMA_DIR="src/components/schemas"
 
-              if grep -q '\$ref: ./generic/' "$file_path"; then
-                  echo "- $file_path"
-              else
-                return 0
-              fi
+                  # Function to inline $ref content
+                  resolve_refs() {
+                      local file_path="$1"
+                      local temp_file="${file_path}.tmp"
 
-              # Process each $ref pointing to the generic folder in the file
-              ./yq eval '.. | select(has("$ref")) | select(."$ref" == "./generic/*") | ."$ref"' "$file_path" | while read -r ref_path; do
-                  # Ensure the referenced file exists
-                  if [ -f "$ref_path" ]; then
-                      # Replace the $ref node with the content of the referenced file in a temp file
-                      ./yq eval "(.. | select(has(\"\$ref\")) | select(.\"\$ref\" == \"$ref_path\")) |= load(.\"\$ref\")" "$file_path" > "$temp_file"
-                      # remove loaded $ref line in original file
-                      ./yq eval "del(.. | select(has(\"\$ref\")) | select(.\"\$ref\" == \"$ref_path\") | .\"\$ref\")" -i "$file_path"
-                      # merge files back
-                      ./yq eval --prettyPrint ". *= load(\"$file_path\")" -i "$temp_file"
-                      mv "$temp_file" "$file_path"
-                  else
-                      echo "Warning: Referenced file \"$ref_path\" does not exist. Skipping."
+                      if grep -q '\$ref: ./generic/' "$file_path"; then
+                          echo "- $file_path"
+                      else
+                        return 0
+                      fi
+
+                      # Process each $ref pointing to the generic folder in the file
+                      ./yq eval '.. | select(has("$ref")) | select(."$ref" == "./generic/*") | ."$ref"' "$file_path" | while read -r ref_path; do
+                          # Ensure the referenced file exists
+                          if [ -f "$ref_path" ]; then
+                              # Replace the $ref node with the content of the referenced file in a temp file
+                              ./yq eval "(.. | select(has(\"\$ref\")) | select(.\"\$ref\" == \"$ref_path\")) |= load(.\"\$ref\")" "$file_path" > "$temp_file"
+                              # remove loaded $ref line in original file
+                              ./yq eval "del(.. | select(has(\"\$ref\")) | select(.\"\$ref\" == \"$ref_path\") | .\"\$ref\")" -i "$file_path"
+                              # merge files back
+                              ./yq eval --prettyPrint ". *= load(\"$file_path\")" -i "$temp_file"
+                              mv "$temp_file" "$file_path"
+                          else
+                              echo "Warning: Referenced file \"$ref_path\" does not exist. Skipping."
+                          fi
+                      done
+                  }
+
+                  cd "$SCHEMA_DIR"
+
+                  # Ensure yq is installed
+                  if ! command -v ./yq &> /dev/null; then
+                      echo "Installing yq .."
+                      wget --quiet https://github.com/mikefarah/yq/releases/download/v4.45.1/yq_linux_amd64 -O ./yq && chmod +x ./yq
                   fi
-              done
-          }
 
-          cd "$SCHEMA_DIR"
+                  # Process all YAML files in the root directory
+                  echo "Processing yaml files .."
+                  find . -maxdepth 1 -name "*.yaml" | while read -r yaml_file; do
+                      resolve_refs "$yaml_file"
+                  done
+                  echo "All references have been inlined."
 
-          # Ensure yq is installed
-          if ! command -v ./yq &> /dev/null; then
-              echo "Installing yq .."
-              wget --quiet https://github.com/mikefarah/yq/releases/download/v4.45.1/yq_linux_amd64 -O ./yq && chmod +x ./yq
-          fi
+            - name: Bundle & Autoformat API Spec
+              id: bundle
+              run: |
+                  for file in $(ls ${{ inputs.filenames }}); do
+                    redocly bundle "$file" --output "$(basename $file)"
+                    # reorder root and components order according to OAS definitions
+                    node github/.github/autoformat/autoformat_spec.js "$(basename $file)"
+                  done
 
-          # Process all YAML files in the root directory
-          echo "Processing yaml files .."
-          find . -maxdepth 1 -name "*.yaml" | while read -r yaml_file; do
-              resolve_refs "$yaml_file"
-          done
-          echo "All references have been inlined."   
+            - name: Commit und push changes
+              run: |
+                  git config --global user.name "sfti bot"
+                  git config --global user.email "github-bot@common-api.ch"
 
-      - name: Bundle & Autoformat API Spec 
-        id: bundle
-        run: |
-          for file in $(ls ${{ inputs.filenames }}); do
-            redocly bundle "$file" --output "$(basename $file)"
-            # reorder root and components order according to OAS definitions
-            node github/.github/redocly/autoformat_spec.js "$(basename $file)"
-          done
-
-      - name: Commit und push changes
-        run: |
-          git config --global user.name "sfti bot"
-          git config --global user.email "github-bot@common-api.ch"
-
-          git add $(ls *.yaml) # only add bundled spec files, don't touch changed files in src/ folder since changes are not persistent
-          git restore . # dismiss all changes which are not staged in the previous command
-          git diff --staged --quiet || git commit -m "Bundled API specs: $(git diff --name-only --cached | tr '\n' ' ')"
-          git push --quiet
+                  git add $(ls *.yaml) # only add bundled spec files, don't touch changed files in src/ folder since changes are not persistent
+                  git restore . # dismiss all changes which are not staged in the previous command
+                  git diff --staged --quiet || git commit -m "Bundled API specs: $(git diff --name-only --cached | tr '\n' ' ')"
+                  git push --quiet

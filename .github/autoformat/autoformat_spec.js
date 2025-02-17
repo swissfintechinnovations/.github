@@ -12,8 +12,8 @@ const reorder_root = (root) => {
         servers,
         externalDocs,
         jsonSchemaDialect,
-        security,
         tags,
+        security,
         paths,
         webhooks,
         components,
@@ -48,4 +48,5 @@ const content = fs.readFileSync(fileName, "utf8");
 let reordered = parseYaml(content);
 reordered = reorder_root(reordered);
 reordered.components = reorder_components(reordered.components);
+console.log(reordered)
 fs.writeFileSync(fileName, stringifyYaml(reordered, {'lineWidth': 150}));

@@ -1,0 +1,6 @@
+title: Merchant city
+description: City in which the merchant is located.
+type: string
+maxLength: 50
+examples:
+  - Zurich

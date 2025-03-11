@@ -1,0 +1,9 @@
+title: Token scheme
+description: Scheme for which the token is issued.
+type: string
+enum:
+  - mastercard
+  - visa
+  - americanexpress
+examples:
+  - mastercard

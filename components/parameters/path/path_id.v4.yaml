@@ -1,0 +1,7 @@
+# entry_id.ca-payment.yaml
+in: path
+name: entryId
+description: ID of the transaction entry.
+required: true
+schema:
+  type: string

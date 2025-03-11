@@ -1,0 +1,9 @@
+description: Preferred language of the cardholder for any communication.
+type: string
+enum:
+  - DE
+  - EN
+  - FR
+  - IT
+examples:
+  - DE

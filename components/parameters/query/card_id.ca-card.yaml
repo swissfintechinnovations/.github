@@ -1,0 +1,6 @@
+in: query
+name: query_id
+description: Query parameter which is used as id.
+required: false
+schema:
+  $ref: ../../schemas/CardId.yaml

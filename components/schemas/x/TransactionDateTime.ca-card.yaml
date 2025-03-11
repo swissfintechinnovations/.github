@@ -1,0 +1,3 @@
+title: Transaction date-time
+description: Date and time when transaction was authorized, always in CH timezone.
+$ref: ./generic/DateTime.yaml

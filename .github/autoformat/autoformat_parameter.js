@@ -1,4 +1,4 @@
-// usage: node format_schema.js <path_to_file>
+// usage: node autoformat_parameter.js <path_to_file>
 
 const fs = require("fs");
 const { parseYaml, stringifyYaml } = require("@redocly/openapi-core");

@@ -1,0 +1,7 @@
+name: Permission-ID
+in: header
+description: 'This contains the permission Id returned by the post permission, which was performed prior to any request.'
+required: true
+schema:
+  format: uuid,
+  type: string

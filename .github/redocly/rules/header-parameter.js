@@ -30,7 +30,7 @@ function checkHeaderParameter(options) {
     ParameterList: {
       enter(operation, { report, location, type }) {
         for (const op of operation) {
-          if(op.$ref === undefined && op.in === 'header') { // references are handeld within NamedParameters
+          if(op.$ref === undefined && op.in === 'header') {
             if(!utils.checkCasing(op.name, 'Train-Case')) {
               report({
                 message: `\`${op.name}\` must use Train-Case.`,

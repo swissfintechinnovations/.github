@@ -29,7 +29,7 @@ function checkQueryParameter(options) {
     ParameterList: {
       enter(operation, { report, location, type }) {
         for (const op of operation) {
-          if(op.$ref === undefined && op.in === 'query') { // references are handeld within NamedParameters
+          if(op.$ref === undefined && op.in === 'query') {
             if(!utils.checkCasing(op.name, 'snake_case')) {
               report({
                 message: `\`${op.name}\` must use snake_case.`,

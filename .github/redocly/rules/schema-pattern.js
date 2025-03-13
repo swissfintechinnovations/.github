@@ -9,7 +9,7 @@ function schemaPattern() {
           const parameterObject = operation[NamedSchema]
           if (parameterObject.pattern && !parameterObject.pattern.match(/^\^.*\$$/)) {
             report({
-              message: `Use start and end regex tokens to enforce extact match.`,
+              message: `Use start and end regex tokens to enforce exact match.`,
               location: location.child([NamedSchema, 'pattern']),
               suggest: ["^" + parameterObject.pattern + "$"],
             });
@@ -20,7 +20,7 @@ function schemaPattern() {
               const propertyObject = parameterObject.properties[prop]
               if (propertyObject.pattern && !propertyObject.pattern.match(/^\^.*\$$/)) {
                 report({
-                  message: `Use start and end regex tokens to enforce extact match.`,
+                  message: `Use start and end regex tokens to enforce exact match.`,
                   location: location.child([NamedSchema, 'properties', prop, 'pattern']),
                   suggest: ["^" + propertyObject.pattern + "$"],
                 });

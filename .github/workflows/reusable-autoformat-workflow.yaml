@@ -1,5 +1,4 @@
-name: Bundle workflow
-# description: Bundle yaml file to OpenAPI Specification.
+name: Autoformat workflow
 
 on:
     workflow_call:

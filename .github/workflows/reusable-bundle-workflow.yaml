@@ -98,6 +98,8 @@ jobs:
                     redocly bundle "$file" --output "$(basename $file)"
                     # reorder root and components order according to OAS definitions
                     node github/.github/autoformat/autoformat_spec.js "$(basename $file)"
+                    # fix yq newline bug, squeeze all consecutive new lines
+                    gawk 'BEGIN{RS="\0";ORS=""}{gsub(/\n\n/,"\n");print}' "$(basename $file)" > tmp && mv tmp "$(basename $file)"
                   done
 
             - name: Commit und push changes

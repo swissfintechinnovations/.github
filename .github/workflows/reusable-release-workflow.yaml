@@ -111,7 +111,7 @@ jobs:
 
                   git checkout -q origin/$BASE_BRANCH
                   release_version=${{ needs.variables.outputs.VERSION }}
-                  versions=$(grep -Eo 'version: [0-9]+\.[0-9]+\.[0-9]+' *.yaml | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
+                  versions=$(grep -Eo 'version: [0-9]+\.[0-9]+\.[0-9]+' *.yaml src/*.yaml | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
                   versions_outdated='false'
                   for version in $versions; do
                       if [[ $version != $release_version ]]; then
@@ -147,6 +147,7 @@ jobs:
                   git reset --hard origin/$BASE_BRANCH
 
                   sed -E -i "s/version: [0-9]+\.[0-9]+\.[0-9]+/version: $VERSION/" *.yaml
+                  sed -E -i "s/version: [0-9]+\.[0-9]+\.[0-9]+/version: $VERSION/" src/*.yaml
 
                   git add -u .
                   # commit only if there was changes in the yaml files

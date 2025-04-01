@@ -8,13 +8,35 @@ jobs:
   bundle-run-status:
     runs-on: ubuntu-latest
     outputs:
+      RUN_STATUS_WORKFLOW: ${{ steps.bundle-check.outputs.RUN_STATUS_WORKFLOW }}
       BUNDLE_WORKFLOW_CONCLUSION: ${{ steps.bundle-exit-status.outputs.CONCLUSION }}
       BUNDLE_WORKFLOW_START_TIME: ${{ steps.bundle-exit-status.outputs.START_TIME }}
       BUNDLE_WORKFLOW_LINK: ${{ steps.bundle-exit-status.outputs.LINK }}
     
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Check if API were bundled
+        id: bundle-check
+        run: |
+          commit_author=$(git log -1 --pretty=format:'%an')
+          commit_message=$(git log -1 --pretty=%B)
+
+          echo "Last commit author: $commit_author"
+          echo "Last commit message: $commit_message"
+
+          # Check if bundle action ran
+          if [[ "$commit_author" == "sfti-bot" && "$commit_message" == "Bundled API specs"* ]]; then
+              echo "RUN_STATUS_WORKFLOW='true'" >> $GITHUB_OUTPUT
+          else
+              echo "::warning::Bundle workflow did not run."
+              echo "RUN_STATUS_WORKFLOW='false'" >> $GITHUB_OUTPUT
+          fi
+
       - name: Get latest workflow run status
         id: bundle-exit-status
+        if: steps.bundle-check.outputs.RUN_STATUS_WORKFLOW == 'true'
         run: |
           WORKFLOW_ID=$(curl -s \
             -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
@@ -47,6 +69,7 @@ jobs:
           done
 
       - name: check-exit-status
+        if: steps.bundle-check.outputs.RUN_STATUS_WORKFLOW == 'true'
         run: |
           START_TIME="${{ steps.bundle-exit-status.outputs.BUNDLE_WORKFLOW_START_TIME }}"
           CURRENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")

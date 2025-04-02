@@ -92,7 +92,7 @@ rules:
 
   # custom rules
   rule/description:
-    severity: warn ##
+    severity: error
     message: 'Description must end with a full stop (except multiline listings).'
     subject:
       type: any
@@ -101,7 +101,7 @@ rules:
       pattern: /[\n.]$/ # start with > or | or end with .
 
   rule/summary:
-    severity: warn ##
+    severity: error
     message: 'Summary must not end with a full stop.'
     subject:
       type: any
@@ -129,10 +129,10 @@ rules:
       - '3.0.1'
       - '3.0.3'
       - '3.1.0'
-  sfti/info-content: warn ##
+  sfti/info-content: error
   sfti/external-docs: error
   sfti/component-order: 
-    severity: warn ##
+    severity: error
     order:
       - 'schemas'
       - 'responses'
@@ -140,7 +140,7 @@ rules:
       - 'headers'
       - 'securitySchemes'
 
-  sfti/schema-pattern: warn ##
+  sfti/schema-pattern: error
 
   sfti/path-parameter: error
   sfti/header-parameter: error

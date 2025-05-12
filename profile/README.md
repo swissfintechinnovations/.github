@@ -17,7 +17,7 @@
 This is the central location for all API standardization recommendations developed under the patronage of the [Common API](https://common-api.ch/index.php/en) initiative of Swiss Fintech Innovations ([SFTI](https://swissfintechinnovations.ch)).
 In addition to the API spec, each repository also contains a wiki with further information (business requirements, use cases, etc.).
 
-Basic information valid for all APIs is located in a dedicated [Github wiki](https://github.com/swissfintechinnovations/.github/wiki).
+Basic information valid for all APIs is located in a dedicated [Github wiki](https://github.com/swissfintechinnovations/.github/wiki). There you can also find an introduction to the Common API working group and what we do.
 
 More documentation underlying these APIs may be found on the [Confluence space](https://c-a-p-s.atlassian.net/wiki/spaces/PUB/overview) of the Common API Initiative. Please note that our goal is to consolidate all our work results on GitHub, so the Confluence content will decrease to zero over time.
 

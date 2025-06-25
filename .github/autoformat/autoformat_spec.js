@@ -59,4 +59,4 @@ const content = fs.readFileSync(fileName, "utf8");
 let reordered = parseYaml(content);
 reordered = reorder_root(reordered);
 reordered.components = reorder_components(reordered.components);
-fs.writeFileSync(fileName, stringifyYaml(reordered, {'lineWidth': 150}));
+fs.writeFileSync(fileName, stringifyYaml(reordered, {'lineWidth': 170}));

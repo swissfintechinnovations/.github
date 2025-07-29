@@ -41,6 +41,6 @@ if (!fileName) {
 }
 const content = fs.readFileSync(fileName, "utf8");
 let sort = parseYaml(content);
-sort.tags = sort_tags(sort.tags);
+// sort.tags = sort_tags(sort.tags); // don't sort tags automatically since the order of tags determines the order of endpoints displayed in swagger editor
 sort.paths = sort_methods(sort.paths);
 fs.writeFileSync(fileName, stringifyYaml(sort, {'lineWidth': -1}));

@@ -1,0 +1,42 @@
+name: Address (ISO 19160-1)
+parameter: schema
+description: International standard address format to provide the location of a building, apartment, or other structure or a plot of land.
+externalDocs:
+  description: ISO 19160-1
+  url: none
+# --
+schema:
+  description: Structured address object.
+  type: object
+  required:
+    - country
+    - postCode
+    - streetName
+    - townName
+  properties:
+    country:
+      type: string
+      pattern: ^[A-Z]{2}$
+      examples:
+        - CH
+      description: ISO 3166 country code.
+    postCode:
+      type: string
+      maxLength: 16
+      description: Zip code.
+      example: CH-2501
+    streetName:
+      type: string
+      maxLength: 70
+      example: Rue de la gare
+      description: Name of street.
+    townName:
+      type: string
+      maxLength: 35
+      example: Biel
+      description: Name of the town.
+    buildingNumber:
+      type: string
+      maxLength: 16
+      example: 24A
+      description: Number of building.

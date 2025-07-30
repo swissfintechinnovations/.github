@@ -1,0 +1,14 @@
+name: time (ISO 8601)
+parameter: schema
+description: Time format in 24h scheme.
+externalDocs:
+  description: Wikikpedia ISO 8601
+  url: https://en.wikipedia.org/wiki/ISO_8601
+# --
+schema:
+  description: Extended format date.
+  type: string
+  format: hh:mm:ss[.sss]
+  examples:
+    - 15:45:30
+    - 08:23:51.234

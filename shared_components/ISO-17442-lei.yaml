@@ -1,0 +1,15 @@
+name: Legal Entity Identifier (ISO 17442)
+parameter: schema
+description: The Legal Entity Identifier (LEI) is a unique global identifier for legal entities participating in financial transactions. The LEi contains of a LOU code, an entity identification and an 2-digit check sum.
+externalDocs:
+  description: Wikikpedia LEI
+  url: https://en.wikipedia.org/wiki/Legal_Entity_Identifier
+# --
+schema:
+  description: The Legal Entity Identifier (LEI). The LEI code is a twenty-digit alphanumeric company identifier that is established as an international standard for companies in the financial market. Each LEI code is assigned once and enables worldwide assignment to a specific company.
+  type: string
+  pattern: ^[A-Z0-9]{18}[0-9]{2}$
+  examples:
+    - 529900T8BM49AURSDO55
+    - 529900UVM8LC55IFAA52
+    - L3I9ZG2KFGXZ61BMYR72

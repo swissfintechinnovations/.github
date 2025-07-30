@@ -1,0 +1,13 @@
+name: date (ISO 8601)
+parameter: schema
+description: Date format.
+externalDocs:
+  description: Wikikpedia ISO 8601
+  url: https://en.wikipedia.org/wiki/ISO_8601
+# --
+schema:
+  description: Extended format date.
+  type: string
+  format: YYYY-MM-DD
+  examples:
+    - 2025-07-30

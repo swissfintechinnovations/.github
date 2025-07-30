@@ -1,0 +1,12 @@
+name: Location
+parameter: response header
+description: The HTTP Location response header indicates the URL to redirect a page to. It only provides a meaning when served with a 3XX redirection response or a 201 Created status response.
+externalDocs:
+  description: mdn web docs
+  url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Location
+# --
+schema:
+  description: Indicates the URL to redirect a page to.
+  type: string
+  examples:
+    - /single-payments/618d4ac6e8a64e3d9f26aa3d8c4f323e

@@ -1,0 +1,29 @@
+name: Address (ISO 19160-1)
+parameter: schema
+description: International standard address format to provide the location of a building, apartment, or other structure or a plot of land.
+externalDocs:
+  description: ISO 19160-1
+  url: none
+# --
+schema:
+  description: Unstructured address object.
+  type: object
+  required:
+    - addressLines
+  properties:
+    addressLines:
+      type: array
+      description: The address lines. Only four address lines allowed.
+      maxItems: 4
+      example:
+        - Robert Schneider SA
+        - Rue de la gare 24
+      items:
+        type: string
+        maxLength: 70
+    country:
+      type: string
+      pattern: ^[A-Z]{2}$
+      examples:
+        - CH
+      description: ISO 3166 country code.

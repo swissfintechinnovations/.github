@@ -1,0 +1,13 @@
+name: International Bank Account Number (ISO 13616)
+parameter: schema
+description: The International Bank Account Number (IBAN) is used to uniquely identify an account of a customer. The IBAN contains of a two-letter country code, a two-digit check sum and an national bban part.
+externalDocs:
+  description: Wikikpedia IBAN
+  url: https://en.wikipedia.org/wiki/International_Bank_Account_Number
+# --
+schema:
+  description: The International Bank Account Number (IBAN).
+  type: string
+  pattern: ^[A-Z]{2}[0-9]{2}[a-zA-Z0-9]{1,30}$
+  examples:
+    - CH5481230000001998736

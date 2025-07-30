@@ -1,0 +1,12 @@
+name: X-Next-Cursor
+parameter: response header
+description: Header used for cursor-based pagination. The X-Next-Cursor values represent a fixed point in an ordered set of results and is used to retrieve the next set of data.
+externalDocs:
+  description: SFTI standard
+  url: https://github.com/swissfintechinnovations/.github/wiki/Pagination
+# --
+schema:
+  description: An opaque string value, or an empty string if there are no more results. 
+  type: string
+  examples:
+    - cursorIDxyz

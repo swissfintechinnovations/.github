@@ -1,0 +1,13 @@
+name: duration (ISO 8601)
+parameter: schema
+description: Duration (time intervall) in ISO format.
+externalDocs:
+  description: Wikikpedia ISO 8601
+  url: https://en.wikipedia.org/wiki/ISO_8601
+# --
+schema:
+  description: Duration.
+  type: string
+  pattern: ^P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+(\\.\\d+)?S)?)?$
+  examples:
+    - P3Y6M4DT12H30M17S

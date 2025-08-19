@@ -1,5 +1,5 @@
-![SFTI_Banner](https://user-images.githubusercontent.com/116151702/232762217-ac254483-0d25-4234-857b-376ff8dbb1e7.png)
-![ca-logo](https://user-images.githubusercontent.com/116151702/236237651-3d61630e-1b16-4deb-9e61-c0a95451c84e.png)
+[![SFTI_Banner](https://user-images.githubusercontent.com/116151702/232762217-ac254483-0d25-4234-857b-376ff8dbb1e7.png)](https://swissfintechinnovations.ch/)
+[![ca-logo](https://user-images.githubusercontent.com/116151702/236237651-3d61630e-1b16-4deb-9e61-c0a95451c84e.png)](https://swissfintechinnovations.ch/projects/common-api/)
   
   
 ## Hi there
@@ -27,7 +27,12 @@ Currently, we are covering the following business areas.
   - Wealth (repo [ca-wealth](https://github.com/swissfintechinnovations/ca-wealth))
   - Card (repo [ca-card](https://github.com/swissfintechinnovations/ca-card))
   - Pension (repo [ca-pension](https://github.com/swissfintechinnovations/ca-pension))
-  - API Security and Consent Management (repo [ca-security](https://github.com/swissfintechinnovations/ca-security)) <img src="https://github.com/swissfintechinnovations/.github/assets/141315380/76d452ee-b2d3-4464-ab46-85dbd571e4bd" width="28">
+  - API Security and Consent Management (repo [ca-security](https://github.com/swissfintechinnovations/ca-security))
+
+Furthermore, there are also general repositories that support all business areas.
+  - cross-sectional topics (repo [ca-shared](https://github.com/swissfintechinnovations/ca-shared))
+  - organisation maintenance and infrstructure (repo [.github](https://github.com/swissfintechinnovations/.github))
+
 
 Note: SFTI's standardization recommendations for APIs can be implemented individually at each interested FI. At least for some APIs, the leading implementation is currently realized in coordination with the Open Banking platform [bLink](https://blink.six-group.com/) of SIX. In the repos of the affected APIs, this is explicitly stated.
 
@@ -35,7 +40,7 @@ Note: SFTI's standardization recommendations for APIs can be implemented individ
 
 To understand how SFTI and its Common API working group is embedded in the Swiss Financial center, please consult the following illustration:
 
-![BigPicture](https://github.com/user-attachments/assets/29ef12a9-2e98-4867-8e4f-b4782e12d1dc)
+[![BigPicture](https://github.com/user-attachments/assets/29ef12a9-2e98-4867-8e4f-b4782e12d1dc)](https://www.swissbanking.ch/de/themen/digitalisierung-innovation-cyber-security/open-banking)
 
 Source [swissbanking](https://www.swissbanking.ch/de/themen/digitalisierung-innovation-cyber-security/open-banking)
 

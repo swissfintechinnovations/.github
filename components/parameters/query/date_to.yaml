@@ -1,5 +1,0 @@
-in: query
-name: date_to
-description: The end date for the query. Must be later than or equal to the date_from parameter.
-schema:
-  $ref: ../../schemas/generic/Date.yaml

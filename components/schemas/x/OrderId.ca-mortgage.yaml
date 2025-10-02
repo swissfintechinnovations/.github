@@ -1,3 +1,0 @@
-title: Order id
-description: Uuid v4 of the order defined by FI.
-$ref: ./generic/Id.yaml

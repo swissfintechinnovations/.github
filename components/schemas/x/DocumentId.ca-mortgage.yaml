@@ -1,3 +1,0 @@
-title: Document id
-description: Unique ID (uuid v4) of the document.
-$ref: ./generic/Id.yaml

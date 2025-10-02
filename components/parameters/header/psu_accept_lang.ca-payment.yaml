@@ -1,6 +1,0 @@
-in: header
-name: X-PSU-Accept-Lang
-description: 'Language of client software (SCOPE: FI - optional).'
-required: false
-schema:
-  type: string

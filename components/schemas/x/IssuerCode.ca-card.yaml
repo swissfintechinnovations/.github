@@ -1,6 +1,0 @@
-title: Issuer code
-description: Identifier for the legal issuer of a card; responsible towards the schemes for keeping the rules.
-type: string
-maxLength: 50
-examples:
-  - '123456789'

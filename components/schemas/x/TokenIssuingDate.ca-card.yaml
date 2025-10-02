@@ -1,3 +1,0 @@
-title: Token issuing date
-description: Date when the token was issued.
-$ref: ./generic/Date.yaml

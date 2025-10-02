@@ -4,10 +4,12 @@ description: Describes the human language(s) intended for the audience, so that 
 externalDocs:
   description: mdn web docs
   url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Language
+changelog:
+  - v1.0: initial version
 # --
 schema:
   description: Describes the human language(s) intended for the audience, so that it allows a user to differentiate according to the users' own preferred language.
-  x-shared-component: .github/shared_components/Content-Language.yaml
+  x-shared-component: .github/shared_components/Content-Language.yaml/v1.0
   type: string
   examples:
     - en

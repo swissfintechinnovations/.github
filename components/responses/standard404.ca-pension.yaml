@@ -1,5 +1,0 @@
-description: Invalid ID / no authorization to access data.
-content:
-  application/problem+json:
-    schema:
-      $ref: ../schemas/CommonErrorResponse.yaml

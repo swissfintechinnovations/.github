@@ -1,7 +1,0 @@
-name: X-Instance-ID
-in: header
-description: '(Deprecated) Identifies an on-prem application instance which uses a legacy on-prem certificate in the mTLS connection. Do not use the header otherwise. (SCOPE: SIX_CAAS - optional, SIX_CAAS_INTERNAL - optional).'
-required: false
-schema:
-  type: string
-  maxLength: 64

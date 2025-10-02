@@ -1,6 +1,0 @@
-description: Currency in ISO code format.
-type: string
-pattern: ^[A-Z]{3}$
-examples:
-  - CHF
-  - EUR

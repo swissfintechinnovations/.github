@@ -1,3 +1,0 @@
-title: Exchange rate date
-description: Date which was used to determine the exchange rate, usually the valutaDate.
-$ref: ./generic/Date.yaml

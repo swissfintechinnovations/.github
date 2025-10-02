@@ -1,3 +1,0 @@
-title: Offer id
-description: Uuid v4 of the specific order.
-$ref: ./generic/Id.yaml

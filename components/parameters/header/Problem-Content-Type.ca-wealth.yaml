@@ -1,4 +1,0 @@
-description: application/problem+json; charset=utf-8 according to RFC7807.
-schema:
-  type: string
-  example: application/problem+json

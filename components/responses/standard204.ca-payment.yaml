@@ -1,4 +1,0 @@
-headers:
-  X-Correlation-ID:
-    $ref: ../headers/X-Correlation-ID.yaml
-description: No content - The server has successfully fulfilled the request. There is no content to return and never will be.

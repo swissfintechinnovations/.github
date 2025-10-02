@@ -1,3 +1,0 @@
-title: Application id
-description: The application identifier (UUID v4) defined by FI.
-$ref: ./generic/Id.yaml

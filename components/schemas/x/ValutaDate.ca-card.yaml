@@ -1,3 +1,0 @@
-title: Valuta date
-description: Date when the transaction becomes effective on the card account for calculating interest.
-$ref: ./generic/Date.yaml

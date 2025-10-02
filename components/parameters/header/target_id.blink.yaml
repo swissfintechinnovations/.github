@@ -1,6 +1,0 @@
-in: header
-name: X-CorAPI-Target-ID
-description: 'ID that identifies the provider (e.g., a financial institution). (SCOPE: SIX required)'
-required: true
-schema:
-  type: string

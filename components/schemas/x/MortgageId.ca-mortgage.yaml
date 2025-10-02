@@ -1,3 +1,0 @@
-title: Mortgage id
-description: Uuid v4 of the mortgage.
-$ref: ./generic/Id.yaml

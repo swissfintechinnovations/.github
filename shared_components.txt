@@ -2,7 +2,6 @@
 
 - ISO 20022 (Financial Services)
 
-
 - ISO 3166-1 alpha-2 (Country Code)
 - ISO 639-1 alpha-2 (Sprach Codes)
 - ISO 8601 (Zeit und Datum)

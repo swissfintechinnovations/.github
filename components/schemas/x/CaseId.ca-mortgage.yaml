@@ -1,3 +1,0 @@
-title: Case id
-description: Uuid v4 of the mortgage case.
-$ref: ./generic/Id.yaml

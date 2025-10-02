@@ -1,3 +1,0 @@
-title: Expiry date
-description: Last day when the card is valid and can be used for payments.
-$ref: ./generic/Date.yaml

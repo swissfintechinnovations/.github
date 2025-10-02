@@ -1,3 +1,0 @@
-schema:
-  $ref: ../schemas/generic/Correlation.yaml
-description: Client defined ID from request to correlates HTTP requests between a client and server.

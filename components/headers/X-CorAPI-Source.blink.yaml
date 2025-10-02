@@ -1,7 +1,0 @@
-description: |
-  Indicates whether the response was created by the bLink platform or by the provider.
-schema:
-  type: string
-  enum:
-    - PLATFORM
-    - PROVIDER

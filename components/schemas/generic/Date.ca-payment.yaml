@@ -1,5 +1,0 @@
-title: Shared date
-description: A date.
-type: string
-format: date
-example: '2018-04-13'

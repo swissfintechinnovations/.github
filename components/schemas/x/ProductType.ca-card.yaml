@@ -1,9 +1,0 @@
-title: Product type
-description: Type of the card product.
-type: string
-enum:
-  - credit
-  - debit
-  - prepaid
-examples:
-  - credit

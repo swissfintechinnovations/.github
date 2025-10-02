@@ -1,5 +1,0 @@
-description: Common date format.
-type: string
-format: date
-examples:
-  - '2018-04-13'

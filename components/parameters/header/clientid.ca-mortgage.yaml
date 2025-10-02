@@ -1,6 +1,0 @@
-in: header
-name: X-CorAPI-Client-ID
-description: ID of the client forwarded to the provider.
-required: true
-schema:
-  type: string

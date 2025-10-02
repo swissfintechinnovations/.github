@@ -1,3 +1,0 @@
-description: Location (submissionId) of the submitted message. Add /status for the status report.
-schema:
-  type: string

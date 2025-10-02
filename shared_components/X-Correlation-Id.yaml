@@ -6,6 +6,7 @@ externalDocs:
 # --
 schema:
   description: Client defined ID from request to correlates HTTP requests between a client and server.
+  x-shared-component: .github/shared_components/X-Correlation-Id.yaml
   type: string
   format: uuid
   pattern: ^[a-zA-Z0-9-#_{}]{5,64}$

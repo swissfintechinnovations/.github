@@ -7,6 +7,7 @@ externalDocs:
 # --
 schema:
   description: Structured address object.
+  x-shared-component: .github/shared_components/ISO-19160-structured-address.yaml
   type: object
   required:
     - country

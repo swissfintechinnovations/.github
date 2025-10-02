@@ -7,6 +7,7 @@ externalDocs:
 # --
 schema:
   description: Two-letter country code to reference countries.
+  x-shared-component: .github/shared_components/ISO-3166-country.yaml
   type: string
   pattern: ^[A-Z]{2}$
   enum:

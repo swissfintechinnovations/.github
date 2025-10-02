@@ -7,6 +7,7 @@ externalDocs:
 # --
 schema:
   description: Preferred language for response or response objects.
+  x-shared-component: .github/shared_components/ISO-639-language.yaml
   type: string
   pattern: ^[a-z]{2}$
   enum:

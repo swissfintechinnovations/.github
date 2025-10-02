@@ -7,6 +7,7 @@ externalDocs:
 # --
 schema:
   description: Duration.
+  x-shared-component: .github/shared_components/ISO-8601-duration.yaml
   type: string
   pattern: ^P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+(\\.\\d+)?S)?)?$
   examples:

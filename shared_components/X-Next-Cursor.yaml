@@ -7,6 +7,7 @@ externalDocs:
 # --
 schema:
   description: An opaque string value, or an empty string if there are no more results. 
+  x-shared-component: .github/shared_components/X-Next-Cursor.yaml
   type: string
   examples:
     - cursorIDxyz

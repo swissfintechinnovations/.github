@@ -7,6 +7,7 @@ externalDocs:
 # --
 schema:
   description: Currency alpha code.
+  x-shared-component: .github/shared_components/ISO-4217-currency.yaml
   type: string
   pattern: ^[A-Z]{3}$
   examples:

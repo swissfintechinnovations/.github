@@ -7,6 +7,7 @@ externalDocs:
 # --
 schema:
   description: Describes the human language(s) intended for the audience, so that it allows a user to differentiate according to the users' own preferred language.
+  x-shared-component: .github/shared_components/Content-Language.yaml
   type: string
   examples:
     - en

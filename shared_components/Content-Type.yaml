@@ -7,6 +7,7 @@ externalDocs:
 # --
 schema:
   description: Indicates the media type of the resource.
+  x-shared-component: .github/shared_components/Content-Type.yaml
   type: string
   examples:
     - application/json

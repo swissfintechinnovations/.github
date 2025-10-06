@@ -4,10 +4,12 @@ description: Country codes according to ISO 3166-1 alpha-2.
 externalDocs:
   description: List of ISO 3166-1 alpha-2 country codes
   url: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+changelog:
+  - v1.0: initial version
 # --
 schema:
   description: Two-letter country code to reference countries.
-  x-shared-component: .github/shared_components/ISO-3166-country.yaml
+  x-shared-component: .github/shared_components/ISO-3166-country.yaml/v1.0
   type: string
   pattern: ^[A-Z]{2}$
   enum:

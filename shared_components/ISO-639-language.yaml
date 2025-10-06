@@ -4,10 +4,12 @@ description: Language codes according to ISO 639-1 alpha-2. Used for content-lan
 externalDocs:
   description: List of ISO 639-1 alpha-2 language codes
   url: https:https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
+changelog:
+  - v1.0: initial version
 # --
 schema:
   description: Preferred language for response or response objects.
-  x-shared-component: .github/shared_components/ISO-639-language.yaml
+  x-shared-component: .github/shared_components/ISO-639-language.yaml/v1.0
   type: string
   pattern: ^[a-z]{2}$
   enum:

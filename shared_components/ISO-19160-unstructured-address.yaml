@@ -4,10 +4,12 @@ description: International standard address format to provide the location of a 
 externalDocs:
   description: ISO 19160-1
   url: none
+changelog:
+  - v1.0: initial version
 # --
 schema:
   description: Unstructured address object.
-  x-shared-component: .github/shared_components/ISO-19160-unstructured-address.yaml
+  x-shared-component: .github/shared_components/ISO-19160-unstructured-address.yaml/v1.0
   type: object
   required:
     - addressLines

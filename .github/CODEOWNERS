@@ -5,3 +5,4 @@
 # Order is important. The last matching pattern has the most precedence.
 
 *   @dkoeni
+shared_components/  @swissfintechinnovations/stream-lead-payment @swissfintechinnovations/stream-lead-mortgage @swissfintechinnovations/stream-lead-card @swissfintechinnovations/stream-lead-pension @swissfintechinnovations/stream-lead-security @swissfintechinnovations/stream-lead-wealth 

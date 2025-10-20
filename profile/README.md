@@ -31,6 +31,10 @@ Furthermore, there are also general repositories that support all business areas
   - cross-sectional topics (repo [ca-shared](https://github.com/swissfintechinnovations/ca-shared))
   - organisation maintenance and infrstructure (repo [.github](https://github.com/swissfintechinnovations/.github))
 
+In addition, we are in constant information exchange with the following organizations regarding the proliferation of standardization recommendations for APIs for the Swiss financial center:
+  - API-based platform connecting insurance companies and insurance brokers: [EcoHub](https://github.com/EcoHub-AG) 
+Please note that the API specifications developed by the organizations mentioned in this section are not necessarily based on SFTI's API design recommendations.
+
 **Collaboration**
 
 If you are interested in providing feedback, please visit the Common API website mentioned above. There, you will find the information necessary to contact us.

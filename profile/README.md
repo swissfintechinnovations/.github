@@ -33,7 +33,7 @@ Furthermore, there are also general repositories that support all business areas
 
 In addition, we are in constant information exchange with the following organizations regarding the proliferation of standardization recommendations for APIs for the Swiss financial center:
   - EcoHub, the API-based platform connecting insurance companies and insurance brokers:
-    - [Confluence]([https://github.com/EcoHub-AG](https://ecohubag.atlassian.net/wiki/spaces/DP/overview?mode=global)
+    - [Confluence](https://ecohubag.atlassian.net/wiki/spaces/DP/overview?mode=global)
     - [GitHub](https://github.com/EcoHub-AG)
 
 Please note that the API specifications developed by the organizations mentioned in the latter section are not necessarily based on SFTI's API design recommendations.

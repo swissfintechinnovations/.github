@@ -13,11 +13,6 @@ schema:
   type: string
   pattern: ^[a-z]{2}$
   enum:
-    - de
-    - fr
-    - it
-    - en
-  examples:
     - aa
     - ab
     - ae
@@ -201,3 +196,8 @@ schema:
     - za
     - zh
     - zu
+  examples:
+    - ch
+    - fr
+    - it
+    - en

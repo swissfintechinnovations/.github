@@ -15,4 +15,3 @@ schema:
     - en
     - de, en
   pattern: ^[a-z]{2}(, [a-z]{2})*$ # ^[a-zA-Z0-9*,-.;= ]*$ <- based on allowed charset
-

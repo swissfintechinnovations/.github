@@ -12,7 +12,7 @@ schema:
   x-shared-component: .github/shared_components/ISO-4217-currency.yaml/v1.0
   type: string
   pattern: ^[A-Z]{3}$
-  examples:
+  enum:
     - AED
     - AFN
     - ALL
@@ -184,3 +184,6 @@ schema:
     - ZAR
     - ZMW
     - ZWL
+  examples:
+    - CHF
+    - EUR

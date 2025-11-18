@@ -14,7 +14,7 @@
 🍿 Fun facts - what does your team eat for breakfast?
 🧙 Remember, you can do mighty things with the power of [Markdown](https://docs.github.com/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
 -->
-This is the central location for all API standardization recommendations developed under the patronage of the [Common API](https://common-api.ch/index.php/en) initiative of Swiss Fintech Innovations ([SFTI](https://swissfintechinnovations.ch)).
+This is the central location for all API standardization recommendations developed under the patronage of the [Common API](https://swissfintechinnovations.ch/projects/common-api/) initiative of Swiss Fintech Innovations ([SFTI](https://swissfintechinnovations.ch)).
 In addition to the API spec, each repository also contains a wiki with further information (business requirements, use cases, etc.).
 
 Basic information valid for all APIs is located in a dedicated [Github wiki](https://github.com/swissfintechinnovations/.github/wiki). There you can also find an introduction to the Common API working group and what we do.

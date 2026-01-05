@@ -21,6 +21,6 @@ jobs:
 
             - name: Merge pull request
               run: |
-                  gh pr merge --admin --merge --delete-branch --body "Automated license year update"
+                  gh pr merge --admin --squash --delete-branch --body "Automated license year update"
               env:
                   GITHUB_TOKEN: ${{ secrets.SFTI_BOT_TOKEN }}

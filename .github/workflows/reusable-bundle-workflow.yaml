@@ -3,11 +3,6 @@ name: Bundle workflow
 
 on:
   workflow_call:
-    inputs:
-      filenames:
-        type: string
-        default: "src/*.yaml"
-        description: "Files to be bundled. (default: src/*.yaml, list of files separated by whitespace)"
     outputs:
       commit-sha:
         value: ${{ jobs.bundle-specs.outputs.COMMIT_SHA }}
@@ -27,6 +22,7 @@ jobs:
         if: ${{ github.ref_protected == true }}
         run: |
           echo "::warning::Cannot bundle API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
+          exit 1
 
       - name: Checkout Repo
         uses: actions/checkout@v4
@@ -100,11 +96,12 @@ jobs:
       - name: Bundle & Autoformat API Spec
         id: bundle
         run: |
-          for file in $(ls ${{ inputs.filenames }}); do
-            redocly bundle "$file" --output "$(basename $file)"
-            # reorder root and components order according to OAS definitions
-            node github/.github/autoformat/autoformat_spec.js "$(basename $file)"
-          done
+          redocly_config_file=".github/redocly.yaml"
+          if [ ! -f "$redocly_config_file" ]; then
+            echo "::warning::Missing recodly config file at $file"
+            exit 1
+          fi 
+          redocly bundle --config "$redocly_config_file"
 
       - name: Commit und push changes
         run: |

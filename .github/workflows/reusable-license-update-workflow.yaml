@@ -2,25 +2,25 @@ name: Update license workflow
 # description: Update copyright year in license file.
 
 on:
-    workflow_call:
+  workflow_call:
 
 jobs:
-    update-license-year:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
+  update-license-year:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-            - name: Action Update License Year
-              uses: FantasticFiasco/action-update-license-year@v3
-              with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
-                  path: LICENSE
+      - name: Action Update License Year
+        uses: FantasticFiasco/action-update-license-year@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: LICENSE
 
-            - name: Merge pull request
-              run: |
-                  gh pr merge --admin --squash --delete-branch --body "Automated license year update"
-              env:
-                  GITHUB_TOKEN: ${{ secrets.SFTI_BOT_TOKEN }}
+      - name: Merge pull request
+        run: |
+          gh pr merge --admin --squash --delete-branch --body "Automated license year update"
+        env:
+          GITHUB_TOKEN: ${{ secrets.SFTI_BOT_TOKEN }}

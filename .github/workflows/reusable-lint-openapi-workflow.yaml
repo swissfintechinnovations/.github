@@ -9,7 +9,7 @@ on:
         description: "Files to be linted. (default: *.yaml, list of files separated by whitespace)"
 
 env:
-  REDOCLY_VERSION: "1.34.3"
+  REDOCLY_VERSION: "2.15.0"
 
 jobs:
   lint-openapi:

@@ -110,7 +110,7 @@ jobs:
 
           git add $(ls *.yaml) # only add bundled spec files, don't touch changed files in src/ folder since changes are not persistent
           git restore . # dismiss all changes which are not staged in the previous command
-          git diff --staged --quiet || git commit -m "Automated bundle process of API spec(s): $(git diff --name-only --cached | tr '\n' ' ')"
+          git diff --staged --quiet || git commit -m "bundled $(git diff --name-only --cached | tr '\n' ' ')"
           git push --quiet
 
       - name: Get commit SHA

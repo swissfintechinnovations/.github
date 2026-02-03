@@ -46,6 +46,19 @@ jobs:
           npm install -g @redocly/cli@$REDOCLY_VERSION
           npm install --save-dev @redocly/openapi-core@$REDOCLY_VERSION
 
+      - name: Context for steps
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: debug output
+        run: |
+          echo "---- pwd ----"
+          pwd
+          echo "---- ls -la ----"
+          ls -la
+          echo "---- tree ----"
+          tree -a -L 2
+
       - name: Preprocess API Spec # (Resolve nested schemas)
         run: |
           SCHEMA_DIR="src/components/schemas"

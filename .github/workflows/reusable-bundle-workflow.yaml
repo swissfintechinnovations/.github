@@ -105,9 +105,6 @@ jobs:
             resolve_refs "$yaml_file"
           done
           echo "All references have been inlined."
-      
-      - name: Setup tmate debug session (webshell or ssh session)
-        uses: mxschmitt/action-tmate@v3
 
       - name: Bundle & Autoformat API Spec
         id: bundle

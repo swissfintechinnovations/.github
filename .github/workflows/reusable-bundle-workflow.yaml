@@ -50,7 +50,7 @@ jobs:
         env:
           STEPS_CONTEXT: ${{ toJson(steps) }}
         run: echo "$STEPS_CONTEXT"
-      - name: debug output
+      - name: Debug output
         run: |
           echo "---- pwd ----"
           pwd
@@ -105,13 +105,16 @@ jobs:
             resolve_refs "$yaml_file"
           done
           echo "All references have been inlined."
+      
+      - name: Setup tmate debug session (webshell or ssh session)
+        uses: mxschmitt/action-tmate@v3
 
       - name: Bundle & Autoformat API Spec
         id: bundle
         run: |
           redocly_config_file=".github/redocly.yaml"
           if [ ! -f "$redocly_config_file" ]; then
-            echo "::warning::Missing recodly config file at $file"
+            echo "::warning::Missing redocly config file at $file"
             exit 1
           fi 
           redocly bundle --config "$redocly_config_file"

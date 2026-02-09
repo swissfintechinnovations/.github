@@ -47,18 +47,10 @@ jobs:
 
       - name: Autoformat
         run: |
-          for file in $(ls ${{ inputs.template-filenames }}); do
-            node github/.github/autoformat/autoformat_template.js "$(basename $file)"
-            gawk 'BEGIN{RS="\0";ORS=""}{gsub(/\n\n/,"\n");print}' "$(basename $file)" > tmp && mv tmp "$(basename $file)"
-          done
-          for file in $(find ${{ inputs.source-folder }}/components/parameters -type f -iname "*.yaml"); do
-            node github/.github/autoformat/autoformat_parameter.js "$(basename $file)"
-            gawk 'BEGIN{RS="\0";ORS=""}{gsub(/\n\n/,"\n");print}' "$(basename $file)" > tmp && mv tmp "$(basename $file)"
-          done
-          for file in $(find ${{ inputs.source-folder }}/components/schemas -type f -iname "*.yaml"); do
-            node github/.github/autoformat/autoformat_schema.js "$(basename $file)"
-            gawk 'BEGIN{RS="\0";ORS=""}{gsub(/\n\n/,"\n");print}' "$(basename $file)" > tmp && mv tmp "$(basename $file)"
-          done
+          pip install ruamel.yaml
+          python3 github/.github/autoformat/autoformat_spec.py *.yaml
+          python3 github/.github/autoformat/autoformat_schema.py *.yaml
+          python3 github/.github/autoformat/autoformat_parameter.py *.yaml
 
       - name: Commit und push changes
         run: |

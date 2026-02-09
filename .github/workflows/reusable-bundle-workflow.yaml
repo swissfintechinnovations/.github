@@ -106,16 +106,10 @@ jobs:
       - name: Autoformat API Spec
         id: autoformat
         run: |
-          for file in *.yaml; do
-            node github/.github/autoformat/autoformat_spec.js "$file"
-            node github/.github/autoformat/autoformat_parameter.js "$file"
-            node github/.github/autoformat/autoformat_schema.js "$file"
-
-            tmp="$(mktemp)"
-            gawk 'BEGIN{RS="\0";ORS=""}{gsub(/\n\n/,"\n");print}' "$file" > "$tmp" && mv "$tmp" "$file"
-
-            echo "Autoformatted $file."
-          done
+          pip install ruamel.yaml
+          python3 github/.github/autoformat/autoformat_spec.py *.yaml
+          python3 github/.github/autoformat/autoformat_schema.py *.yaml
+          python3 github/.github/autoformat/autoformat_parameter.py *.yaml
 
       - name: Commit und push changes
         run: |

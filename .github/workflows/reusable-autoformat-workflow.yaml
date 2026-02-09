@@ -22,7 +22,7 @@ jobs:
       - name: Check protected branch
         if: ${{ github.ref_protected == true }}
         run: |
-          echo "Cannot autoformat API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
+          echo "::warning::Cannot autoformat API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
 
       - name: Checkout Repo
         uses: actions/checkout@v4

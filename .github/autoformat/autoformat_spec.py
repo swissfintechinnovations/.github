@@ -11,7 +11,7 @@ from ruamel.yaml.comments import CommentedMap
 
 yaml = YAML(typ="rt")
 yaml.preserve_quotes = True
-yaml.width = 10**9  # kein Re-Wrapping
+yaml.width = 170
 yaml.indent(mapping=2, sequence=4, offset=2)
 yaml.default_flow_style = False
 

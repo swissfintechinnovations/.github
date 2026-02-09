@@ -21,7 +21,7 @@ jobs:
       - name: Check protected branch
         if: ${{ github.ref_protected == true }}
         run: |
-          echo "::warning::Cannot bundle API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
+          echo "::warning:: Cannot bundle API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
           exit 1
 
       - name: Checkout Repo
@@ -93,7 +93,7 @@ jobs:
           done
           echo "All references have been inlined."
 
-      - name: Bundle & Autoformat API Spec
+      - name: Bundle API Spec
         id: bundle
         run: |
           redocly_config_file=".github/redocly.yaml"
@@ -102,6 +102,20 @@ jobs:
             exit 1
           fi 
           redocly bundle --config "$redocly_config_file"
+
+      - name: Autoformat API Spec
+        id: autoformat
+        run: |
+          for file in *.yaml; do
+            node github/.github/autoformat/autoformat_spec.js "$file"
+            node github/.github/autoformat/autoformat_parameter.js "$file"
+            node github/.github/autoformat/autoformat_schema.js "$file"
+
+            tmp="$(mktemp)"
+            gawk 'BEGIN{RS="\0";ORS=""}{gsub(/\n\n/,"\n");print}' "$file" > "$tmp" && mv "$tmp" "$file"
+
+            echo "Autoformatted $file."
+          done
 
       - name: Commit und push changes
         run: |

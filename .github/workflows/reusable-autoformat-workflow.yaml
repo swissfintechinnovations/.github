@@ -1,70 +1,70 @@
 name: Autoformat workflow
 
 on:
-    workflow_call:
-        inputs:
-            template-filenames:
-                type: string
-                default: "src/*.yaml"
-                description: "Template files to be autoformatted. (default: src/*.yaml, list of files sperated by whitespace)"
-            source-folder:
-                type: string
-                default: "src/"
-                description: "Path to source files of split API spec. (default: src/)"
+  workflow_call:
+    inputs:
+      template-filenames:
+        type: string
+        default: "src/*.yaml"
+        description: "Template files to be autoformatted. (default: src/*.yaml, list of files sperated by whitespace)"
+      source-folder:
+        type: string
+        default: "src/"
+        description: "Path to source files of split API spec. (default: src/)"
 
 env:
-    REDOCLY_VERSION: "1.34.3"
+  REDOCLY_VERSION: "2.15.0"
 
 jobs:
-    bundle-specs:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Check protected branch
-              if: ${{ github.ref_protected == true }}
-              run: |
-                  echo "Cannot autoformat API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
+  bundle-specs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check protected branch
+        if: ${{ github.ref_protected == true }}
+        run: |
+          echo "Cannot autoformat API specification on protected branch \"${{ github.head_ref || github.ref }}\"."
 
-            - name: Checkout Repo
-              uses: actions/checkout@v4
-              with:
-                  ref: ${{ github.head_ref || github.ref }} # use head_ref for prs, use ref for manual trigger
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref }} # use head_ref for prs, use ref for manual trigger
 
-            - name: Checkout Config Repo
-              uses: actions/checkout@v4
-              with:
-                  repository: swissfintechinnovations/.github
-                  path: github
+      - name: Checkout Config Repo
+        uses: actions/checkout@v4
+        with:
+          repository: swissfintechinnovations/.github
+          path: github
 
-            - name: Install Node js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: latest
+      - name: Install Node js
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
 
-            - name: Install redocly version ${{env.REDOCLY_VERSION}}
-              run: |
-                  npm install -g @redocly/cli@$REDOCLY_VERSION
-                  npm install --save-dev @redocly/openapi-core@$REDOCLY_VERSION
+      - name: Install redocly version ${{env.REDOCLY_VERSION}}
+        run: |
+          npm install -g @redocly/cli@$REDOCLY_VERSION
+          npm install --save-dev @redocly/openapi-core@$REDOCLY_VERSION
 
-            - name: Autoformat
-              run: |
-                  for file in $(ls ${{ inputs.template-filenames }}); do
-                    node github/.github/autoformat/autoformat_template.js "$(basename $file)"
-                    gawk 'BEGIN{RS="\0";ORS=""}{gsub(/\n\n/,"\n");print}' "$(basename $file)" > tmp && mv tmp "$(basename $file)"
-                  done
-                  for file in $(find ${{ inputs.source-folder }}/components/parameters -type f -iname "*.yaml"); do
-                    node github/.github/autoformat/autoformat_parameter.js "$(basename $file)"
-                    gawk 'BEGIN{RS="\0";ORS=""}{gsub(/\n\n/,"\n");print}' "$(basename $file)" > tmp && mv tmp "$(basename $file)"
-                  done
-                  for file in $(find ${{ inputs.source-folder }}/components/schemas -type f -iname "*.yaml"); do
-                    node github/.github/autoformat/autoformat_schema.js "$(basename $file)"
-                    gawk 'BEGIN{RS="\0";ORS=""}{gsub(/\n\n/,"\n");print}' "$(basename $file)" > tmp && mv tmp "$(basename $file)"
-                  done
+      - name: Autoformat
+        run: |
+          for file in $(ls ${{ inputs.template-filenames }}); do
+            node github/.github/autoformat/autoformat_template.js "$(basename $file)"
+            gawk 'BEGIN{RS="\0";ORS=""}{gsub(/\n\n/,"\n");print}' "$(basename $file)" > tmp && mv tmp "$(basename $file)"
+          done
+          for file in $(find ${{ inputs.source-folder }}/components/parameters -type f -iname "*.yaml"); do
+            node github/.github/autoformat/autoformat_parameter.js "$(basename $file)"
+            gawk 'BEGIN{RS="\0";ORS=""}{gsub(/\n\n/,"\n");print}' "$(basename $file)" > tmp && mv tmp "$(basename $file)"
+          done
+          for file in $(find ${{ inputs.source-folder }}/components/schemas -type f -iname "*.yaml"); do
+            node github/.github/autoformat/autoformat_schema.js "$(basename $file)"
+            gawk 'BEGIN{RS="\0";ORS=""}{gsub(/\n\n/,"\n");print}' "$(basename $file)" > tmp && mv tmp "$(basename $file)"
+          done
 
-            - name: Commit und push changes
-              run: |
-                  git config --global user.name "sfti bot"
-                  git config --global user.email "github-bot@common-api.ch"
+      - name: Commit und push changes
+        run: |
+          git config --global user.name "sfti bot"
+          git config --global user.email "github-bot@common-api.ch"
 
-                  git add ${{ inputs.template-filenames }} ${{ inputs.source-folder }} # only add bundled spec files, don't touch changed files in src/ folder since changes are not persistent
-                  git diff --staged --quiet || git commit -m "Autoformat files"
-                  git push --quiet
+          git add ${{ inputs.template-filenames }} ${{ inputs.source-folder }} # only add bundled spec files, don't touch changed files in src/ folder since changes are not persistent
+          git diff --staged --quiet || git commit -m "Autoformat files"
+          git push --quiet

@@ -17,6 +17,9 @@ const checkHeaderParameter = require('./rules/header-parameter');
 const checkQueryParameter = require('./rules/query-parameter');
 const checkTags = require('./rules/tags');
 
+const ApiSchemaRequired = require('./decorators/api-schema-required');
+const StripXApiLevel = require('./decorators/strip-x-api-level');
+
 module.exports = () => ({
   id: 'sfti',
   rules: {
@@ -40,5 +43,11 @@ module.exports = () => ({
       'query-parameter' : checkQueryParameter,
       'tag' : checkTags,
     }
-  }
+  },
+  decorators: {
+    oas3: {
+      'schema-required': ApiSchemaRequired,
+      'strip-x-api-level': StripXApiLevel,
+    },
+  },
 });

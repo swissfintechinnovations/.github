@@ -44,10 +44,17 @@ module.exports = () => ({
       'tag' : checkTags,
     }
   },
-  decorators: {
-    oas3: {
+});
+
+
+export default function sftiPlugin() {
+  return {
+    id: "sfti",
+    decorators: {
+      oas3: {
       'schema-required': ApiSchemaRequired,
       'strip-x-api-level': StripXApiLevel,
+      },
     },
-  },
-});
+  };
+}

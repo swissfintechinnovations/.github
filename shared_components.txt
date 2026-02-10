@@ -1,0 +1,54 @@
+# general
+
+- ISO 20022 (Financial Services)
+
+- ISO 3166-1 alpha-2 (Country Code)
+- ISO 639-1 alpha-2 (Sprach Codes)
+- ISO 8601 (Zeit und Datum)
+- ISO 19160-1 (Adressen) ??
+- ISO 13616 (IBAN)
+- ISO 9362 (BIC)
+- ISO 17442 (LEI)
+- ISO 4217 (Währung)
+- ISO 11649 (Creditor Reference)
+- ISO 18004 (QR code bar code symbology specification)
+- ISO 19005-3 (PDF/A3 eBill)
+- ISO/TS 23029 (Web-service-based application programming interface (WAPI) in financial services)
+
+
+
+# ca-payment
+ISO 20022 (zentrale Datenstruktur für Zahlungen, inkl. pain.001, pain.002, camt.* etc.)
+UN/CEFACT – Core Component Library (CCL) für Zahlungsverkehr (z. B. INVOIC, REMADV)
+SEPA XML Schemas (basieren auf ISO 20022 – konkretisiert durch EPC)
+
+# ca-mortgage
+MISMO XML – standardisiertes, semantisches Datenmodell für Hypothekendaten (Kreditanträge, Darlehensdaten, Bewertungsdaten)
+ISO 20022 – Kreditvergabeprozesse (Loan Initiation, Repayment, Statement Reporting)
+LIXI (Lending Industry XML Initiative) – XML-Schema für Hypothekendaten (Australien, de facto global adaptiert)
+XBRL – für Bonitäts- und Finanzdatenmodelle im Kreditkontext
+
+# ca-card
+ISO 639-1/-2 (Sprachen)
+ISO 8583 – Standard for Financial Transaction Card Originated Messages, strukturierte Datenfelder für Kartentransaktionen (bit-basiertes Datenfeldmodell)
+ISO 18245 – semantisches Mapping von Händlerkategorien (Merchant Category Code MCC)
+ISO/IEC 7812 – IIN-Struktur (Issuer Identification Number)
+ISO/IEC 7816 – Datenobjekte für Smart Cards (z. B. Application Identifiers, BER-TLV-Strukturen)
+ISO/IEC 14443 – strukturierte Datenfelder für kontaktlose Kommunikation (NFC)
+EMV Data Elements (EMVCo Book 3) – strukturierte Tags für Chip-Transaktionen (TLV-Format)
+ISO 20022 – Kartentransaktionen (acmt., catm., caaa.* Nachrichten)
+
+# ca-wealth
+FIX Protocol (FIXML) – strukturiertes XML-Datenmodell für Finanzinstrumente, Orders, Trades
+ISO 10962 – CFI Code zur Typisierung von Finanzinstrumenten
+ISO 6166 – ISIN als strukturierter Identifikator für Instrumente
+ISO 10383 – MIC (Market Identifier Code)
+ISO 20022 – für Portfolioübertragung, Corporate Actions, Fondsorders
+XBRL – für regulatorische Datenmeldungen, insbesondere in Wealth Management Reporting (z. B. Solvency II, CRR/CRD IV)
+
+# ca-pension
+ISO 20022 – Beitrags- und Leistungsdaten (u. a. pensions.* Nachrichten, lokal durch Regulierer konkretisiert)
+XBRL – regulatorisches Reporting von Pensionsplänen (EIOPA-Taxonomien in der EU)
+EIOPA PEPP Reporting Taxonomy – strukturierte XML-Datenmodelle für paneuropäische Pensionsprodukte
+OECD Pension Data Template – harmonisierte semantische Struktur für länderübergreifende Datenvergleiche (nicht ISO, aber etabliert)
+Pensions Dashboard Standard (UK) – strukturierte Datenfelder und API-basierte Datenmodelle für Renteninformationen

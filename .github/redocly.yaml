@@ -17,7 +17,7 @@ rules:
   # info
   info-contact: error  #
   info-license: error  # warn
-  info-license-url: error  # warn
+  info-license-strict: error  # warn
 
   # operations
   operation-2xx-response: warn
@@ -31,7 +31,6 @@ rules:
 
   # parameters
   boolean-parameter-prefixes: off
-  no-invalid-parameter-examples: error  #
   operation-parameters-unique: error
   parameter-description: warn  # <--
   path-declaration-must-exist: error
@@ -43,7 +42,6 @@ rules:
   no-http-verbs-in-paths: error  #
   no-identical-paths: error
   no-path-trailing-slash: error
-  path-excludes-patterns: off
   path-segment-plural:
     severity: error
     ignoreLastPathSegment: true
@@ -52,11 +50,15 @@ rules:
       - status
   paths-kebab-case: error  #
 
-  # Requests, Responses, and Schemas
+  # validate examples
   no-enum-type-mismatch: error
   no-example-value-and-externalValue: error
   no-invalid-media-type-examples: error  #
   no-invalid-schema-examples: error  #
+  no-invalid-parameter-examples: error  #
+  scalar-property-missing-example: error
+
+  # Requests, Responses, and Schemas 
   request-mime-type:
     severity: warn
     allowedValues:
@@ -74,7 +76,6 @@ rules:
       - application/pdf
   response-contains-header: off  #
   response-contains-property: off
-  scalar-property-missing-example: error
   required-string-property-missing-min-length: off
 
   # servers

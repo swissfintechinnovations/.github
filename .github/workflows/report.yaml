@@ -1,0 +1,45 @@
+name: SFTI Monthly Report
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 1 * *'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        repo:
+          - .github
+          - ca-shared
+          - ca-payment
+          - ca-mortgage
+          - ca-card
+          - ca-wealth
+          - ca-pension
+          - ca-security
+          - .github.wiki
+          - ca-shared.wiki
+          - ca-payment.wiki
+          - ca-mortgage.wiki
+          - ca-card.wiki
+          - ca-wealth.wiki
+          - ca-pension.wiki
+          - ca-security.wiki
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          repository: swissfintechinnovations/${{ matrix.repo }}
+
+      - name: Check Links
+        uses: tcort/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'yes'
+          folder-path: '.'
+          max-depth: -1
+          base-branch: 'main'
+          file-extensions: '.md, .txt'

@@ -15,7 +15,7 @@ yaml.width = 170
 yaml.indent(mapping=2, sequence=4, offset=2)
 yaml.default_flow_style = False
 
-PARAM_ORDER = ["in", "name", "description", "required", "schema"]
+PARAM_ORDER = ["in", "name", "description", "required", "schema", "example"]
 
 
 def is_map(x: Any) -> bool:

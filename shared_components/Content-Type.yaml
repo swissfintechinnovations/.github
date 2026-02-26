@@ -1,0 +1,16 @@
+name: Content-Type
+parameter: response header
+description: The HTTP Content-Type representation header is used to indicate the original media type of a resource before any content encoding is applied.
+externalDocs:
+  description: mdn web docs
+  url: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Type
+changelog:
+  - v1.0: initial version
+# --
+schema:
+  description: Indicates the media type of the resource.
+  x-shared-component: .github/shared_components/Content-Type.yaml/v1.0
+  type: string
+  examples:
+    - application/json
+    - application/problem+json; charset=utf-8

@@ -1,0 +1,16 @@
+name: X-Correlation-Id
+parameter: response header
+description: The X-Correlation-ID is a unique identifier value that is attached to requests and messages that allow tracing a particular request through multiple systems and microservices. The value is created by the API consumer, and be be added by the API provider, if no value is set.
+externalDocs:
+  description: No established standard.
+changelog:
+  - v1.0: initial version
+# --
+schema:
+  description: Client defined ID from request to correlates HTTP requests between a client and server.
+  x-shared-component: .github/shared_components/X-Correlation-Id.yaml/v1.0
+  type: string
+  format: uuid
+  pattern: ^[a-zA-Z0-9-#_{}]{5,64}$
+  examples:
+    - f058ebd6-02f7-4d3f-942e-904344e8cde5

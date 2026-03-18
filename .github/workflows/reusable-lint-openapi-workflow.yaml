@@ -16,12 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Lint Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref || github.ref }}
 
       - name: Checkout Config Repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: swissfintechinnovations/.github
           path: github

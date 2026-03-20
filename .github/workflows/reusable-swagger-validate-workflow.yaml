@@ -10,7 +10,7 @@ jobs:
       files: ${{ steps.files.outputs.FILES }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Read files
         id: files
@@ -34,7 +34,7 @@ jobs:
         file: ${{ fromJSON(needs.gather-files.outputs.FILES) }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Validate OpenAPI definition
         uses: swaggerexpert/swagger-editor-validate@v1

@@ -83,10 +83,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Checkout Wiki
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: ${{github.repository}}.wiki
           path: wiki
@@ -262,7 +262,7 @@ jobs:
       - release
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.variables.outputs.BASE_BRANCH }}
 
@@ -305,7 +305,7 @@ jobs:
       - release
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Download documentation
         uses: actions/download-artifact@v4

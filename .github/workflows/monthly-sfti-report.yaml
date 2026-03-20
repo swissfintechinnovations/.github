@@ -1,0 +1,131 @@
+name: SFTI Monthly Report
+
+on:
+  workflow_dispatch:
+    inputs:
+      from:
+        description: 'Optional start month in MM.YYYY, e.g. 02.2026'
+        required: false
+        type: string
+      to:
+        description: 'Optional end month in MM.YYYY, e.g. 05.2026'
+        required: false
+        type: string
+  schedule:
+    - cron: '0 6 1 * *'
+
+concurrency:
+  group: monthly-sfti-org-report
+  cancel-in-progress: false
+
+jobs:
+  monthly-report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v6
+
+      - name: Checkout Wiki
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.SFTI_BOT_TOKEN }}
+          repository: swissfintechinnovations/.github.wiki
+          path: wiki
+
+      - name: Compute previous calendar month window (UTC)
+        id: dates
+        shell: bash
+        env:
+          INPUT_FROM: ${{ inputs.from }}
+          INPUT_TO: ${{ inputs.to }}
+        run: |
+          python3 - <<'PY' >> "$GITHUB_OUTPUT"
+          import os
+          import re
+          from datetime import datetime, timezone, timedelta
+
+          
+          input_from = (os.environ.get("INPUT_FROM") or "").strip()
+          input_to = (os.environ.get("INPUT_TO") or "").strip()
+
+          month_pattern = re.compile(r"^(0[1-9]|1[0-2])\.(\d{4})$")
+
+          def validate_input(value: str):
+              m = month_pattern.match(value)
+              if not m:
+                  raise ValueError(f"Invalid month format '{value}'. Expected MM.YYYY")
+              month = int(m.group(1))
+              year = int(m.group(2))
+              return year, month
+
+          if input_from and input_to:
+            y, m = validate_input(input_from)
+            prev_month_start = datetime(y, m, 1, 0, 0, 0, tzinfo=timezone.utc)
+            y, m = validate_input(input_to)
+            current_month_start = datetime(y, m, 1, 0, 0, 0, tzinfo=timezone.utc)
+          else:
+            now = datetime.now(timezone.utc)
+            current_month_start = datetime(now.year, now.month, 1, 0, 0, 0, tzinfo=timezone.utc)
+            if current_month_start.month == 1:
+                prev_month_start = datetime(current_month_start.year - 1, 12, 1, 0, 0, 0, tzinfo=timezone.utc)
+            else:
+                prev_month_start = datetime(current_month_start.year, current_month_start.month - 1, 1, 0, 0, 0, tzinfo=timezone.utc)
+
+          prev_month_end_inclusive = current_month_start - timedelta(seconds=1)
+
+          print(f"since={prev_month_start.strftime('%Y-%m-%dT%H:%M:%SZ')}")
+          print(f"until_exclusive={current_month_start.strftime('%Y-%m-%dT%H:%M:%SZ')}")
+          print(f"until_inclusive={prev_month_end_inclusive.strftime('%Y-%m-%dT%H:%M:%SZ')}")
+          print(f"report_month={prev_month_start.strftime('%Y-%m')}")
+          print(f"report_year={prev_month_start.strftime('%Y')}")
+          print(f"report_month_num={prev_month_start.strftime('%m')}")
+          print(f"report_month_name={prev_month_start.strftime('%B')}")
+          PY
+
+      - name: Show computed reporting window
+        run: |
+          echo "SINCE=${{ steps.dates.outputs.since }}"
+          echo "UNTIL_EXCLUSIVE=${{ steps.dates.outputs.until_exclusive }}"
+          echo "UNTIL_INCLUSIVE=${{ steps.dates.outputs.until_inclusive }}"
+          echo "REPORT_MONTH=${{ steps.dates.outputs.report_month }}"
+
+      - name: Generate organisation monthly report
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_API_URL: ${{ github.api_url }}
+          GITHUB_GRAPHQL_URL: ${{ github.server_url }}/api/graphql
+          GITHUB_SERVER_URL: ${{ github.server_url }}
+          ORG_NAME: swissfintechinnovations
+          REPORT_REPO: swissfintechinnovations/.github
+          SINCE: ${{ steps.dates.outputs.since }}
+          UNTIL_EXCLUSIVE: ${{ steps.dates.outputs.until_exclusive }}
+          UNTIL_INCLUSIVE: ${{ steps.dates.outputs.until_inclusive }}
+          REPORT_MONTH: ${{ steps.dates.outputs.report_month }}
+          REPORT_MONTH_NAME: ${{ steps.dates.outputs.report_month_name }}
+          REPORT_YEAR: ${{ steps.dates.outputs.report_year }}
+        run: |
+          python3 .github/report/monthly_report.py
+          cat reports/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md
+
+      - name: Upload Markdown report artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: github-report-${{ steps.dates.outputs.report_month }}
+          path: reports/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md
+          archive: false
+          retention-days: 60
+          if-no-files-found: error
+
+      - name: Archive in wiki
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          cp reports/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md .
+          cd wiki
+          sed -i "1i - [github-report-${{ steps.dates.outputs.report_month }}](https://github.com/swissfintechinnovations/.github/wiki/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }})" Monthly-Reports.md
+          git add .
+          git config --global user.name "sfti bot"
+          git config --global user.email "github-bot@common-api.ch"
+          git commit -m "added report ${{ steps.dates.outputs.report_month_num }} ${{ steps.dates.outputs.report_year }}" || echo "No changes to commit"
+          git push

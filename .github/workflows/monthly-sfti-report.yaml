@@ -27,6 +27,13 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v6
 
+      - name: Checkout Wiki
+        uses: actions/checkout@v6
+        with:
+          token: ${{ secrets.SFTI_BOT_TOKEN }}
+          repository: swissfintechinnovations/.github.wiki
+          path: wiki
+
       - name: Compute previous calendar month window (UTC)
         id: dates
         shell: bash
@@ -110,3 +117,15 @@ jobs:
           archive: false
           retention-days: 5
           if-no-files-found: error
+
+      - name: Archive in wiki
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          cp reports/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md .
+          cd wiki
+          sed -i "1i - [github-report-${{ steps.dates.outputs.report_month }}](https://github.com/swissfintechinnovations/.github/wiki/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }})" Monthly-Reports.md
+          git add .
+          git config --global user.name "sfti bot"
+          git config --global user.email "github-bot@common-api.ch"
+          git commit -m "added report ${{ steps.dates.outputs.report_month_num }} ${{ steps.dates.outputs.report_year }}" || echo "No changes to commit"
+          git push

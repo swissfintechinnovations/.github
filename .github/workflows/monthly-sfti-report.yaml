@@ -115,7 +115,7 @@ jobs:
           name: github-report-${{ steps.dates.outputs.report_month }}
           path: reports/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md
           archive: false
-          retention-days: 5
+          retention-days: 60
           if-no-files-found: error
 
       - name: Archive in wiki

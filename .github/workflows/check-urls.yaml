@@ -1,0 +1,102 @@
+name: SFTI Check URLs
+
+on: 
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 1 * *'
+
+jobs:
+  urlcheck:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/.github
+        path: github
+
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/.github.wiki
+        path: github.wiki
+    
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-payment
+        path: ca-payment
+
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-payment.wiki
+        path: ca-payment.wiki
+
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-mortgage
+        path: ca-mortgage
+
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-mortgage.wiki
+        path: ca-mortgage.wiki
+
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-card
+        path: ca-card
+
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-card.wiki
+        path: ca-card.wiki
+
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-wealth
+        path: ca-wealth
+
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-wealth.wiki
+        path: ca-wealth.wiki
+
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-pension
+        path: ca-pension
+
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-pension.wiki
+        path: ca-pension.wiki
+
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-security
+        path: ca-security
+
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-security.wiki
+        path: ca-security.wiki
+    
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-shared
+        path: ca-shared
+
+    - uses: actions/checkout@v6
+      with:
+        repository: swissfintechinnovations/ca-shared.wiki
+        path: ca-shared.wiki
+
+    - name: URLs-checker
+      uses: urlstechie/urlchecker-action@0.0.34
+      with:
+        file_types: .md,.yaml,.yml
+        print_all: false
+        timeout: 10
+        retry_count: 3
+        verbose: true
+        exclude_patterns: http://localhost,https://example.com
+        exclude_urls: https://example.api.ch,https://pension.common-api.ch,https://webhook-notification.common-api.ch,https://card.common-api.ch,https://mortgage.common-api.ch

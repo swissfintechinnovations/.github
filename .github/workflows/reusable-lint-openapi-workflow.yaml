@@ -30,7 +30,7 @@ jobs:
         id: skip
         run: echo "COMMIT_MESSAGE=$(git log -1 --pretty=%B | tr -d '\n')" >> $GITHUB_OUTPUT
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: latest
 

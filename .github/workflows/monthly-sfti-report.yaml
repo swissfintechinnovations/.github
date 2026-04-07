@@ -33,6 +33,7 @@ jobs:
           token: ${{ secrets.SFTI_BOT_TOKEN }}
           repository: swissfintechinnovations/.github.wiki
           path: wiki
+          persist-credentials: true
 
       - name: Compute previous calendar month window (UTC)
         id: dates

@@ -121,7 +121,7 @@ jobs:
       - name: Archive in wiki
         if: ${{ github.event_name == 'schedule' }}
         run: |
-          cp reports/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md .
+          cp reports/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md wiki
           cd wiki
           sed -i "1i - [github-report-${{ steps.dates.outputs.report_month }}](https://github.com/swissfintechinnovations/.github/wiki/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }})" Monthly-Reports.md
           git add .

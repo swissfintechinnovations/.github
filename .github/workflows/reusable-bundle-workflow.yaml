@@ -54,7 +54,7 @@ jobs:
 
       - name: Preprocess API Spec # (Resolve nested schemas)
         run: |
-          SCHEMA_DIR="${inputs.base-dir}/src/components/schemas"
+          SCHEMA_DIR="${{ inputs.base-dir }}"/src/components/schemas
 
           # Function to inline $ref content
           resolve_refs() {
@@ -110,20 +110,19 @@ jobs:
           redocly bundle --config "$redocly_config_file"
 
       - name: Autoformat API Spec
-        if: ${{ !inputs.skip-autoformatting }}
         id: autoformat
         run: |
           pip install ruamel.yaml
-          python3 github/.github/autoformat/autoformat_spec.py "${inputs.base-dir}/*.yaml"
-          python3 github/.github/autoformat/autoformat_schema.py "${inputs.base-dir}/*.yaml"
-          python3 github/.github/autoformat/autoformat_parameter.py "${inputs.base-dir}/*.yaml"
+          python3 github/.github/autoformat/autoformat_spec.py "${{ inputs.base-dir }}"/*.yaml
+          python3 github/.github/autoformat/autoformat_schema.py "${{ inputs.base-dir }}"/*.yaml
+          python3 github/.github/autoformat/autoformat_parameter.py "${{ inputs.base-dir }}"/*.yaml
 
       - name: Commit and push changes
         run: |
           git config --global user.name "sfti bot"
           git config --global user.email "github-bot@common-api.ch"
 
-          git add $(ls "${inputs.base-dir}/*.yaml") # only add bundled spec files, don't touch changed files in src/ folder since changes are not persistent
+          git add $(ls "${{ inputs.base-dir }}"/*.yaml) # only add bundled spec files, don't touch changed files in src/ folder since changes are not persistent
           git restore . # dismiss all changes which are not staged in the previous command
           git diff --staged --quiet || git commit -m "bundled $(git diff --name-only --cached | tr '\n' ' ')"
           git push --quiet

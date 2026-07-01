@@ -28,7 +28,7 @@ rules:
   document-start:
     present: false
   empty-lines:
-    max: 2
+    max: 10
     max-start: 0
     max-end: 0
     level: warning

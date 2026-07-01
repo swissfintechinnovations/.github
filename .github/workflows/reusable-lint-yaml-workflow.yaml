@@ -22,6 +22,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: swissfintechinnovations/.github
+          ref: card-review
           path: github
 
       - name: Get commit message

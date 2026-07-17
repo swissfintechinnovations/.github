@@ -69,8 +69,8 @@ REPORT_YEAR = require_env("REPORT_YEAR")
 REPORT_DIR = "reports"
 REPORT_FILENAME = f"github_report_{REPORT_YEAR}_{REPORT_MONTH.split('-')[1]}.md"
 REPORT_PATH = os.path.join(REPORT_DIR, REPORT_FILENAME)
-WIKI_REPORT_DIR = os.path.join(REPORT_DIR, "wiki")
-WIKI_REPORT_PATH = os.path.join(WIKI_REPORT_DIR, REPORT_FILENAME)
+WIKI_REPORT_FILENAME = f"github_report_wiki_{REPORT_YEAR}_{REPORT_MONTH.split('-')[1]}.md"
+WIKI_REPORT_PATH = os.path.join(REPORT_DIR, WIKI_REPORT_FILENAME)
 
 
 @dataclass
@@ -1242,7 +1242,7 @@ SFTI maintains **{total_yaml}** financial-related API specifications across **{s
 
 ---
 
-_Report generated automatically · {REPORT_FILENAME}_
+_Report generated automatically · {WIKI_REPORT_FILENAME}_
 """.rstrip() + "\n"
 
 
@@ -1318,7 +1318,6 @@ SFTI maintains {total_yaml} financial-related API specifications in {stream_repo
 
 def ensure_report_dir() -> None:
     os.makedirs(REPORT_DIR, exist_ok=True)
-    os.makedirs(WIKI_REPORT_DIR, exist_ok=True)
 
 
 def main() -> None:

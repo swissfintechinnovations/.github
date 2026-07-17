@@ -123,7 +123,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: github-report-wiki-${{ steps.dates.outputs.report_month }}
-          path: reports/wiki/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md
+          path: reports/github_report_wiki_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md
           archive: false
           retention-days: 60
           if-no-files-found: error
@@ -131,7 +131,7 @@ jobs:
       - name: Archive in wiki
         if: ${{ github.event_name == 'schedule' }}
         run: |
-          cp reports/wiki/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md wiki
+          cp reports/github_report_wiki_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md wiki/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md
           cd wiki
           sed -i "1i - [github-report-${{ steps.dates.outputs.report_month }}](https://github.com/swissfintechinnovations/.github/wiki/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }})" Monthly-Reports.md
           git add .

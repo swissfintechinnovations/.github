@@ -1036,13 +1036,13 @@ PR_TAG_BADGES = {
 }
 
 ISSUE_TAG_BADGES = {
-    "new": "🆕 new",
-    "modified": "✏️ modified",
+    "new": "new",
+    "modified": "modified",
 }
 
 WIKI_TAG_BADGES = {
-    "new": "🆕 new",
-    "modified": "✏️ modified",
+    "new": "new",
+    "modified": "modified",
 }
 
 
@@ -1064,7 +1064,7 @@ def render_pr_table(pr_items: List[PullRequestItem]) -> str:
         badge = PR_TAG_BADGES.get(pr.tag, pr.tag)
         rows.append(f"| {badge} | [#{pr.number}]({pr.url}) | {md_table_cell(pr.title)} |")
     return render_details_table(
-        f"📋 Show {len(pr_items)} pull requests",
+        f"Show {len(pr_items)} pull requests",
         "| Status | PR | Title |\n|---|---|---|",
         rows,
     )
@@ -1076,7 +1076,7 @@ def render_issue_table(issue_items: List[IssueItem]) -> str:
         badge = ISSUE_TAG_BADGES.get(issue.tag, "")
         rows.append(f"| {badge} | [#{issue.number}]({issue.url}) | {md_table_cell(issue.title)} |")
     return render_details_table(
-        f"📋 Show {len(issue_items)} open issues",
+        f"Show {len(issue_items)} open issues",
         "| Status | Issue | Title |\n|---|---|---|",
         rows,
     )
@@ -1086,11 +1086,11 @@ def render_branch_table(branch_items: List[BranchItem]) -> str:
     rows = []
     for branch in branch_items:
         if branch.protected:
-            badge = "🔒 protected"
+            badge = "protected"
         elif branch.stale:
-            badge = "💤 stale"
+            badge = "stale"
         else:
-            badge = "🌿 active"
+            badge = "active"
 
         human_date = ""
         if branch.last_commit_date:
@@ -1098,7 +1098,7 @@ def render_branch_table(branch_items: List[BranchItem]) -> str:
 
         rows.append(f"| [{md_table_cell(branch.name)}]({branch.url}) | {badge} | {human_date} |")
     return render_details_table(
-        f"📋 Show {len(branch_items)} branches",
+        f"Show {len(branch_items)} branches",
         "| Branch | Status | Last commit |\n|---|---|---|",
         rows,
     )
@@ -1112,7 +1112,7 @@ def render_wiki_pages_table(repo: Repo, wiki_items: List[Tuple[str, str]]) -> st
         page_url = wiki_page_url(repo, path)
         rows.append(f"| {badge} | [{md_table_cell(page_title)}]({page_url}) |")
     return render_details_table(
-        f"📋 Show {len(wiki_items)} wiki pages",
+        f"Show {len(wiki_items)} wiki pages",
         "| Status | Page |\n|---|---|",
         rows,
     )
@@ -1131,15 +1131,15 @@ def render_repo_sections_wiki(repo_activities: List[RepoActivity]) -> str:
         f"[`{a.repo.name}`](#-{repo_anchor(a.repo.name)})" for a in repo_activities
     )]
 
-    sections: List[str] = ["# 📁 SFTI Stream Repositories", "\n".join(toc_lines)]
+    sections: List[str] = ["# SFTI Stream Repositories", "\n".join(toc_lines)]
     for a in repo_activities:
         if a.repo.name == ".github":
             sections.append("# 🛠️ SFTI Infrastructure Repository")
 
-        blocks = [f"## 📦 [{a.repo.name}]({a.repo.html_url})"]
+        blocks = [f"## [{a.repo.name}]({a.repo.html_url})"]
 
         blocks.append(
-            "| 🔀 Pull requests | 🐛 Issues | 👥 Contribution | 🌿 Branches | 📖 Wiki |\n"
+            "| Pull requests | Issues | Contribution | Branches | Wiki |\n"
             "|---|---|---|---|---|\n"
             f"| {a.pr_merged} merged · {a.pr_closed} closed · {a.pr_draft} draft · {a.pr_open_current} open "
             f"| {a.issues_new} new · {a.issues_active_excl_new} active · {a.issues_open} open total "

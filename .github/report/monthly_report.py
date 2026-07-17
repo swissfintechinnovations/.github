@@ -1178,8 +1178,11 @@ def render_wiki_report(
     total_yaml = sum(yaml_counts.values())
     stream_repo_count = sum(1 for repo_name in STREAM_ORDER if repo_name in yaml_counts)
 
-    sfti_banner = r"""```
-  █████╗ ███████╗████████╗██╗        ███████╗ ███████╗
+    period_start = iso_to_dt(SINCE).strftime("%d %B %Y")
+    period_end = iso_to_dt(UNTIL_INCLUSIVE).strftime("%d %B %Y")
+
+    sfti_banner = rf"""```
+  █████╗ ███████╗████████╗██╗        ███████╗ ███████╗  {period_start} - {period_end}
  ██╔═══╝ ██╔════╝╚══██╔══╝██║        ██╔════╝ ██╔══██║
  ╚█████╗ █████╗     ██║   ██║ █████╗ ██║      ███████║ 
   ╚═══██╗██╔══╝     ██║   ██║  ╚═══╝ ██║      ██╔══██║
@@ -1196,7 +1199,7 @@ def render_wiki_report(
         release_rows = []
         for rel in releases:
             date = datetime.strptime(rel["createdAt"], "%Y-%m-%dT%H:%M:%SZ").strftime("%d %b %Y")
-            prerelease = "⚠️ prerelease" if rel["isPrerelease"] else "✅ release"
+            prerelease = "prerelease" if rel["isPrerelease"] else "release"
             release_rows.append(
                 f"| [`{rel['repo']}`]({GITHUB_SERVER_URL}/{ORG_NAME}/{rel['repo']}) "
                 f"| [{md_table_cell(rel['name'])}]({rel['url']}) | {date} | {prerelease} |"
@@ -1207,17 +1210,14 @@ def render_wiki_report(
 
     repo_sections = render_repo_sections_wiki(repo_activities)
 
-    period_start = iso_to_dt(SINCE).strftime("%d %B %Y")
-    period_end = iso_to_dt(UNTIL_INCLUSIVE).strftime("%d %B %Y")
-
     return f"""{sfti_banner}
 
-# 📅 Monthly Report — {REPORT_MONTH_NAME} {REPORT_YEAR}
+# Monthly Report — {REPORT_MONTH_NAME} {REPORT_YEAR}
 
-> 🗓️ **Reporting period:** {period_start} – {period_end}\\
+> 🗓️ **Reporting period:** {period_start} - {period_end}\\
 > 🏦 **Organisation:** [{ORG_NAME}]({GITHUB_SERVER_URL}/{ORG_NAME})
 
-## 📚 API Specifications
+## API Specifications
 
 SFTI maintains **{total_yaml}** financial-related API specifications across **{stream_repo_count}** stream repositories.
 
@@ -1225,18 +1225,18 @@ SFTI maintains **{total_yaml}** financial-related API specifications across **{s
 |---|---|---|
 {stream_rows}
 
-## 🚀 Releases
+## Releases
 
 {releases_section}
 
-## 📊 Organisation indicators
+## Organisation indicators
 
 | Indicator | This month |
 |---|---|
-| 🔀 Pull requests | {pr_metrics['merged']} merged · {pr_metrics['closed']} closed · {pr_metrics['draft']} draft · {pr_metrics['open_current']} open |
-| 🐛 Issues | {issue_metrics['new']} new · {issue_metrics['active_excl_new']} active · {issue_metrics['open']} open total |
-| 👥 Contribution | {commit_metrics['commits']} new commits by {commit_metrics['contributors']} distinctive contributors |
-| 📖 Wiki | {wiki_metrics['new_pages']} new pages · {wiki_metrics['modified_pages']} modified pages |
+| Pull requests | {pr_metrics['merged']} merged · {pr_metrics['closed']} closed · {pr_metrics['draft']} draft · {pr_metrics['open_current']} open |
+| Issues | {issue_metrics['new']} new · {issue_metrics['active_excl_new']} active · {issue_metrics['open']} open total |
+| Contribution | {commit_metrics['commits']} new commits by {commit_metrics['contributors']} distinctive contributors |
+| Wiki | {wiki_metrics['new_pages']} new pages · {wiki_metrics['modified_pages']} modified pages |
 
 {repo_sections}
 

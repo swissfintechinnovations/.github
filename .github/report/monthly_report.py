@@ -1365,7 +1365,7 @@ def main() -> None:
         f.write(report)
     log(f"Wrote report to {REPORT_PATH}")
 
-    with open(WIKI_REPORT_PATH, "w", encoding="utf-8") as f:
+    with open(WIKI_REPORT_PATH, "w", encoding="utf-8-sig") as f:
         f.write(wiki_report)
     log(f"Wrote wiki report to {WIKI_REPORT_PATH}")
 

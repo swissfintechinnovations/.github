@@ -1134,7 +1134,7 @@ def render_repo_sections_wiki(repo_activities: List[RepoActivity]) -> str:
     sections: List[str] = ["# SFTI Stream Repositories", "\n".join(toc_lines)]
     for a in repo_activities:
         if a.repo.name == ".github":
-            sections.append("# 🛠️ SFTI Infrastructure Repository")
+            sections.append("# SFTI Infrastructure Repository")
 
         blocks = [f"## [{a.repo.name}]({a.repo.html_url})"]
 

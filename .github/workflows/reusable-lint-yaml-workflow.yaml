@@ -31,10 +31,13 @@ jobs:
       - name: Lint yaml APIs
         if: ${{ !contains(steps.skip.outputs.COMMIT_MESSAGE, '[skip-workflow]') }} # check commit message via env var - skip step if [skip-workflow] is set
         run: |
+          shopt -s globstar
+          status=0
           for file in ${{ inputs.filenames }}; do
             if [[ "$file" != */* ]]; then
-              yamllint -d "{extends: github/.github/.yamllint, rules: {line-length: {max: 170}}}" -f github "$file"
+              yamllint -d "{extends: github/.github/.yamllint, rules: {line-length: {max: 170}}}" -f github "$file" || status=1
             else
-              yamllint -c github/.github/.yamllint -f github "$file"
+              yamllint -c github/.github/.yamllint -f github "$file" || status=1
             fi
           done
+          exit $status

@@ -11,6 +11,16 @@ on:
         description: 'End month MM.YYYY (e.g. 05.2026), EXCLUSIVE. Only used together with "from". Report then covers "from" up to (but not including) "to". Leave empty for a single-month report.'
         required: false
         type: string
+      push_to_wiki:
+        description: 'Push the generated report to the wiki. Only for the Common API Dev Team. Scheduled (cron) runs always push automatically, regardless of this checkbox.'
+        required: false
+        type: boolean
+        default: false
+      force:
+        description: 'Overwrite an existing wiki page. Default false: if a wiki page with this name already exists, the report is NOT pushed (but still provided as an action artifact). Enable to overwrite it.'
+        required: false
+        type: boolean
+        default: false
   schedule:
     - cron: '0 6 1 * *'
 
@@ -26,6 +36,24 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v6
+
+      - name: Authorize wiki push (Common API Dev Team only)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.push_to_wiki }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.SFTI_BOT_TOKEN }}
+          ORG: swissfintechinnovations
+          TEAM_SLUG: common-api-dev
+          ACTOR: ${{ github.actor }}
+        run: |
+          echo "Checking whether '$ACTOR' may push to the wiki (team '$ORG/$TEAM_SLUG')..."
+          state=$(gh api "orgs/$ORG/teams/$TEAM_SLUG/memberships/$ACTOR" --jq '.state' 2>/dev/null || true)
+          if [ "$state" = "active" ]; then
+            echo "Authorized: '$ACTOR' is an active member of '$ORG/$TEAM_SLUG'."
+          else
+            echo "::error::User '$ACTOR' is not an active member of '$ORG/$TEAM_SLUG'. Wiki push denied."
+            exit 1
+          fi
 
       - name: Checkout Wiki
         uses: actions/checkout@v6
@@ -138,13 +166,32 @@ jobs:
           if-no-files-found: error
 
       - name: Archive in wiki
-        if: ${{ github.event_name == 'schedule' }}
+        if: ${{ github.event_name == 'schedule' || inputs.push_to_wiki }}
+        shell: bash
+        env:
+          FORCE: ${{ inputs.force }}
+          WIKI_PAGE: wiki/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md
+          SRC_REPORT: reports/github_report_wiki_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md
+          LINK_LINE: '- [github-report-${{ steps.dates.outputs.report_month }}](https://github.com/swissfintechinnovations/.github/wiki/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }})'
+          COMMIT_MSG: 'added report ${{ steps.dates.outputs.report_month_num }} ${{ steps.dates.outputs.report_year }}'
         run: |
-          cp reports/github_report_wiki_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md wiki/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }}.md
+          if [ -f "$WIKI_PAGE" ] && [ "$FORCE" != "true" ]; then
+            echo "::warning::Wiki page '$WIKI_PAGE' already exists and 'force' is not set. Skipping wiki push. The report is still available as an action artifact."
+            exit 0
+          fi
+
+          if [ -f "$WIKI_PAGE" ]; then
+            echo "Wiki page '$WIKI_PAGE' already exists -> overwriting (force=true)."
+          fi
+
+          cp "$SRC_REPORT" "$WIKI_PAGE"
           cd wiki
-          sed -i "1i - [github-report-${{ steps.dates.outputs.report_month }}](https://github.com/swissfintechinnovations/.github/wiki/github_report_${{ steps.dates.outputs.report_year }}_${{ steps.dates.outputs.report_month_num }})" Monthly-Reports.md
+          # Only add the index link if it is not already present (avoids duplicates on overwrite)
+          if ! grep -Fq "$LINK_LINE" Monthly-Reports.md; then
+            sed -i "1i $LINK_LINE" Monthly-Reports.md
+          fi
           git add .
           git config --global user.name "sfti bot"
           git config --global user.email "github-bot@common-api.ch"
-          git commit -m "added report ${{ steps.dates.outputs.report_month_num }} ${{ steps.dates.outputs.report_year }}" || echo "No changes to commit"
+          git commit -m "$COMMIT_MSG" || echo "No changes to commit"
           git push

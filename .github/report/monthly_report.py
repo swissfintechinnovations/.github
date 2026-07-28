@@ -69,6 +69,8 @@ REPORT_YEAR = require_env("REPORT_YEAR")
 REPORT_DIR = "reports"
 REPORT_FILENAME = f"github_report_{REPORT_YEAR}_{REPORT_MONTH.split('-')[1]}.md"
 REPORT_PATH = os.path.join(REPORT_DIR, REPORT_FILENAME)
+WIKI_REPORT_FILENAME = f"github_report_wiki_{REPORT_YEAR}_{REPORT_MONTH.split('-')[1]}.md"
+WIKI_REPORT_PATH = os.path.join(REPORT_DIR, WIKI_REPORT_FILENAME)
 
 
 @dataclass
@@ -1022,6 +1024,228 @@ def render_repo_sections(repo_activities: List[RepoActivity]) -> str:
     return "\n\n".join(sections)
 
 
+def md_table_cell(text: str) -> str:
+    return text.replace("|", "\\|").replace("\n", " ").strip()
+
+
+PR_TAG_BADGES = {
+    "merged": "🟣 merged",
+    "closed": "🔴 closed",
+    "draft": "⚪ draft",
+    "open": "🟢 open",
+}
+
+ISSUE_TAG_BADGES = {
+    "new": "new",
+    "modified": "modified",
+}
+
+WIKI_TAG_BADGES = {
+    "new": "new",
+    "modified": "modified",
+}
+
+
+def render_details_table(summary: str, header: str, rows: List[str]) -> str:
+    if not rows:
+        return ""
+    table = "\n".join([header] + rows)
+    return f"""<details>
+<summary>{summary}</summary>
+
+{table}
+
+</details>"""
+
+
+def render_pr_table(pr_items: List[PullRequestItem]) -> str:
+    rows = []
+    for pr in pr_items:
+        badge = PR_TAG_BADGES.get(pr.tag, pr.tag)
+        rows.append(f"| {badge} | [#{pr.number}]({pr.url}) | {md_table_cell(pr.title)} |")
+    return render_details_table(
+        f"Show {len(pr_items)} pull requests",
+        "| Status | PR | Title |\n|---|---|---|",
+        rows,
+    )
+
+
+def render_issue_table(issue_items: List[IssueItem]) -> str:
+    rows = []
+    for issue in issue_items:
+        badge = ISSUE_TAG_BADGES.get(issue.tag, "")
+        rows.append(f"| {badge} | [#{issue.number}]({issue.url}) | {md_table_cell(issue.title)} |")
+    return render_details_table(
+        f"Show {len(issue_items)} open issues",
+        "| Status | Issue | Title |\n|---|---|---|",
+        rows,
+    )
+
+
+def render_branch_table(branch_items: List[BranchItem]) -> str:
+    rows = []
+    for branch in branch_items:
+        if branch.protected:
+            badge = "protected"
+        elif branch.stale:
+            badge = "stale"
+        else:
+            badge = "active"
+
+        human_date = ""
+        if branch.last_commit_date:
+            human_date = datetime.strptime(branch.last_commit_date, "%Y-%m-%dT%H:%M:%SZ").strftime("%d %b %Y")
+
+        rows.append(f"| [{md_table_cell(branch.name)}]({branch.url}) | {badge} | {human_date} |")
+    return render_details_table(
+        f"Show {len(branch_items)} branches",
+        "| Branch | Status | Last commit |\n|---|---|---|",
+        rows,
+    )
+
+
+def render_wiki_pages_table(repo: Repo, wiki_items: List[Tuple[str, str]]) -> str:
+    rows = []
+    for tag, path in wiki_items:
+        badge = WIKI_TAG_BADGES.get(tag.strip(), tag.strip())
+        page_title = os.path.splitext(os.path.basename(path))[0]
+        page_url = wiki_page_url(repo, path)
+        rows.append(f"| {badge} | [{md_table_cell(page_title)}]({page_url}) |")
+    return render_details_table(
+        f"Show {len(wiki_items)} wiki pages",
+        "| Status | Page |\n|---|---|",
+        rows,
+    )
+
+
+def repo_anchor(repo_name: str) -> str:
+    return re.sub(r"[^a-z0-9\-]", "", repo_name.lower().replace(" ", "-"))
+
+
+def render_repo_sections_wiki(repo_activities: List[RepoActivity]) -> str:
+    def repo_sort_key(repo: Repo):
+        return (repo.name == ".github", repo.name.lower())
+    repo_activities = sorted(repo_activities, key=lambda a: repo_sort_key(a.repo))
+
+    toc_lines = ["**Repositories:** " + " · ".join(
+        f"[`{a.repo.name}`](#-{repo_anchor(a.repo.name)})" for a in repo_activities
+    )]
+
+    sections: List[str] = ["# SFTI Stream Repositories", "\n".join(toc_lines)]
+    for a in repo_activities:
+        if a.repo.name == ".github":
+            sections.append("# SFTI Infrastructure Repository")
+
+        blocks = [f"## [{a.repo.name}]({a.repo.html_url})"]
+
+        blocks.append(
+            "| Pull requests | Issues | Contribution | Branches | Wiki |\n"
+            "|---|---|---|---|---|\n"
+            f"| {a.pr_merged} merged · {a.pr_closed} closed · {a.pr_draft} draft · {a.pr_open_current} open "
+            f"| {a.issues_new} new · {a.issues_active_excl_new} active · {a.issues_open} open total "
+            f"| {a.commits} commits by {a.contributors} contributors "
+            f"| {len(a.branch_items)} "
+            f"| {a.wiki_new_pages} new · {a.wiki_modified_pages} modified |"
+        )
+
+        for table in (
+            render_pr_table(a.pr_items),
+            render_issue_table(a.issue_items),
+            render_branch_table(a.branch_items),
+            render_wiki_pages_table(a.repo, a.wiki_items),
+        ):
+            if table:
+                blocks.append(table)
+
+        sections.append("\n\n".join(blocks))
+
+    if len(sections) <= 2:
+        return "## No repositories found"
+
+    return "\n\n".join(sections)
+
+
+def render_wiki_report(
+    repos: List[Repo],
+    yaml_counts: Dict[str, int],
+    pr_metrics: Dict[str, int],
+    issue_metrics: Dict[str, int],
+    commit_metrics: Dict[str, int],
+    wiki_metrics: Dict[str, int],
+    releases: List[dict],
+    repo_activities: List[RepoActivity],
+) -> str:
+    total_yaml = sum(yaml_counts.values())
+    stream_repo_count = sum(1 for repo_name in STREAM_ORDER if repo_name in yaml_counts)
+
+    period_start = iso_to_dt(SINCE).strftime("%d %B %Y")
+    period_end = iso_to_dt(UNTIL_INCLUSIVE).strftime("%d %B %Y")
+
+    sfti_banner = rf"""```
+  █████╗ ███████╗████████╗██╗        ███████╗ ███████╗  {period_start} - {period_end}
+ ██╔═══╝ ██╔════╝╚══██╔══╝██║        ██╔════╝ ██╔══██║
+ ╚█████╗ █████╗     ██║   ██║ █████╗ ██║      ███████║ 
+  ╚═══██╗██╔══╝     ██║   ██║  ╚═══╝ ██║      ██╔══██║
+ ██████╔╝██║        ██║   ██║        ███████╗ ██║  ██║  --- CommonAPI ---
+ ╚═════╝ ╚═╝        ╚═╝   ╚═╝        ╚══════╝ ╚═╝  ╚═╝  - Working Group -
+```"""
+
+    stream_rows = "\n".join(
+        f"| {ROOT_STREAM_LABELS[repo_name]} | [`{repo_name}`]({GITHUB_SERVER_URL}/{ORG_NAME}/{repo_name}) | {yaml_counts.get(repo_name, 0)} |"
+        for repo_name in STREAM_ORDER
+    )
+
+    if releases:
+        release_rows = []
+        for rel in releases:
+            date = datetime.strptime(rel["createdAt"], "%Y-%m-%dT%H:%M:%SZ").strftime("%d %b %Y")
+            prerelease = "prerelease" if rel["isPrerelease"] else "release"
+            release_rows.append(
+                f"| [`{rel['repo']}`]({GITHUB_SERVER_URL}/{ORG_NAME}/{rel['repo']}) "
+                f"| [{md_table_cell(rel['name'])}]({rel['url']}) | {date} | {prerelease} |"
+            )
+        releases_section = "| Repository | Release | Date | Type |\n|---|---|---|---|\n" + "\n".join(release_rows)
+    else:
+        releases_section = "> 💤 No releases published in the reporting month."
+
+    repo_sections = render_repo_sections_wiki(repo_activities)
+
+    return f"""{sfti_banner}
+
+# Monthly Report — {REPORT_MONTH_NAME} {REPORT_YEAR}
+
+> 🗓️ **Reporting period:** {period_start} - {period_end}\\
+> 🏦 **Organisation:** [{ORG_NAME}]({GITHUB_SERVER_URL}/{ORG_NAME})
+
+## API Specifications
+
+SFTI maintains **{total_yaml}** financial-related API specifications across **{stream_repo_count}** stream repositories.
+
+| Stream | Repository | Specs |
+|---|---|---|
+{stream_rows}
+
+## Releases
+
+{releases_section}
+
+## Organisation indicators
+
+| Indicator | This month |
+|---|---|
+| Pull requests | {pr_metrics['merged']} merged · {pr_metrics['closed']} closed · {pr_metrics['draft']} draft · {pr_metrics['open_current']} open |
+| Issues | {issue_metrics['new']} new · {issue_metrics['active_excl_new']} active · {issue_metrics['open']} open total |
+| Contribution | {commit_metrics['commits']} new commits by {commit_metrics['contributors']} distinctive contributors |
+| Wiki | {wiki_metrics['new_pages']} new pages · {wiki_metrics['modified_pages']} modified pages |
+
+{repo_sections}
+
+---
+
+_Report generated automatically · {WIKI_REPORT_FILENAME}_
+""".rstrip() + "\n"
+
+
 def render_report(
     repos: List[Repo],
     yaml_counts: Dict[str, int],
@@ -1125,10 +1349,25 @@ def main() -> None:
         repo_activities=repo_activities,
     )
 
+    wiki_report = render_wiki_report(
+        repos=repos,
+        yaml_counts=yaml_counts,
+        pr_metrics=pr_metrics,
+        issue_metrics=issue_metrics,
+        commit_metrics=commit_metrics,
+        wiki_metrics=wiki_metrics,
+        releases=releases,
+        repo_activities=repo_activities,
+    )
+
     ensure_report_dir()
     with open(REPORT_PATH, "w", encoding="utf-8") as f:
         f.write(report)
     log(f"Wrote report to {REPORT_PATH}")
+
+    with open(WIKI_REPORT_PATH, "w", encoding="utf-8-sig") as f:
+        f.write(wiki_report)
+    log(f"Wrote wiki report to {WIKI_REPORT_PATH}")
 
 
 if __name__ == "__main__":

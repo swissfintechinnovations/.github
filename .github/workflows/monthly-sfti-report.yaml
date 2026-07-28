@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
     inputs:
       from:
-        description: 'Optional start month in MM.YYYY, e.g. 02.2026'
+        description: 'Start month MM.YYYY (e.g. 02.2026). If set without "to", the report covers exactly this one month. If both empty, the previous calendar month is used.'
         required: false
         type: string
       to:
-        description: 'Optional end month in MM.YYYY, e.g. 05.2026'
+        description: 'End month MM.YYYY (e.g. 05.2026), EXCLUSIVE. Only used together with "from". Report then covers "from" up to (but not including) "to". Leave empty for a single-month report.'
         required: false
         type: string
   schedule:
@@ -61,11 +61,20 @@ jobs:
               year = int(m.group(2))
               return year, month
 
-          if input_from and input_to:
+          if input_from:
             y, m = validate_input(input_from)
             prev_month_start = datetime(y, m, 1, 0, 0, 0, tzinfo=timezone.utc)
-            y, m = validate_input(input_to)
-            current_month_start = datetime(y, m, 1, 0, 0, 0, tzinfo=timezone.utc)
+            if input_to:
+              y, m = validate_input(input_to)
+              current_month_start = datetime(y, m, 1, 0, 0, 0, tzinfo=timezone.utc)
+            else:
+              # Only 'from' given -> report covers exactly that single month
+              if m == 12:
+                current_month_start = datetime(y + 1, 1, 1, 0, 0, 0, tzinfo=timezone.utc)
+              else:
+                current_month_start = datetime(y, m + 1, 1, 0, 0, 0, tzinfo=timezone.utc)
+          elif input_to:
+            raise ValueError("'to' was provided without 'from'. Please also set 'from'.")
           else:
             now = datetime.now(timezone.utc)
             current_month_start = datetime(now.year, now.month, 1, 0, 0, 0, tzinfo=timezone.utc)

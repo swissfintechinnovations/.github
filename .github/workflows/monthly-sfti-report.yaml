@@ -43,7 +43,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.SFTI_BOT_TOKEN }}
           ORG: swissfintechinnovations
-          TEAM_SLUG: common-api-dev
+          TEAM_SLUG: common-api-dev-team
           ACTOR: ${{ github.actor }}
         run: |
           echo "Checking whether '$ACTOR' may push to the wiki (team '$ORG/$TEAM_SLUG')..."
